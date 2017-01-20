@@ -18,11 +18,25 @@ header {
 
 h1, h2, h3, h4, h5, h6 {
   color: #34495E;
+  margin-bottom: .5em;
+  margin-top: 1.5em;
+
 }
 
 h3, h4, h5, h6 {
   text-transform: uppercase;
   font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+h1, h2 {
+  margin-top: 1em;
+  margin-bottom: 0;
+}
+
+p {
+  margin-top: 0;
+  line-height: 1.15em;
 }
 
 a {
@@ -470,4 +484,12 @@ footer {
 
 .copyright {
   padding: 10px 0;
+}
+
+.header-anchor {
+  padding-left: 10px;
+}
+
+#google-search * {
+  transition: none !important;
 }
