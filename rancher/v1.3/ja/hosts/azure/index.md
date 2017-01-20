@@ -1,16 +1,16 @@
 * * *
 
-title: Adding Azure Hosts layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Azure へのホスト追加 layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Adding Azure Hosts
+## Azure へのホスト追加
 
-Rancher supports provisioning [Microsoft Azure](https://azure.microsoft.com) hosts using `docker machine`.
+Rancher は、`docker machine` を利用して [Microsoft Azure](https://azure.microsoft.com) へのホストのプロビジョニングをサポートします。
 
-### Launching Azure Host(s)
+### Azure でホストを起動する
 
-  1. Select the number of hosts you want to launch using the slider.
+  1. スライダーで、立ち上げたいホスト数を選択します。
   2. Provide a **Name** and if desired, **Description** for the host.
   3. Provide the **Account Access** information from your Azure account. This includes **Username**, **Password**, **Subscription ID** and **Subscription Certificate**.
     

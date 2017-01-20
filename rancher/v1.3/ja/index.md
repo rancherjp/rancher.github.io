@@ -1,35 +1,35 @@
 * * *
 
-title: Overview of Rancher layout: rancher-default-v1.3 version: v1.3 lang: en redirect_from: - / - rancher/ - rancher/latest/ - rancher/latest/en/
+title: Rancher概要 layout: rancher-default-v1.3 version: v1.3 lang: ja redirect_from: - / - rancher/ - rancher/latest/ - rancher/latest/en/
 
 * * *
 
-## ## Overview of Rancher
+## Rancher の概要
 
-Rancher is an open source software platform that enables organizations to run containers in production. With Rancher, organizations no longer have to build a container services platform from scratch using a distinct set of open source technologies. Rancher supplies the entire software stack needed to manage containers in production.
+Rancher は組織・企業内での本番運用に耐えうるコンテナ実行環境オープンソースソフトウェアプラットフォームです。 Rancher により組織・企業内でスクラッチからコンテナプラットフォームサービスを作る必要はなくなりました。 Rancher では本番環境でコンテナを管理するフルスタックソフトウェアが提供されます。
 
-Rancher software consists of four major components:
+Rancherは、主要な4つのコンポーネントから構成されています:
 
-### Infrastructure Orchestration
+### インフラストラクチャ オーケストレーション
 
-Rancher takes in raw computing resources from any public or private cloud in the form of Linux [hosts]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/). Each Linux host can be a virtual machine or physical machine. Rancher does not expect more from each host than CPU, memory, local disk storage, and network connectivity. From Rancher’s perspective, a VM instance from a cloud provider and a bare metal server hosted at a colo facility are indistinguishable.
+Rancher では、様々なパブリックやプライベートクラウドなどの形態の Linux [ホスト]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)のコンピューティングリソースを直に利用します。 Linuxホストは、仮想マシン、物理マシンどちらでも構いません。 Rancher では、それぞれのホストにあるCPUやメモリー、ローカルディスクストレージやネットワーク接続以上のものを期待していません。 Rancher側からは、クラウドプロバイダーの仮想マシンであるか、コロケーション設備でホスティングされているベアメタルサーバーであるかを区別できません。
 
-Rancher implements a portable layer of [infrastructure services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) designed specifically to power containerized applications. Rancher infrastructure services include [networking]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking), [storage]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/storage-service/), [load balancer]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/load-balancer/), [DNS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/dns-service/), and security. Rancher infrastructure services are typically deployed as containers themselves, so that the same Rancher infrastructure service can run on any Linux hosts from any cloud.
+牧場主は、ポータブル電源コンテナー アプリケーションを具体的に設計された [インフラストラクチャ サービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) 層を実装します。 Rancher インフラストラクチャーサービスには、[ネットワーク]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking)、[ストレージ]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/storage-service/)、[ロードバランサー]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/load-balancer/)、[DNS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/dns-service/)とセキュリティが含まれています。 Rancher インフラストラクチャーサービスは、基本的にコンテナーとして実行されます。その為、同じ Rancher インフラストラクチャーサービスはどのクラウド上の Linux ホストでも実行できます。
 
-### Container Orchestration and Scheduling
+### コンテナーのオーケストレーションとスケジューリング
 
-Many users choose to run containerized applications using a container orchestration and scheduling framework. Rancher includes a distribution of all popular container orchestration and scheduling frameworks today, including [Docker Swarm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/swarm), [Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes), and [Mesos]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/mesos/). The same user can create multiple Swarm or Kubernetes clusters. They can then use the native Swarm or Kubernetes tools to manage their applications.
+多くのユーザーがコンテナ化されたアプリケーションをコンテナオーケストレーションツールやスケジュールフレームワーク内で実行しようとします。 Rancher では[Docker Swarm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/swarm)や[Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes)と[Mesos]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/mesos/)を含む、今人気のコンテナオーケストレーションやスケジュールフレームワークをカバーしています。 一人のユーザーが、複数の Swarm や Kubernetes クラスターを構成できます。 Swarm や Kubernetes ツールを直接操作することもできます。
 
-In addition to Swarm, Kubernetes, and Mesos, Rancher supports its own container orchestration and scheduling framework called Cattle. Cattle was originally designed as an extension to Docker Swarm. As Docker Swarm continues to develop, Cattle and Swarm started to diverge. Rancher will therefore support Cattle and Swarm as separate frameworks going forward. Cattle is used extensively by Rancher itself to orchestrate infrastructure services as well as setting up, managing, and upgrading Swarm, Kubernetes, and Mesos clusters.
+Swarm、Kubernetes、Mesosに加えて、Rancher では Cattle という独自のコンテナオーケストレーションやスケジュールのフレームワークを持っています。 Cattle は、元々 Docker Swarm を拡張するものとして設計されました。 Docker Swarm の開発が続けられたため、Cattle は Swarm とは違う道を歩み始めました。 Rancherでは、そのため Cattle と Swarm を別々のフレームワークとしてサポートしていきます。 Cattle は、Rancher 自体のインフラストラクチャーサービスをオーケストレーションを拡張したり、Swarm、Kubernetes、Mesosクラスターをアップグレードしたりするために使われます。
 
-### Application Catalog
+### アプリケーション カタログ
 
-Rancher users can deploy an entire multi-container clustered application from the application [catalog]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog) with one click of a button. Users can manage the deployed applications and perform fully automated upgrades when new versions of the application become available. Rancher maintains a public catalog consisting of popular applications contributed by the Rancher community. Rancher users can [create their own private catalogs]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/private-catalog/).
+Rancher ユーザーは、アプリケーション[カタログ]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog)からクリック一つで、マルチコンテナーのクラスター化されたアプリケーションを展開できます。 新しいバージョンのアプリケーションが利用できるようになった時に、ユーザーはアプリケーションをデプロイし、完全自動でアップグレードできます。 Rancher では、Rancher コミュニティの貢献による一般的なアプリケーションからなるパブリックカタログを管理しています。 Rancher ユーザーは、[自分の専用カタログを作成]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/private-catalog/) できます。
 
-### Enterprise-Grade Control
+### エンタープライズ レベルのアクセス管理
 
-Rancher supports flexible user authentication plugins and comes with pre-built user [authentication integration]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/) with Active Directory, LDAP, and GitHub. Rancher supports Role-Based Access Control (RBAC) at the level of [environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/), allowing users and groups to share or deny access to, for example, development and production environments.
+Rancher ではプラグインによる柔軟なユーザー認証をサポートしており、Active Directory、LDAP、および GitHub を使用した事前に構築されているユーザー[認証の統合]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/)をサポートしています。 Rancher では、[環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)単位のロールベースアクセス制御 (RBAC) をサポートしており、例えば、開発、本番環境へのアクセスをユーザー、グループ単位での許可、拒否をサポートします。
 
-The following figure illustrates Rancher’s major components and features.
+以下の図は、Rancher の主要なコンポーネントと機能を示しています。
 
-<img src="{{site.baseurl}}/img/rancher/rancher_overview_2.png" width="800" alt="Rancher Overview" />
+<img src="{{site.baseurl}}/img/rancher/rancher_overview_2.png" width="800" alt="Rancher概要" />

@@ -1,6 +1,6 @@
 * * *
 
-title: Quick Start Guide layout: rancher-default-v1.3 version: v1.3 lang: en redirect_from: - /rancher/quick-start-guide/ - /rancher/latest/en/quick-start-guide/
+title: クイックスタートガイド layout: rancher-default-v1.3 version: v1.3 lang: ja redirect_from: - /rancher/quick-start-guide/ - /rancher/latest/en/quick-start-guide/
 
 * * *
 
@@ -20,8 +20,8 @@ title: Quick Start Guide layout: rancher-default-v1.3 version: v1.3 lang: en red
 
 Rancher サーバーには2種類のタグがあります。それぞれのメジャーリリースのタグ毎に応じたドキュメントを提供します。
 
-* `rancher/server:latest`タグは、最新の開発ビルドに対してつけられます。 These builds will have been validated through our CI automation framework. These releases are not meant for deployment in production.
-* `rancher/server:stable` tag will be our latest stable release builds. This tag is the version that we recommend for production. 
+* `rancher/server:latest`タグは、最新の開発ビルドに対してつけられます。 これらのビルドは、CI自動化フレームワークを通じて検証されています。 これらのリリースは本番環境での展開用ではありません。
+* `rancher/server:stable` タグは、最新の安定版リリースです。このタグは、本番環境に推奨するバージョンです。 
 
 `rc{n}`サフィックスの付いているリリースは全て使用しないでください。 これらの`rc`ビルドは、Rancherチームが開発版ビルドをテストするためのものです。
 
@@ -57,7 +57,7 @@ Rancher UIで **閉じる**をクリックすると、**インフラストラク
 
 ### インフラストラクチャーサービス
 
-最初にRancherにログインすると自動的に**Default** [環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)になります。 The default cattle [environment template]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template) has been selected for this environment to launch [infrastructure services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/). These infrastructure services are required to be launched to take advantage of Rancher's benefits like [dns]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/dns-service/), [metadata]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/metadata-service), [networking]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking), and [health checks]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/health-checks/). これらのインフラストラクチャスタックは、**スタック** -> **インフラストラクチャー**にあります。 これらのスタックは、ホストがRancherに完全に追加されるまで、`不健全な`状態です。 ホストを追加した後は、サービスを追加する前にすべてのインフラストラクチャスタックが`active`になるまで待つことをお勧めします。
+最初にRancherにログインすると自動的に**Default** [環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)になります。 Cattle[環境テンプレート]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)が[インフラストラクチャーサービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)を起動するときのデフォルト環境として選択されています。 この環境テンプレートでは、[dns]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/dns-service/), [メタデータ]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/metadata-service), [ネットワーク]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking), and [ヘルスチェック]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/health-checks/)などのようなRancher機能の活用するため起動します。 これらのインフラストラクチャスタックは、**スタック** -> **インフラストラクチャー**にあります。 これらのスタックは、ホストがRancherに完全に追加されるまで、`不健全な`状態です。 ホストを追加した後は、サービスを追加する前にすべてのインフラストラクチャスタックが`active`になるまで待つことをお勧めします。
 
 ホストでは、**システムコンテナを表示**チェックボックスをクリックしない限り、インフラストラクチャサービスのコンテナは非表示になります。
 
@@ -65,51 +65,51 @@ Rancher UIで **閉じる**をクリックすると、**インフラストラク
 
 **スタック**画面に移動して、まだサービスがない場合は、Rancherへようこそ画面の**サービス定義** ボタンをクリックします。 Rancherに既にサービスが存在する場合は、既存のスタックの**サービスを追加**をクリックするか、新しいスタックを作成してサービスを追加できます。 スタックは、サービスをまとめてグループ化する便利な方法です。 新しいスタックを作成する必要がある場合は、 **スタックを追加** をクリックし、名前と説明を入力して **作成** をクリックします。 次に新規スタックで**サービスを追加**をクリックします。
 
-"first-container"のような名前でサービスを追加します。 デフォルトの設定を使用して**Create**をクリックするだけです。 Rancher will start launching the container on the host. Regardless what IP address your host has, the ***first-container*** will have an IP address in the `10.42.*.*` range as Rancher has created a managed overlay network with the `ipsec` infrastructure service. This managed overlay network is how containers can communicate with each other across different hosts.
+"first-container"のような名前でサービスを追加します。 デフォルトの設定を使用して**Create**をクリックするだけです。 Rancherは、ホスト上でコンテナの起動を開始します。 ホストのIPアドレスにかかわらず、Rancher が `ipsec` インフラストラクチャサービスで管理オーバーレイネットワークを作成したため、***最初のコンテナ***のIPアドレスは `10.42 *.*`の範囲になります。 管理オーバーレイネットワークで、コンテナが異なるホスト間で相互に通信できるように管理しています。
 
-If you click on the dropdown of the ***first-container***, you will be able to perform management actions like stopping the container, viewing the logs, or accessing the container console.
+***first-container*** のドロップダウンをクリックすると、コンテナの停止、ログの表示、コンテナコンソールへのアクセスなどの管理アクションを実行できます。
 
-### Create a Container through Native Docker CLI
+### DockerのCLIを直接使ってコンテナを作成する
 
-Rancher will display any containers on the host even if the container is created outside of the UI. Create a container in the host's shell terminal.
+Rancherは、コンテナがUIの外で作成されていてもホスト上のコンテナを表示できます。ホストのシェル端末からコンテナを作成してみます。
 
 ```bash
 $ docker run -d -it --name=second-container ubuntu:14.04.2
 ```
 
-In the UI, you will see ***second-container*** pop up on your host!
+UI上では、 ***second-container*** がホスト上にポップアップ表示されます。
 
-Rancher reacts to events that happen on the Docker daemon and does the right thing to reconcile its view of the world with reality. You can read more about using Rancher with the [native docker CLI]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/native-docker/).
+Rancher は Dockerデーモン 上で発生するイベントを反映し、実際の稼働状況と Rancher での状態を調整します。 [native docker CLI]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/native-docker/)を使用して Rancher を利用する方法の詳細を読むことができます。
 
-If you look at the IP address of the ***second-container***, you will notice that it is **not** in the `10.42.*.*` range. It instead has the usual IP address assigned by the Docker daemon. This is the expected behavior of creating a Docker container through the CLI.
+***second-container*** のIPアドレスを見ると、`10.42.*.*` の範囲には**ない**ことがわかります。 これは、Docker デーモンによって割り当てられた通常のIPアドレスです。 CLI を使用して Dockerコンテナを作成するとこのようになります。 これによりIPアドレスは Dockerデーモン により割りあてられる通常のIPアドレスになります。 CLIを使用して Dockerコンテナーを作成するとこのようになります。
 
-What if we want to create a Docker container through CLI and still give it an IP address from Rancher’s overlay network? All we need to do is add a label (i.e. `io.rancher.container.network=true`) in the command to let Rancher know that you want this container to be part of the `managed` network.
+CLIを使用して Rancher のオバーレイネットワークからIPアドレス取得してDockerコンテナを作成するにはどうすればよいでしょうか？ しなければならないことはコマンドにラベル(すなわち `io.rancher.container.network=true`)を追加するだけです。これにより、このコンテナがRancher の`管理`ネットワークに属しなければならないと認識します。
 
 ```bash
 $ docker run -d -it --label io.rancher.container.network=true ubuntu:14.04.2
 ```
 
-### Create a Multi-Container Application
+### マルチコンテナアプリケーションの作成
 
-We have shown you how to create individual containers and explained how they would be connected in our cross-host network. Most real-world applications, however, are made out of multiple services, with each service made up of multiple containers. A [LetsChat](http://sdelements.github.io/lets-chat/) application, for example, could consist of the following services:
+個別のコンテナを作成する方法と、ホスト間ネットワークでそれらがどのように接続されるかを説明しました。 しかし、実際のアプリケーションのほとんどは複数のサービスで構成されており、各サービスは複数のコンテナで構成されています。 たとえば、[LetsChat](http://sdelements.github.io/lets-chat/)アプリケーションは、次のようなサービスで構成されます:
 
-  1. A load balancer. The load balancer redirects Internet traffic to the "LetsChat" application.
-  2. A *web* service consisting of two "LetsChat" containers.
-  3. A *database* service consisting of one "Mongo" container.
+  1. ロードバランサー：ロードバランサーはインターネットからのリクエストを" LetsChat" アプリケーションに中継します。
+  2. *ウェブ*サービス："LetsChat" コンテナ2つで構成します。
+  3. *データーベース*サービス："Mongo" コンテナ1つで構成します。
 
-The load balancer targets the *web* service (i.e. LetsChat), and the *web* service will link to the *database* service (i.e. Mongo).
+ロードバランサーは*ウェブ*サービス(すなわち、LetsChat) に接続し、*ウェブ*サービスは*データーベース*サービス(すなわち、Mongo)にリンクします。
 
-In this section, we will walk through how to create and deploy the [LetsChat](http://sdelements.github.io/lets-chat/) application in Rancher.
+このセクションでは、Rancherに [LetsChat](http://sdelements.github.io/lets-chat/) アプリケーションのコンテナを作成して展開する方法を説明します。
 
-Navigate to the **Stacks** page, if you see the welcome screen, you can click on the **Define a Service** button in the welcome screen. If there are already services in your Rancher set up, you can click on **Add Stack** to create a new stack. Provide a name and description and click **Create**. Then, click on **Add Service** in the new stack.
+**スタック**画面に移動します。まだ、ようこそ画面の場合、その画面を閉じて**サービスを定義する** ボタンをクリックします。 セットアップしたRancherに既にサービスが存在する場合は、**スタックを追加**をクリックして新しいスタックを作成します。 名前と説明を入力して**作成**をクリックします。 次に新しいスタックで**サービスを追加**をクリックします。
 
-First, we'll create a database service called `database` and use the `mongo` image. Click **Create**. You will be immediately brought to a stack page, which will contain the newly created *database* service.
+まず、`mongo`イメージを使い`データベース`というサービスを作成します。 **作成**をクリックします。 新しく作成された*データーベース*サービスが含まれるスタックページがすぐに表示されます。
 
-Next, click on **Add Service** again to add another service. We'll add a LetsChat service and link to the *database* service. Let's use the name, `web`, and use the `sdelements/lets-chat` image. In the UI, we'll move the slider to have the scale of the service to be 2 containers. In the **Service Links**, add the *database* service and provide the name `mongo`. Just like in Docker, Rancher will link the necessary environment variables in the `letschat` image from the linked database when you input the "as name" as `mongo`. Click **Create**.
+次に、**サービスを追加**をクリックして、別のサービスを追加します。 LetsChatサービスと*データーベース*サービスとをリンクをさせます。 `sdelements/lets-chat`イメージを使用して、`web`の名前を付けます。 UI上でスライダを動かして、サービスのスケールをコンテナ2つにします。 **Service Links** に `mongo` という名前の*データベース*サービスを追加します。 Docker の場合と同様に、Rancher は、`mongo`の名前を選択すると、リンクされたデータベースとして`letschat`イメージに必要な環境変数をリンクします。 **作成**をクリックします。
 
-Finally, we'll create our load balancer. Click on the dropdown menu icon next to the **Add Service** button. Select **Add Load Balancer**. Provide a name like `letschatapplb`. Input the source port (i.e. `80`), select the target service (i.e. *web*), and select a target port (i.e. `8080`). The *web* service is listening on port `8080`. Click **Create**.
+最後にロードバランサーを作成します。 **サービスの追加**ボタンの横にあるドロップダウンメニューアイコンをクリックします。 **ロードバランサーを追加**を選択します。 `letschatapplb`のような名前を入力。 ソースポート(つまり`80`)を入力し、ターゲットサービス(つまり*web*)を選択、そして、ターゲットポート(つまり`8080`) を選択します。 *ウェブ*サービスで`8080番`ポートを使用します。 **作成**をクリックします。
 
-Our LetsChat application is now complete! On the **Stacks** page, you'll be able to find the exposed port of the load balancer as a link. Click on that link and a new browser will open, which will display the LetsChat application.
+LetsChatアプリケーションが完成しました！ **スタック**画面で、ロードバランサが公開しているポートをリンクとして見つけることができます。 そのリンクをクリックすると、新しいブラウザが開き、LetsChatアプリケーションが表示されます。
 
 ### Create a Multi-Container Application using Rancher CLI
 
