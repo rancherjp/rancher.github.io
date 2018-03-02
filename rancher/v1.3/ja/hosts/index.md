@@ -25,7 +25,11 @@ A host gets connected to Rancher server when the Rancher agent container is star
 
 The design is that the agent is untrusted because it is running on the outside and potentially hostile (to the server) hardware. The agent accounts have access to only the resources they need in the API, replies to events are checked that the event was actually sent to that agent, etc. There is not as much in the opposite direction for the agent to verify the host, so you can also set up TLS and the certificate will be verified.
 
-The registration token is per [environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/). It is generated on the server, stored in the database, and sent to the host as part of the agent registration with the API key pair. The connections are point to point between hosts and AES encrypted, which is accelerated by most modern CPUs.<a id="addhost"></a>### Adding a Host
+The registration token is per [environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/). It is generated on the server, stored in the database, and sent to the host as part of the agent registration with the API key pair. The connections are point to point between hosts and AES encrypted, which is accelerated by most modern CPUs.
+
+<a id="addhost"></a>
+
+### Adding a Host
 
 The first time that you add a host, you may be required to set up the [Host Registration URL]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#host-registration). This setup determines what DNS name or IP address, and port that your hosts will be connected to the Rancher API. By default, we have selected the management server IP and port `8080`. If you choose to change the address, please make sure to specify the port that should be used to connect to the Rancher API. At any time, you can update the [Host Registration]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#host-registration). After setting up your host registration, click on **Save**.
 
@@ -42,7 +46,11 @@ Select which host type you want to add:
 * [Adding Rackspace Hosts]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/rackspace/)
 * [Adding Hosts from Other Drivers]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/other/)
 
-When a host is added to Rancher, a rancher agent container is launched on the host. Rancher will automatically pull the correct image version tag for the `rancher/agent` and run the required version. The agent version is tagged specifically to each Rancher server version.<a id="labels"></a>### Host Labels
+When a host is added to Rancher, a rancher agent container is launched on the host. Rancher will automatically pull the correct image version tag for the `rancher/agent` and run the required version. The agent version is tagged specifically to each Rancher server version.
+
+<a id="labels"></a>
+
+### Host Labels
 
 With each host, you have the ability to add labels to help you organize your hosts. The labels are added as an environment variable when launching the rancher/agent container. The host label in the UI will be a key/value pair and the keys must be unique identifiers. If you added two keys with different values, we'll take the last inputted value to use as the key/value pair.
 
@@ -83,7 +91,11 @@ Rancher automatically creates host labels related to linux kernel version and Do
 
 ### Hosts behind an HTTP Proxy
 
-If you are behind an HTTP proxy, in order to add hosts to Rancher server, you will need to edit the Docker daemon of the host to point to the proxy. The detailed instructions are listed within our [adding custom host page]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/#hosts-behind-a-proxy).<a id="machine-config"></a>### Accessing hosts from the Cloud Providers
+If you are behind an HTTP proxy, in order to add hosts to Rancher server, you will need to edit the Docker daemon of the host to point to the proxy. The detailed instructions are listed within our [adding custom host page]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/#hosts-behind-a-proxy).
+
+<a id="machine-config"></a>
+
+### Accessing hosts from the Cloud Providers
 
 If you choose to select to launch a host through Rancher, Rancher is making a Docker Machine call to lauch in the cloud provider. We provide all the certificates generated when launching the machine in an easy to download file. Click on **Machine Config** in the host's dropdown menu. It will download a tar.gz file that has all the certificates.
 

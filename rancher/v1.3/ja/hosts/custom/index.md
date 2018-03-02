@@ -42,7 +42,11 @@ http://<rancher-server-ip>:8080/v1/projects/1a5/scripts/<registrationToken>
 
 For any hosts that are added, ensure that any security groups or firewalls allow traffic. If these are not enabled, the Rancher functionality will be limited.
 
-* From and to all other hosts on UDP ports `500` and `4500` (for IPsec networking)<a id="samehost"></a>### Adding Hosts to the same machine as Rancher Server
+* From and to all other hosts on UDP ports `500` and `4500` (for IPsec networking)
+
+<a id="samehost"></a>
+
+### Adding Hosts to the same machine as Rancher Server
 
 If you are adding an agent host on the same machine as Rancher server, you must edit the command provided from the UI. In the UI, you can specify the IP that you want the Rancher agent container to use to comminicate to your Rancher server. It will automatically add in an environment variable to the command.
 

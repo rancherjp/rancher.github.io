@@ -1,31 +1,31 @@
 * * *
 
-title: Creating Private Catalogs layout: rancher-default-v1.3 version: v1.3 lang: en
+title: プライベートカタログの作成 layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Creating Private Catalogs
+## ## プライベートカタログの作成
 
-The Rancher catalog service requires private catalogs to be structured in a specific format in order for the catalog service to be able to translate it into Rancher.
+Rancher カタログサービスでは、Rancher が解釈できるようにプライベートカタログが 特定のフォーマットで構成されている必要があります。
 
-### Template Folders
+### テンプレートフォルダー
 
-Catalog templates are displayed in Rancher based on what container orchestration type that was selected for the environment.
+カタログテンプレートは、環境に対して選択したコンテナーオーケストレーションタイプに基づいて、 Rancher 内で表示されます。
 
-#### Templates based on Orchestration type
+#### 各オーケストレーションタイプのテンプレート
 
-* *Cattle* orchestration: Entries in the UI are from the `templates` folder
-* *[Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/)* orchestration: Entries in the UI are from the `kubernetes-templates` folder
-* *[Swarm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/swarm/)* orchestration: Entries in the UI are from the `swarm-templates` folder
-* *[Mesos]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/mesos/)* orchestration: Entries in the UI are from the `mesos-templates` folder
+* *Cattle* : `templates` フォルダーの UI に入っています。
+* *[Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/)* : `kubernetes-templates` フォルダーの UI に入っています。
+* *[Swarm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/swarm/)* : `swarm-templates` フォルダーのUIに入っています。
+* *[Mesos]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/mesos/)* : `mesos-templates` フォルダーのUI に入っています。
 
-### Infrastructure Services Templates
+### インフラストラクチャサービステンプレート
 
-The [infrastructure services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) that are available to be enabled in an [environment template]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template), are from the `infra-templates` folder of any catalog enabled in Rancher.
+[環境テンプレート]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)において利用できる[インフラストラクチャサービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)は、Rancherで有効になっているカタログの `infra-templates` フォルダーの中にあります。
 
-These services are also available from the **Catalog** tab, and you will be able to see all the infrastructure services even though they may not work with the selected orchestration type. It's recommended to select infrastructure services during environment template creation versus launching them directly from the catalog.
+これらのサービスは**カタログ**タブから利用でき、選択したオーケストレーションタイプでは動作しないようなインフラストラクチャサービスも含めて全て表示されます。 インフラストラクチャサービスはカタログから直接起動するのではなく、環境テンプレートの作成時に選択することを推奨します。
 
-### Directory Structure
+### ディレクトリ構造
 
     -- templates (Or any of templates folder)
       |-- cloudflare
@@ -42,99 +42,99 @@ These services are also available from the **Catalog** tab, and you will be able
 
 <br />
 
-In the main directory, you will need a `templates` folder. The `templates` folder will contain folders of each catalog entry that you have created. We recommend that each catalog entry have a simple template name as the folder name.
+メインのディレクトリには `templates` フォルダーが必要です。 `templates` フォルダーには作成した各カタログエントリーのフォルダーが含まれます。 各カタログエントリーにはフォルダー名として簡単なテンプレート名をつけることを推奨します。
 
-In the catalog entry folder (e.g. `cloudflare`), there will be folders for each version that you have created for your catalog entry. The first version should be `` and each subsequent version will be an incremental value. For example, version 2 will be in the `1` folder. By providing a new version folder number, it provides a way to upgrade your stack from a previous version of the template. Alternatively, you could update the templates in the `` folder and just re-deploy the entry.
+カタログエントリーフォルダー（例： `cloudflare` ）では、作成した各バージョンのフォルダーがあります。 最初のバージョンは `` にし、その後のバージョンはそこからの増分値にして下さい。 例にあるように、2番目のバージョンは `1` フォルダーです。 新しい番号のフォルダーを用意すれば、以前のバージョンのテンプレートからスタックを更新する方法を取ることができます。 または、テンプレートの `` フォルダーを更新してデプロイしなおす方法もあります。
 
-> **Note:** Each catalog entry will need to be a single word, so please use `-` instead of spaces for longer catalog names. You can use spaces in the `name` section of the `config.yml`.
+> **ノート:** 各カタログのエントリーは単一の単語である必要があるので、長井カタログ名の場合はスペースの代わりに `-` を使って下さい。 スペースは `config.yml` の `name` セクションで使用できます。
 
-### Rancher Catalog Files to Display in Rancher Catalog
+### Rancher カタログに表示する Rancher カタログファイル
 
-Within the catalog entry folder, the details of how to display your catalog entry in the Rancher catalog are located in two files.
+カタログエントリーフォルダーの中で、作成したカタログエントリーの詳細を表示するには、2つのファイルを使います。
 
-* The first file `config.yml` contains the details of your entry.
+* まず最初の `config.yml` にはエントリーの詳細な情報が入ります。
 
 ```yaml
-name: # Name of the Catalog Entry
+name: # カタログエントリーの名前
 description: |
-  # Description of the Catalog Entry
-version: # Version of the Catalog to be used
-category: # Category to be used for searching catalog entries
-maintainer: # The maintainer of the catalog entry
-license: # The license
-projectURL: # A URL related to the catalog entry
+  # カタログエントリーの説明
+version: # 使用するカタログのバージョン
+category: # カタログエントリーの検索に使用するカテゴリー
+maintainer: # カタログエントリーのメンテナー
+license: # ライセンス形態
+projectURL: # カタログエントリーに関する URL
 ```
 
 <br />
 
-* The second file is the icon image for the catalog entry. The file must be prefixed with `catalogIcon-`.
+* 2番目のファイルはカタログエントリーのアイコンイメージです。ファイルは先頭に `catalogIcon-` をつける必要があります。
 
-For every catalog entry, there will be a minimum of three items: `config.yml`, `catalogIcon-entry.svg`, and the `` folder, which holds the first version of the catalog entry.
+カタログエントリー毎に、少なくとも`config.yml`, `catalogIcon-entry.svg`, 最初のバージョンである `` フォルダーの3つのアイテムがあります。
 
-### Rancher Catalog Templates
+### Rancher カタログテンプレート
 
-The `docker-compose.yml` and `rancher-compose.yml` are the **required** files to be able to launch the services in Rancher using [Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/#adding-services-with-rancher-compose). These files are located within the version folder number (i.e. ``, `1`, etc.).
+Rancher で [Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/#adding-services-with-rancher-compose) を使ってサービスをデプロイするためには、`docker-compose.yml` と `rancher-compose.yml` の2つのファイルがが必要です。 これらのファイルはバージョン番号（例：0,1,etc）のフォルダ内にあります。
 
-The `docker-compose.yml` should be a file that could also be launched using `docker-compose up`. The services follow the docker-compose format.
+`docker-compose.yml` は、 `docker-compose up` で起動できるファイルでなければいけません。サービスは docker-compose のフォーマットに従います。
 
-The `rancher-compose.yml` will contain additional information to help customize your catalog entries. In the `.catalog` section, there are some fields that will be required in order to have your catalog entry interpreted correctly.
+`rancher-compose.yml` にはカタログエントリーをカスタムするときに役立つ追加の情報が含まれます。 `.catalog` セクションには、カタログエントリーが正しく解釈されるために必要ないくつかのフィールドがあります。
 
-An optional `README.md` is possible to be created, which provides a lengthy description or notes on how to use the catalog service.
+追加で `README.md` を作成することができ、長い説明やカタログサービスの使い方を記述できます。
 
 **`rancher-compose.yml`**
 
 ```yaml
 version: '2'
 catalog:
-  name: # Name of the versioned template of the Catalog Entry
-  version: # Version of the versioned template of the Catalog Entry
-  description: # Description of the versioned template of the Catalog Entry
-  minimum_rancher_version: # The minimum version of Rancher that supports the template, v1.0.1 and 1.0.1 are acceptable inputs
-  maximum_rancher_version: # The maximum version of Rancher that supports the template, v1.0.1 and 1.0.1 are acceptable inputs
-  upgrade_from: # The previous versions that this template can be upgraded from
-  questions: #Used to request user input for configuration options
+  name: # カタログテンプレートの名前
+  version: # カタログテンプレートのバージョン番号
+  description: # カタログテンプレートの説明
+  minimum_rancher_version: # テンプレートをサポートする Rancher の最小バージョン。 v1.0.1 や 1.0.1 が記述可能
+  maximum_rancher_version: # テンプレートをサポートする Rancher の最大バージョン。 v1.0.1 や 1.0.1 が記述可能
+  upgrade_from: # このテンプレートにアップグレードできる以前のバージョン
+  questions: # 構成オプションをユーザーに入力させるために使います
 ```
 
 <br />
 
-For `upgrade_from`, there are three types of values that can be used.
+upgrade_from には、3タイプの値を使うことができます。
 
-  1. Allowing upgrading only from 1 version: `1.0.0`
-  2. Being able to select higher or lower than a specific version: `>=1.0.0.`, `<=2.0.0`
-  3. Being able to define a [range of versions](https://github.com/blang/semver#ranges): `>1.0.0 <2.0.0 || >3.0.0`
+1. 1つのバージョンからのみアップグレードが可能な場合: `1.0.0`
+2. 特定のバージョンより高いか低いかを選択できる場合: `>=1.0.0.`, `<=2.0.0`
+3. バージョンをレンジで指定する場合: `>1.0.0 <2.0.0 || >3.0.0`
 
-### Questions in the `rancher-compose.yml`
+### `rancher-compose.yml` の Questions について
 
-The `questions` section of `.catalog` is used to allow the user to change the configuration options of the services. The `answers` would be populated within the `docker-compose.yml` before the services are launched.
+`.catalog` の `questions` セクションを使うことで、利用者はサービスの設定オプションを変更できます。 入力した答え （`answers`）は、サービスが起動する前に `docker-compose.yml` に投入されます。
 
-Each configuration option is a list item in the `questions` section of the `rancher-compose.yml`.
+設定オプションは、 `rancher-compose.yml` の `questions` セクションにある項目で定義します。
 
 ```yaml
 version: '2'
 .catalog:
   questions:
-    - variable: # A single word that is used to pair the question and answer.
-      label: # The "question" to be answered.
-      description: | # The description of the question to show the user how to answer the question.
-      default: # (Optional) A default value that will be pre-populated into the UI
-      required: # (Optional) Whether or not an answer is required. By default, it's considered `false`.
-      type: # How the questions are formatted and types of response expected
+    - variable: # 質問と答えを紐づけるための単語
+      label: # 答えてもらうための質問項目
+      description: | # 質問への答え方を含めた詳細な説明
+      default: # （任意） UI にあらかじめ表示させておくデフォルトの値
+      required: # (任意) 回答が必須かどうか。 デフォルトでは `false` です。
+      type: # 質問項目のフォーマットと、入力してほしいデータの型
 ```
 
 <br />
 
 #### Type
 
-The `type` section controls how the questions are formatted in the UI as well as the types of responses that are expected.
+`type` セクションでは、UI での質問形式と入力してほしいデータの型を制御します。
 
-Eligible formats are:
+望ましいフォーマットは以下：
 
-* `string` A textbox will be shown in the UI to capture the answer, and the answer will be formatted to a string.
-* `int` A textbox will be shown in the UI to capture the answer, and the answer will be formatted to a number. The UI will validate whether or not it's a valid number before launching the template.
-* `boolean` A radio button will be shown in the UI to capture the answer, and the answer will be formatted to `true` or `false`. If the radio button is selected, the answer will be formatted to `true`.
-* `password` A textbox will be shown in the UI to capture the answer, and the answer will be formatted to a string.
-* `service` A drop-down of all services in the environment will be displayed.
-* `enum` A drop-down menu will be shown in the UI and the `options` section will be populated in the drop-down.
+* `string` 回答を入力するためのテキストボックスが表示され、答えは文字列として処理されます。
+* `int` 回答を入力するためのテキストボックスが表示され、答えは数値として処理されます。 この UI はテンプレートが起動する前に有効な数値かどうか検証します。
+* `boolean` 回答を入力するためのラジオボタンが表示され、回答は`true` または `false` として処理されます。 ラジオボタンにチェックが入ると、回答は `true` として処理されます。
+* `password` 回答を入力するためのテキストボックスが表示され、答えは文字列として処理されます。
+* `service` 環境にある全てのサービスがドロップダウン形式で表示されます。
+* `enum` ドロップダウンが UI に表示され、ドロップダウンの表示項目は`options` セクションの内容です。
 
 ```yaml
 version: '2'
@@ -144,12 +144,12 @@ catalog:
       label:
       description: |
       type: enum   
-      options: # List of options if using type of `enum`
+      options: #  `enum`を使った場合のオプション項目
         - Option 1
         - Option 2
 ```
 
-* `multiline` A multiple line textbox will be shown in the UI.
+* `multiline` UI に複数行のテキストボックスが表示されます
 
 ```yaml
 version: '2'
@@ -160,13 +160,13 @@ catalog:
       description: |
       type: multiline
       default: |
-        Each line
-        would be shown
-        on a separate
-        line.
+        それぞれの行が
+        別々に
+        分かれて
+        表示されます
 ```
 
-* `certificate` A drop down of all available certificates in the environment.
+* `certificate` その環境で使用できる証明書がドロップダウンで表示されます。
 
 ```yaml
 version: '2'
@@ -178,6 +178,6 @@ catalog:
       type: certificate
 ```
 
-### Catalog Generator based on Yeoman
+### Yeoman によるカタログジェネレーター
 
-There is an [open-source project](https://github.com/slashgear/generator-rancher-catalog) based on [Yeoman](http://yeoman.io/), that can be used to create the templates of an empty catalog entry.
+[Yeoman](http://yeoman.io/) 元に作成されている [open-source project](https://github.com/slashgear/generator-rancher-catalog) があり、それを使うことでカタログエントリーのテンプレートのスケルトンを作成できます。

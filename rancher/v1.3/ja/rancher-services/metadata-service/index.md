@@ -1,108 +1,101 @@
 * * *
 
-title: Metadata Service in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en redirect_from: - /rancher/rancher-services/metadata-service/
+title: Rancherにおけるメタデータサービス layout: rancher-default-v1.3 version: v1.3 lang: ja redirect_from: - /rancher/rancher-services/metadata-service/
 
 * * *
 
-## ## Metadata Service
+## ## メタデータサービス
 
-Rancher offers data for both your services and containers through our metadata infrastructure service. This data can be used to manage your running Docker instances in the form of a metadata service accessed directly through a HTTP based API. These data can include static information when creating your Docker containers, Rancher Services, or runtime data such as discovery information about peer containers within the same service.
+Rancherはメタデータインフラストラクチャサービスを通じてサービスとコンテナのデータを提供しています。 メタデータサービスの形でHTTPベースのAPIとして提供されており、動作中のDockerインスタンスの管理にこのメタデータを活用することができます。 これらのデータはDockerコンテナやRancherのサービスといった静的な情報、同じサービス内部における対向となるコンテナについてのディスカバリ情報といった実行時データ(動的な情報) を含めることができます。
 
-With Rancher's metadata service, you can exec into any container using the Rancher managed network and retrieve information about containers in Rancher. The metadata could be related to the container, the service or stack that the container is part of, or the host that the container is on. The metadata is in a JSON format.
+Rancherのメタデータサービスを用いることで、Rancherによって管理されているネットワークを使ってあらゆるコンテナーにアクセスすることができ、Rancher内部のコンテナについての情報を収集することができます。 メタデータはコンテナーやコンテナーによって構成されるスタックやサービス、またはコンテナが載っているホストに関連しています。 メタデータはJSONフォーマットの形で提供されます。
 
-Containers can be launched in the Rancher managed network in several ways. Read more about how [networking]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking) works in Rancher.
+Rancherによって管理されているネットワークないでいくつかの方法を用いて、コンテナーは立ち上がります。 ランチャーにおけるネットワーキングについての詳細は、Rancherにおける[ネットワーキング]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking)の動作について参照してください。
 
-### How to Get the Metadata
+### メタデータの取得方法
 
-From the Rancher UI, you can execute into shell of the container by selecting **Execute Shell** from the drop down of the container. The drop down can be found by hovering over the container.
+Rancher UIから、コンテナーのドロップダウンメニュー内の**シェルを実行**を選択することで、コンテナーのシェルに入ることができます。 ドロップダウンメニューはコンテナの上をホバーすることで表示されます。
 
-To obtain the metadata, you'll run a curl command.
+メタデータを取得するには以下のcurlコマンドを実行してください。
 
 ```bash
-# If curl is not installed, install it
+# もしcurlがインストールされていない場合は、インストールしてください。
 $ apt-get install curl
-# Basic curl command to obtain a plaintext response
+# プレーンテキストのレスポンスを取得するための基本的なcurlコマンド
 $ curl http://rancher-metadata/<version>/<path>
 ```
 
-The path can be changed depending on what metadata you want to retrieve as well as the response format.
+レスポンスフォーマットと同様に、どのメタデータを収集したいかによってパスは変わります。
 
-| Metadata                           | path                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ---------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Container                          | `self/container`            | Provides metadata on the container that you are executing the command in                                                                                                                                                                                                                                                                                                                                                   |
-| Service that container is part of  | `self/service`              | Provides metadata on the service of the container that you are executing the command in                                                                                                                                                                                                                                                                                                                                    |
-| Stack that container is part of    | `self/stack`                | Provides metadata on the stack of the container that you are executing the command in                                                                                                                                                                                                                                                                                                                                      |
-| Host that container is deployed on | `self/host`                 | Provides metadata on the host of the container that you are executing the command in                                                                                                                                                                                                                                                                                                                                       |
-| Other Containers                   | `containers`                | Provides metadata on all containers. In plaintext, it provides an indexed response of all containers. In JSON format, it provides all the metadata for all containers. Using either the index number or name in the path, you can obtain metadata on a specific container.                                                                                                                                                 |
-| Other Services                     | `services`                  | Provides metadata on all services. In plaintext, it provides an indexed response of all services. In JSON format, it provides all the metadata for all services. Using either the index number or name in the path, you can obtain metadata on a specific service. If drilling down to containers, in V1 (`2015-07-25`), only container name(s) are returned, but in V2 (`2015-12-19`), container object(s) are returned.  |
-| Other Stacks                       | `stacks/<stack-name>` | Provides metadata on all stacks. In plaintext, it provides an indexed response of all stacks. In JSON format, it provides all the metadata for all stacks. Using either the index number or name in the path, you can obtain metadata on a specific stack. When drilling down to container details, in V1 (`2015-07-25`), only container name(s) are returned, but in V2 (`2015-12-19`), container object(s) are returned. |
+| メタデータ              | パス                          | 内容                                                                                                                                                                                                                                                      |
+| ------------------ | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| コンテナー              | `self/container`            | コマンドを実行しているコンテナー上のメタデータを提供します。                                                                                                                                                                                                                          |
+| コンテナーが構成しているサービス   | `self/service`              | コマンドを実行しているコンテナーのサービスのメタデータを提供します。                                                                                                                                                                                                                      |
+| コンテナーが構成しているスタック   | `self/stack`                | コマンドを実行しているコンテナーのスタックを提供します。                                                                                                                                                                                                                            |
+| コンテナーがデプロイされているホスト | `self/host`                 | コマンドを実行しているコンテナーのホスト上のメタデータを提供します。                                                                                                                                                                                                                      |
+| 他のコンテナー            | `containers`                | 全てのコンテナーのメタデータを提供します。 プレーンテキストでは、全てのコンテナーのインデックスされたレスポンスを提供します。 JSONフォーマットの場合は、全てのコンテナーの全メタデータを提供します。 インデックス番号か、コンテナーの名前をパスに含めることで、特定のコンテナーのメタデータを取得することができます。                                                                                          |
+| 他のサービス             | `services`                  | 全てのサービスのメタデータを提供します。 プレーンテキストでは、全てのサービスのインデックスされたレスポンスを提供します。 JSONフォーマットでは、全サービスの全てのメタデータを提供します。 インデックス番号か、サービスの名前をパスに含めることで、特定のサービスのメタデータを取得することができます。 コンテナーまでドリルダウンした場合、V1(`2015-07-25`)では、コンテナーの名前だけが返されますが、V2(`2015-12-19`)ではコンテナーオブジェクトが返却されます。    |
+| 他のスタック             | `stacks/<stack-name>` | 全てのスタックのメタデータを提供します。 プレーンテキストでは、全てのスタックのインデックスされたレスポンスを提供します。 JSONフォーマットでは、全スタックの全てのメタデータを提供します。 インデックス番号か、スタックの名前をパスに含めることで、特定のスタックのメタデータを取得することができます。 コンテナーの詳細までドリルダウンした場合、V1(`2015-07-25`)では、コンテナーの名前だけが返されますが、V2(`2015-12-19`)ではコンテナーオブジェクトが返却されます。 |
 
-### Versioning of Metadata
+### メタデータのバージョニング
 
-In the `curl` commands, we strongly recommend using a specific version, but you could also choose `latest`.
+`curl`コマンドでは、特定のバージョンを指定して利用することを強く推奨します。指定しない場合は、`最新`のものが選択されます。
 
-> **Note:** As we make changes to our `latest` version, the data returned may change in any release and become incompatible with your code.
+> **注意:**`最新`のバージョンには変更が加えられるので、返却されるデータはどのリリースでも変更される可能性があり、その結果としてあなたの作成したコードと互換性がなくなる可能性があります。
 
-The version of the metadata service is based on date.
+メタデータサービスのバージョンは公開日に準拠しています。
 
-| Version Reference | Version    |
-| ----------------- | ---------- |
-| V2                | 2015-12-19 |
-| V1                | 2015-07-25 |
+| バージョンリファレンス | バージョン      |
+| ----------- | ---------- |
+| V2          | 2015-12-19 |
+| V1          | 2015-07-25 |
 
-#### Differences in Versions
+#### バージョン間での差異
 
-##### V1 vs. V2
+##### V1 対 V2
 
-When drilling down to containers using the http path ending in `/services/<service-name>/containers` or `/stacks/<stack-name>/services/<service-name>/containers`, V1 returns container name(s) and V2 returns container object(s). More information is provided with V2 of the metadata service.
+`/services/<service-name>/containers`または`/stacks/<stack-name>/services/<service-name>/containers`で終わるHTTPのパスを使ってコンテナーにドリルダウンした時、V1ではコンテナ名を返しますが、V2ではコンテナオブジェクトが返されます。 V2のメタデータサービスで追加の情報が提供されます。
 
-##### Example
+##### 例
 
-In Rancher, there is a stack called `foostack` and it contains a service called `barservice` with 3 containers.
+Rancherでは、3コンテナで構成される`barservice`と呼ばれるサービスを含む`foostack`と呼ばれるスタックがあります。
 
 ```bash
-# Using V1 returns only container names of the service
+# V1を使うとサービスを構成するコンテナーの名前だけが返されます。
 $ curl --header 'Accept: application/json' 'http://rancher-metadata/2015-07-25/services/barservice/containers'
 ["foostack_barservice_1", "foostack_barservice_2", "foostack_barservice_1"]
 
-# Using V2 returns container objects of the service
+# V2を使うとサービスを構成するコンテナーオブジェクトが返されます。
 $ curl --header 'Accept: application/json' 'http://rancher-metadata/2015-12-19/services/barservice/containers'
 [{"create_index":1, "health_state":null,"host_uuid":...
 ...
-# Lists all metadata for all containers of the service
-...
-...}]
-
-# Using V2, you can drill down to a specific container's object
+# サービスを構成する全てのコンテナーのメタデータのリスト
+# V2を利用すると、特定のコンテナーオブジェクトへとドリルダウンすることができます。
 $ curl --header 'Accept: application/json' 'http://rancher-metadata/2015-12-19/services/barservice/containers/foostack_barservice_1'
 [{"create_index":1, "health_state":null,"host_uuid":...
 ...
-# Lists all metadata for all containers of the service
-...
-...}]
+# サービスを構成する全てコンテナーのメタデータ
+# /stacks/<service-name>を利用することで、サービスやコンテナへとドリルダウンすることができます。
 
-# Using /stacks/<service-name>, you can drill down to services and containers
-
-# Using V1 returns only container names of the service
+# V1を使うとサービスを構成するコンテナーの名前だけが返されます。
 $ curl --header 'Accept: application/json' 'http://rancher-metadata/2015-07-25/stacks/foostack/services/barservice/containers'
 ["foostack_barservice_1", "foostack_barservice_2", "foostack_barservice_1"]
 
-# Using V2 returns container objects of the service
+# V2を使うとサービスを構成するコンテナーオブジェクトが返されます。
 $ curl --header 'Accept: application/json' 'http://rancher-metadata/2015-12-19/stacks/foostack/services/barservice/containers'
 [{"create_index":1, "health_state":null,"host_uuid":...
 ...
-# Lists all metadata for all containers of the service
-...
+# サービスを構成する全てのコンテナーの全メタデータのリスト
 ...}]
 ```
 
-### Plaintext vs JSON
+### プレーンテキスト 対 JSON
 
-The metadata can be returned in either plaintext or JSON format. Depending on how you want to use your metadata, you can pick either format.
+メタデータはプレーンテキストまたはJSONフォーマットのどちらかで取得することができます。どのようにメタデータを利用したいかによって、いずれかのフォーマットを選択できます。
 
-#### Plaintext
+#### プレーンテキスト
 
-When executing the curl command, you'll receive plaintext for the path that was requested. You can start at the top level of the path and continue to update the path based on available keys until your metadata service provides the data you were looking for.
+curlコマンドを実行した時は、リクエストされたパスに対するプレーンテキスト返ってきます。 パスのトップレベルからスタートして、利用可能なキーを追加してパス階層を深くしていくことを繰り返すことで、目的とするメタデータを取得することができます。
 
 ```bash
 $ curl 'http://rancher-metadata/2015-12-19/self/container'
@@ -133,123 +126,124 @@ state
 system
 uuid
 $ curl 'http://rancher-metadata/2015-12-19/self/container/name'
-# Note: Curl will not provide a new line, so single values will be on same line as the command prompt
+# 注意: curlは改行は提供しないので、全て一行で表示されます。
 Default_Example_1$root@<container_id>
 $ curl 'http://rancher-metadata/2015-12-19/self/container/label/io.rancher.stack.name'
 Default$root@<container_id>
+# インデックス、または名前のどちらかを指定することで配列から値を取得することができます。
 # Arrays can use either the index or name to go get the values
 $ curl 'http://rancher-metadata/2015-12-19/services'
 0=Example
-# You can either user the index or name as a path
+# パスとしてインデックス、または名前のどちらでも指定することができます。
 $ curl 'http://rancher-metadata/2015-12-19/services/0'
 $ curl 'http://rancher-metadata/2015-12-19/services/Example'
 ```
 
 #### JSON
 
-The JSON format can be retrieved by adding an `Accept: application/json` header to your curl command.
+curlコマンドでは、HTTPヘッダに`Accept:application/json`を指定することで、JSONフォーマットで値を取得することができます。
 
 ```bash
 $ curl --header 'Accept: application/json' 'http://rancher-metadata/2015-12-19/self/container'
 $ curl --header 'Accept: application/json' 'http://rancher-metadata/2015-12-19/self/stack'
-# Retrieve the metadata for another service in the stack
+# スタック内の他サービスのメタデータを取得します。
 $ curl --header 'Accept: application/json' 'http://rancher-metadata/2015-12-19/services/<service-name>'
 ```
 
-### Metadata Fields
+### メタデータのフィールド
 
-#### Container
+#### コンテナー
 
-| Fields                        | Description                                                                                                                                                                                                                                                                                                                                                                                     |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `create_index`                | The order number of which the container was launched in the service, i.e. 2 means it was the second container launched in the service. Note: Create_index is never reused. If you had a service with 2 containers and deleted the 2nd container, the next container that gets launched for the service would have a `create_index` of 3 even though there are only 2 containers in the service. |
-| `dns`                         | The container's DNS server.                                                                                                                                                                                                                                                                                                                                                                     |
-| `dns_search`                  | Search domains for the container.                                                                                                                                                                                                                                                                                                                                                               |
-| `external_id`                 | The Docker container ID on the host                                                                                                                                                                                                                                                                                                                                                             |
-| `health_check_hosts`          | List of the host UUIDs where the containers that run health checks are.                                                                                                                                                                                                                                                                                                                         |
-| `health_state`                | The state of health for the container if a [health check]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/health-checks/) was enabled.                                                                                                                                                                                                                                           |
-| `host_uuid`                   | Unique host identifier that Rancher server assigns to hosts                                                                                                                                                                                                                                                                                                                                     |
-| `hostname`                    | The hostname of the container.                                                                                                                                                                                                                                                                                                                                                                  |
-| `ips`                         | When multiple NICs are supported, it will be the list of IPs.                                                                                                                                                                                                                                                                                                                                   |
-| `labels`                      | List of [Labels on Container]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/#labels). Format for labels is `key`:`value`.                                                                                                                                                                                                                                           |
-| `memory_reservation`          | The soft limit of the amount of memory that the container can use.                                                                                                                                                                                                                                                                                                                              |
-| `milli_cpu_reservation`       | The soft limit of the amount of CPU container can use. The value is an integer representing 1/1000 of a CPU. So, 1000 would equal 1 CPU and 500 would equal half a CPU.                                                                                                                                                                                                                         |
-| `name`                        | Name of Container                                                                                                                                                                                                                                                                                                                                                                               |
-| `network_from_container_uuid` | The container's UUID where the network is from.                                                                                                                                                                                                                                                                                                                                                 |
-| `network_uuid`                | Unique network identifier that Rancher assigns to networks                                                                                                                                                                                                                                                                                                                                      |
-| `ports`                       | List of [Ports used in the container]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/#port-mapping). Format for ports is `hostIP:publicIP:privateIP[/protocol]`.                                                                                                                                                                                                |
-| `primary_ip`                  | IP of container                                                                                                                                                                                                                                                                                                                                                                                 |
-| `primary_mac_address`         | The primary MAC address of the container                                                                                                                                                                                                                                                                                                                                                        |
-| `service_index`               | The last number in the container name of the service                                                                                                                                                                                                                                                                                                                                            |
-| `service_name`                | Name of service (if applicable)                                                                                                                                                                                                                                                                                                                                                                 |
-| `stack_name`                  | Name of stack that the service is in (if applicable)                                                                                                                                                                                                                                                                                                                                            |
-| `stack_uuid`                  | Unique stack identifier that Rancher assigns to stacks                                                                                                                                                                                                                                                                                                                                          |
-| `start_count`                 | The number of times the container was started.                                                                                                                                                                                                                                                                                                                                                  |
-| `state`                       | The state of the container                                                                                                                                                                                                                                                                                                                                                                      |
-| `system`                      | Whether or not the container is an [infrastructure service]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)                                                                                                                                                                                                                                                          |
-| `uuid`                        | Unique container identifier that Rancher assigns to containers                                                                                                                                                                                                                                                                                                                                  |
+| フィールド                         | 内容                                                                                                                                                                                                         |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `create_index`                | サービス内で起動されているコンテナーの順番を含みます。 例えば、2はサービス内で２つ目のコンテナとして起動したものであることを表します。 注意: create_indexは再利用されることは決してありません。 2コンテナーで構成されるサービスがあり、2番目のコンテナーを削除した場合、次に起動するコンテナーは、たとえサービスに2つのコンテナしかない場合でも`create_index`として3を持ちます。 |
+| `dns`                         | コンテナーのDNSサーバー                                                                                                                                                                                              |
+| `dns_search`                  | コンテナーのサーチドメイン                                                                                                                                                                                              |
+| `external_id`                 | ホスト上のDockerコンテナーのID                                                                                                                                                                                        |
+| `health_check_hosts`          | コンテナーが健全性チェックを実行しているコンテナーのホストUUIDのリスト                                                                                                                                                                      |
+| `health_state`                | [ヘルスチェック]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/health-checks/)が有効化されている場合のコンテナーの健全性の状態                                                                                           |
+| `host_uuid`                   | Rancherサーバーがホストに割り当てるユニークなホスト識別子                                                                                                                                                                           |
+| `hostname`                    | コンテナーのホスト名                                                                                                                                                                                                 |
+| `ips`                         | 複数のNICがサポートされている場合は、IPのリストになります。                                                                                                                                                                           |
+| `labels`                      | [コンテナーのラベル]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/#labels)のリストです。ラベルのフォーマットは`key`:`value`の形で記述されます。                                                                    |
+| `memory_reservation`          | コンテナーが利用可能なメモリ量のソフトリミット                                                                                                                                                                                    |
+| `milli_cpu_reservation`       | コンテナーが利用可能なCPU割合のソフトリミット。整数で指定し、1あたり単一のCPUの1/1000を表す。                                                                                                                                                      |
+| `name`                        | コンテナーの名前                                                                                                                                                                                                   |
+| `network_from_container_uuid` | どのネットワークからきているコンテナーのUUIDなのかを表す。                                                                                                                                                                            |
+| `network_uuid`                | Rancherがネットワークに対して割り当てるユニークなネットワーク識別子                                                                                                                                                                      |
+| `ports`                       | [コンテナーで利用されているポート]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/#port-mapping)のリスト ポートのフォーマットは`hostIP:publicIP:privateIP[/protocol]`となっています。                             |
+| `primary_ip`                  | コンテナーのIPアドレス                                                                                                                                                                                               |
+| `primary_mac_address`         | コンテナーのプライマリーMACアドレス                                                                                                                                                                                        |
+| `service_index`               | The last number in the container name of the service                                                                                                                                                       |
+| `service_name`                | サービスの名前                                                                                                                                                                                                    |
+| `stack_name`                  | サービスが所属しているスタック名                                                                                                                                                                                           |
+| `stack_uuid`                  | Rancherがスタックに付与しているユニークなスタック識別子                                                                                                                                                                            |
+| `start_count`                 | コンテナーの起動回数                                                                                                                                                                                                 |
+| `state`                       | コンテナーの状態                                                                                                                                                                                                   |
+| `system`                      | [インフラストラクチャサービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)に所属するコンテナか否かを表します。                                                                                              |
+| `uuid`                        | Rancherがコンテナーに対して割り当てるユニークなコンテナ識別子                                                                                                                                                                         |
 
-#### Service
+#### サービス
 
-| Fields                 | Description                                                                                                                                                                                                                                                                                                                            |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `containers`           | List of container names in the service                                                                                                                                                                                                                                                                                                 |
-| `create_index`         | Create_index of the last container created of the service. Note: Create_index is never reused. If you had a service with 2 containers and deleted the 2nd container, the create_index will be 2. The next container that gets launched for the service would update the create_index to 3 even though there are only 2 containers. |
-| `expose`               | The ports that are exposed on the host without being published on the host.                                                                                                                                                                                                                                                            |
-| `external_ips`         | List of External IPs for [External Services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-external-services/)                                                                                                                                                                                                 |
-| `fqdn`                 | Fqdn of the service                                                                                                                                                                                                                                                                                                                    |
-| `health_check`         | The [health check configuration]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/health-checks/) on the service                                                                                                                                                                                                         |
-| `hostname`             | CNAME for [External Services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-external-services/)                                                                                                                                                                                                                |
-| `kind`                 | Type of Rancher Service                                                                                                                                                                                                                                                                                                                |
-| `labels`               | List of [Labels on Service]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/#labels). Format for labels is `key:value`.                                                                                                                                                                                      |
-| `lb_config`            | The configuration of the [load balancer]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/)                                                                                                                                                                                                        |
-| `links`                | List of linked services. Format for links is `stack_name/service_name:service_alias`. The `links` would show all the keys (i.e. `stack_name/service_name` for all links) and to retrieve the `service_alias`, you would need to drill down to the specific key.                                                                        |
-| `metadata`             | [User added metadata]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/metadata-service/#adding-user-metadata-to-a-service)                                                                                                                                                                                    |
-| `name`                 | Name of Service                                                                                                                                                                                                                                                                                                                        |
-| `ports`                | List of [Ports used in the Service]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/#port-mapping). Format for ports is `hostIP:publicIP:privateIP[/protocol]`.                                                                                                                                         |
-| `primary_service_name` | The name of the primary service if there are sidekicks                                                                                                                                                                                                                                                                                 |
-| `scale`                | Scale of Service                                                                                                                                                                                                                                                                                                                       |
-| `sidekicks`            | List of service names that are [sidekicks]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/#sidekick-services)                                                                                                                                                                                          |
-| `stack_name`           | Name of stack the service is part of                                                                                                                                                                                                                                                                                                   |
-| `stack_uuid`           | Unique stack identifier that Rancher assigns to stacks                                                                                                                                                                                                                                                                                 |
-| `system`               | Whether or not the service is an [infrastructure service]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)                                                                                                                                                                                                   |
-| `uuid`                 | Unique service identifier that Rancher assigns to services                                                                                                                                                                                                                                                                             |
+| フィールド                  | 内容                                                                                                                                                                                                  |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `containers`           | サービスに含まれるコンテナーの一覧                                                                                                                                                                                   |
+| `create_index`         | サービスで最後に作成されたコンテナーのcreate_indexの値 注意: create_indexが再利用されることは決してありません。 2つのコンテナーから構成されるサービスにおいて2つ目のコンテナーを削除した場合、create_indexは2になります。 そのサービスにおいて次のコンテナーが立ち上がった際には、コンテナーは2つしかないが、create_indexは3となる。 |
+| `expose`               | The ports that are exposed on the host without being published on the host.                                                                                                                         |
+| `external_ips`         | [外部サービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-external-services/)の外部IPのリスト                                                                                         |
+| `fqdn`                 | サービスのFqdn                                                                                                                                                                                           |
+| `health_check`         | サービス上の[健全性チェックの設定]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/health-checks/)                                                                                                   |
+| `hostname`             | [外部サービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-external-services/)のCNAME                                                                                            |
+| `kind`                 | Rancherサービスのタイプ                                                                                                                                                                                     |
+| `labels`               | [サービスにおけるラベル]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/#labels)のリスト。ラベルのフォーマットは`key:value`です。                                                                      |
+| `lb_config`            | [ロードバランサ]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/)の設定                                                                                                 |
+| `links`                | リンクされたサービスのリストです。 リンクのフォーマットは`stack_name/service_name:service_alias`となっています。 `links`では全てのキー(例えば、全てのリンクに対する`stack_name/service_name`)を表示します。`service_alias`を取得するには、特定のキーへとドリルダウンする必要があります。           |
+| `metadata`             | [ユーザの追加したメタデータ]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/metadata-service/#adding-user-metadata-to-a-service)                                                       |
+| `name`                 | サービス名                                                                                                                                                                                               |
+| `ports`                | サービスで利用されているポート ポートのフォーマットは`hostIP:publicIP:privateIP[/protocol]`です。                                                                                                                                |
+| `primary_service_name` | Sidekicksが存在する場合の主たるサービスの名前です。                                                                                                                                                                      |
+| `scale`                | サービスのスケール                                                                                                                                                                                           |
+| `sidekicks`            | [sidekicks]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/#sidekick-services)のサービス名のリスト                                                                            |
+| `stack_name`           | サービスからなるスタックの名前                                                                                                                                                                                     |
+| `stack_uuid`           | Rancherがスタックに割り当てているユニークなスタック識別子                                                                                                                                                                    |
+| `system`               | サービスが[インフラストラクチャサービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)か否か                                                                                                 |
+| `uuid`                 | Rancherがサービスに割り当てているユニークなサービス識別子                                                                                                                                                                    |
 
-#### Stack
+#### スタック
 
-| Fields             | Description                                                                                                                        |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `environment_name` | Name of [Environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) that the Stack is in                  |
-| `environment_uuid` | Unique stack identifier that Rancher assigns to stacks                                                                             |
-| `name`             | Name of [Stack]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/stacks/)                                            |
-| `services`         | List of Services in the Stack                                                                                                      |
-| `system`           | Whether or not the stack is an [infrastructure service]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) |
-| `uuid`             | Unique stack identifier that Rancher assigns to stacks                                                                             |
+| フィールド              | 内容                                                                                                  |
+| ------------------ | --------------------------------------------------------------------------------------------------- |
+| `environment_name` | スタックが所属している[Environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)の名前  |
+| `environment_uuid` | Rancherがスタックに割り当てているユニークなスタック識別子                                                                    |
+| `name`             | [スタック]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/stacks/)の名前                   |
+| `services`         | スタックに含まれるサービスのリスト                                                                                   |
+| `system`           | スタックが[インフラストラクチャサービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)か否か |
+| `uuid`             | Rancherがスタックに割り当てるユニークなスタックの識別子                                                                     |
 
-#### Host
+#### ホスト
 
-| Fields             | Description                                                                                                                          |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `agent_ip`         | IP of the Rancher Agent, i.e. the value of the `CATTLE_AGENT_IP` environment variable.                                               |
-| `hostname`         | Name of [Host]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)                                                       |
-| `labels`           | List of [Host Labels]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#host-labels). Format for labels is `key:value`. |
-| `local_storage_mb` | Amount of storage on the host in MB                                                                                                  |
-| `memory`           | Amount of memory on the host in MB                                                                                                   |
-| `milli_cpu`        | Amount of CPU on the host. The value is an integer representing 1/1000 of a cpu. So, 1000 would equal 1 CPU.                         |
-| `name`             | Name of [Host]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)                                                       |
-| `uuid`             | Unique host identifier that Rancher server assigns to hosts                                                                          |
+| フィールド              | 内容                                                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `agent_ip`         | RancherエージェントのIPアドレス、たとえば、`CATTLE_AGENT_IP`環境変数                                                                    |
+| `hostname`         | [ホスト]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)の名前                                           |
+| `labels`           | [ホストラベル]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#host-labels)のリスト。ラベルのフォーマットは`key:value`です。 |
+| `local_storage_mb` | ホストに載っているストレージの容量をMBで表します。                                                                                         |
+| `memory`           | ホストに載っているメモリをMBで表します。                                                                                              |
+| `milli_cpu`        | ホストに載っているCPUの量。1000が1つのCPUに相当する。                                                                                   |
+| `name`             | [ホスト]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)の名前                                           |
+| `uuid`             | Rancherがホストに割り当てるユニークなホスト識別子                                                                                       |
 
-### Adding User Metadata To a Service
+### サービスにユーザーのメタデータを追加する
 
-Rancher allows users to add in their own metadata to a service. Currently, this is only supported through [Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/rancher-compose/) and the metadata is part of the `rancher-compose.yml` file. In the `metadata` key, the yaml will be parsed into JSON format to be used by the metadata-service.
+Rancherではサービスに対してユーザがメタデータを付与することができます。 現時点では、[Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/rancher-compose/)を通じてのみサポートされています。メタデータは`rancher-compose.yml`ファイルに記述します。 `metadata`キーでメタデータを記述することでyamlがメタデータサービスで利用されているJSONフォーマットにパースされます。
 
-#### Example `rancher-compose.yml`
+#### ` rancher-compose.yml`の例
 
 ```yaml
 service:
-  # Scale of service
+  # サービスのスケール
   scale: 3
-  # User added metadata
+  # ユーザの追加したメタデータ
   metadata:
     example:
       name: hello
@@ -259,9 +253,9 @@ service:
 
 ```
 
-After the service is up, you can find metadata using the metadata service in `.../self/service/metadata` or in `.../services/<service_id>/metadata`.
+サービスが起動した後、メタデータサービスから`.../self/service/metadata`または、`.../services/<service_id>/metadata`といったパスを指定することでメタデータを取得できます。
 
-#### JSON Query
+#### JSONクエリ
 
 ```bash
 $ curl --header 'Accept: application/json' 'http://rancher-metadata/latest/self/service/metadata'
@@ -269,7 +263,7 @@ $ curl --header 'Accept: application/json' 'http://rancher-metadata/latest/self/
 
 ```
 
-#### Plaintext Queries
+#### プレーンテキストクエリ
 
 ```bash
 $ curl 'http://rancher-metadata/latest/self/service/metadata'
@@ -278,6 +272,6 @@ $ curl 'http://rancher-metadata/latest/self/service/metadata/example'
 name
 value
 $ curl 'http://rancher-metadata/latest/self/service/metadata/example/name'
-# Note: Curl will not provide a new line, so single values will be on same line as the command prompt
+# 注意: curlでは改行は含まれないため、全ての値は単一の行でまとめて表示されます。
 hello$root@<container_id>
 ```

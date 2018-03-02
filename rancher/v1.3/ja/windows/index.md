@@ -4,7 +4,7 @@ title: Windows in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en
 
 * * *
 
-## ## Windows (Experimental)
+## ## Windows (試験的)
 
 To deploy Windows in Rancher, you'll first need to create a new [environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) that has an [environment template]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template) with the container orchestration set as **Windows**.
 

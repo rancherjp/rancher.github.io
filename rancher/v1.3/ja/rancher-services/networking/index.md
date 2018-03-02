@@ -1,34 +1,34 @@
 * * *
 
-title: Networking in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en redirect_from: - /rancher/latest/en/rancher-services/networking/
+title: Rancherにおけるネットワーキング layout: ranccher-default-v1.3 version: v1.3 lang: ja redirect_from: - /rancher/latest/en/rancher-services/networking/
 
 * * *
 
-## ## Networking
+## ## ネットワーキング
 
-Rancher implements a [CNI](https://github.com/containernetworking/cni) framework, which allows you to use different network drivers within Rancher. To leverage our CNI framework, your [environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments) will need to have the **Network Services** infrastructure service deployed. By default, all [environment templates]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template) have the **Network Services** enabled.
+Rancherでは[CNI](https://github.com/containernetworking/cni)フレームワークを実装することで、Rancher内部で異なるネットワークドライバーを利用することができます。 CNIフレームワークを最大限活用するために、[環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments)に、**ネットワークサービス**インフラストラクチャサービスがデプロイされている必要があります。 デフォルトでは、全ての[環境テンプレート]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)で、**ネットワークサービス**は有効化されています。
 
-Besides the **Network Services** infrastructure service, you select which type of networking that you'd like your services to use. In our default environment templates, we have enabled **IPsec** network driver to create a simple and secure overlay network using IPsec tunneling.
+**ネットワークサービス**インフラストラクチャサービスでは、サービスで利用したいネットワーキングのタイプを選択することができます。 デフォルトの環境テンプレートでは、**IPsec**ネットワークドライバーを利用することで、IPsecトンネリングを利用したシンプルでセキュアなオーバレイネットワークを構成しています。
 
-When a network driver is deployed into your environment, it automatically creates a default network. Any services using the `managed` network will be using this default network. By default, all services launched through the UI or CLI will be using the `managed` network. Besides selecting the `managed` network when starting a service, you could directly select a network based on the name of the network driver.
+環境にネットワークドライバがデプロイされると、デフォルトネットワークが自動的に作成されます。 `managed`ネットワークを利用しているサービスはいずれも、デフォルトのネットワークを利用していることになります。 デフォルトでは、GUIまたはCLIを使って立ち上げられた全てのサービスは`managed`ネットワークを利用しています。 `managed`ネットワークの他にもサービスを起動する際には、ネットワークドライバの名前ベースで利用するネットワークを直接指定することができます。
 
-For any containers launched directly from the Docker CLI, an extra label `--label io.rancher.container.network=true` can be used to select the `managed` network. Without this label, containers launched from the Docker CLI will be using the `host` network.
+Docker CLIから直接立ち上げられたコンテナでは、`--label io.rancher.container.network=true`を追加のラベルとして指定することで、`managed`ネットワークを利用させることができます。 このラベルを指定しない場合は、DockerCLIから立ち上げられたコンテナーは`host`ネットワークを利用するようになります。
 
-> **Note:** For any containers relying on any networking launched from a network driver (i.e. `managed` or based on the name of the network driver), if the network infrastructure service (e.g. `ipsec`) is deleted, then the networking will fail for that container.
+> **注意:**ネットワークドライバ(たとえば`managed`)から立ち上げられたネットワークに依存しているいずれのコンテナも、ネットワークインフラストラクチャサービス(たとえば`ipsec`)が削除された場合、ネットワーク処理が失敗するようになります。
 
-Most of Rancher's features, such as load balancers or DNS service, require the service to be in the `managed` network, but are not network driver dependent.
+ロードバランサーやDNSサービスといったRancherの特徴の大部分は、サービスが`managed`ネットワークに含まれていることを要件としていますが、特定のネットワークドライバでないと動作しないといった依存関係は存在しません。
 
-Using Rancher's IPsec networking, a container will be assigned both a Docker bridge IP (172.17.0.0/16) and a Rancher managed IP (10.42.0.0/16) on the default docker0 bridge. Containers within the same environment are then routable and reachable via the managed network.
+RancherのIPsecネットワーキングを利用する際、コンテナーはデフォルトのdocker0ブリッジ上のDockerブリッジのIP(172.17.0.0/16) とRancherの管理するIP(10.42.0.0/16) を割り当てられます。 同一の環境内にあるコンテナーはmanagedネットワークを経由してルーティングされ、パケット到達性が確保されます。
 
-> **Note:** The Rancher managed IP address will not be present in Docker metadata and as such will not appear in the result of a Docker "inspect." This sometimes causes incompatibilities with certain tools that require a Docker bridge IP. We are already working with the Docker community to make sure a future version of Docker can handle overlay networks more cleanly.
+> **注意:**Rancherによって管理されているIPアドレスは、Dockerのinspectコマンドので得られるようなDockerメタデータには表示されません。これは、ときおり、DockerブリッジのIPアドレスを要求する特定のツールとの非互換性を引き起こします。 将来のDockerのバージョンでは、より明確な形でオーバーレイネットワークを取り扱うことができるように、Dockerコミュニティーと共同で改善活動を進めています。
 
-If you are facing issues with cross host communication, please refer to our troubleshooting [documentation]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/faqs/troubleshooting/#cross-host-communication).
+もし、ホストを跨った通信で問題に直面した場合は、トラブルシューティングのための[文書]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/faqs/troubleshooting/#cross-host-communication)を参照してください。
 
-### Example of Rancher's IPSec Network Service
+### RnacherのIPsecネットワークサービスの例
 
-To leverage the CNI framework, you can enable a network infrastructure service, which is created from a network driver in a yaml file. In the `network_driver` key of the yaml, there are several options that are defined.
+CNIフレームワークを最大限活用するために、ネットワークインフラストラクチャサービスを有効化することができます。このインフラストラクチャサービスはyamlファイルないのネットワークドライバから生成されます。 yamlファイルの`network_driver`キーには、定義可能なオプションがいくつかあります。
 
-Here is an example of Rancher's IPsec infrastructure service. The `network_driver` is configured in the `rancher-compose.yml` file.
+RancherのIPsercインフラストラクチャサービスの例は次の通りです。`network_driver`は`rancher-compose.yml`ファイルで設定されます。
 
 ```yaml
 ipsec:
@@ -59,30 +59,30 @@ ipsec:
           logToFile: /var/log/rancher-ipam.log
 ```
 
-#### Default Network
+#### デフォルトのネットワーク
 
-The `default_network` defines options for the networking in the environment.
+`default_network`では、環境におけるネットワーキングのオプションを定義します。
 
 ##### Name
 
-The name of the default network can be used when selecting a network mode for a service.
+サービスのネットワークモードを選択する際に利用されるデフォルトのネットワーク名です。
 
 #### Host Ports
 
-By default, ports on a host are allowed to be published, but you can create a network that does not allow publishing ports on the host.
+デフォルトでは、ポートとホストを公開することは許可されているが、ポートやホストを公開することが許可されていないネットワークを構築することもできます。
 
 #### Subnets
 
-You can select the network addresses for the subnet of the managed overlay network.
+管理されているオーバレイネットワークのサブネットのネットワークアドレスを選択することができます。
 
-#### DNS && DNS Search
+#### DNSとDNS検索
 
-The values in DNS and DNS Search will be autopopulated in the containers.
+DNSとDNS Searchの値は、コンテナに自動的に設定されます。
 
 ### CNI configuration
 
-For the network driver, you can set the CNI configuration within the `cni_config`. The example above shows the CNI configuration for Rancher's IPsec infrastructure service.
+ネットワークドライバーに対して、`cni_config`内でCNI設定を行うことができます。RancherのIPsecインフラストラクチャサービスのCNI設定例は上に記述のある通りです。
 
 ### Network Metadata
 
-The metadata in the network driver populates the metadata in the network created in Rancher.
+ネットワークドライバのメタデータによってRancherで作成されるネットワークのメタデータは設定されます。

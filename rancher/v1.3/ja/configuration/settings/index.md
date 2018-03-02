@@ -1,33 +1,33 @@
 * * *
 
-title: Settings in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Rancher の設定 layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Settings
+## ## 設定
 
-In the **Admin** -> **Settings** page of Rancher, we allow customization of Rancher for different areas of the product.
+Rancher の **管理者** -> **設定** ページでは様々なカスタマイズが可能です。
 
-### Host Registration
+### ホスト登録
 
-Before launching any hosts, you will be asked to complete the host registration. This registration sets up how your Rancher server is going to connect with your hosts. If you have already set up [access control]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control), you will not be prompted to set host registration as Rancher assumes that your URL will be accessible.
+ホストを追加する前にホストの登録情報を入力するよう促されます。 この登録セットアップではどのように Rancher サーバーがホストと通信するかが設定されます。 既に [アクセスコントロール]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control) が設定されている場合、URL は既にアクセス可能な状態であるため設定を促すメッセージは表示されません。
 
-The setup determines the base URL your hosts will use to connect to the Rancher API. By default, Rancher selects the base URL you used to access the UI. If you choose to change the address, make sure to specify the port that should be used to connect to the Rancher API. If you are configuring Rancher with SSL, be sure to change the protocol to `https`. This registration setup determines what the command will be for [adding custom hosts]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/).
+セットアップではホストが Rancher API と通信するためのベース URL を決定します。 デフォルトでは Rancher が現在アクセスしている UI をベース URL として選択します。 アドレスを変更する場合は、Rancher API と通信するためのポート番号も指定することに注意してください。 また、Rancher で SSL を有効化している場合はプロトコルも `https` に変更するようにしてください。 このセットアップでは [カスタムホストを追加]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/) する際にどのようなコマンドを生成するかに影響します。
 
-If [access control]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/) is turned on for Rancher, only the **admin** will be able to change the host registration. By default, the first **admin** is the first user to authenticate with Rancher when access control was configured. If access-control is still not configured, any users to the site can update the host registration. This option can be updated in the **Admin** -> **Host Registration** tab.
+Rancher で [アクセスコントロール]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/) を有効化している場合、**管理者** のみがホスト登録を変更することができます。 アクセスコントロールが設定されている場合、デフォルトでは最初の**管理者**が最初のユーザーとなり アクセスコントロールがまだ設定されていない場合、サイトにアクセスできる全てのユーザーがホスト登録を変更できます。 この設定は **管理者** -> **ホスト登録 URL** タブから変更することが可能です。
 
-### Catalog
+### カタログ
 
-By default, the [catalog]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/) is enabled with three catalogs:
+デフォルトでは [カタログ]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/) は3つのカタログが有効化されています。
 
-* [Rancher Infrastructure](https://github.com/rancher/infra-catalog) contains templates for all infrastructure services.
-* [Rancher Certified Library](https://github.com/rancher/rancher-catalog) contains templates for Rancher certified applications.
-* [Community Contributed](https://github.com/rancher/community-catalog) contains templates for applications contributed by the community.
+* [Rancher インフラストラクチャ](https://github.com/rancher/infra-catalog) には全てのインフラストラクチャサービスに関するテンプレートが含まれています。
+* [Rancher 公式ライブラリ](https://github.com/rancher/rancher-catalog) には Rancher で保証されたアプリケーションに関するテンプレートが含まれています。
+* [コミュニティライブラリ](https://github.com/rancher/community-catalog) にはコミュニティにより寄贈されたアプリケーションに関するテンプレートが含まれています。
 
-As the settings page is only available for [admins]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/accounts/#admin), only admins have the ability to add private catalogs to Rancher. Adding a catalog is as simple as adding a catalog name and the git URL. The correct format of the git URL can be found [here](https://git-scm.com/docs/git-clone#_git_urls_a_id_urls_a). Whenever you add a catalog, it will be immediately available in the catalog.
+設定ページは [管理者]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/accounts/#admin) のみ利用可能なため、管理者のみ Rancher にプライベートカタログを追加することができます。 カタログの追加は簡単でカタログ名と git URL を追加するのみです。 git URL の正しいフォーマットは [こちら](https://git-scm.com/docs/git-clone#_git_urls_a_id_urls_a) を参照してください。 追加されたカタログはすぐにカタログタブから利用することができます。
 
-If you want to create your own private catalog to add, the git repository must be set up in a [specific format]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/private-catalog).
+追加のプライベートカタログを作成したい場合は git リポジトリを [特定のフォーマット]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/private-catalog) で設定する必要があります。
 
-### Statistics
+### 統計情報
 
-By default, Rancher asks you to opt in to collect anonymous statistics about the configuration of Rancher. This data allows us to better understand our user base and how to make Rancher better. Read more about [telemetry in Rancher]({{site.baseurl}}/rancher/telemetry/).
+デフォルトでは Rancher は設定情報に関する匿名の統計情報を収集してもよいか質問します。 このデータはユーザーの傾向をより理解し、どのようにして Rancher をより良くすることができるかのために利用されます。 詳細は [Rancher におけるテレメトリ]({{site.baseurl}}/rancher/telemetry/) を参照してください。

@@ -1,30 +1,30 @@
 * * *
 
-title: Environment Interpolation in Rancher CLI layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Environment Interpolation in Rancher CLI における環境補間 layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Environment Interpolation
+## ## 環境補間
 
-Using `rancher up`, environment variables from the machine running `rancher` can be used within the `docker-compose.yml` and `rancher-compose.yml` files. This is only supported in `rancher` commands and not in the Rancher UI.
+`rancher up` を利用する際、`rancher` コマンドを実施するマシンから `docker-compose.yml` や `rancher-compose.yml` ファイルに対し環境変数を利用することができます。 この機能は `rancher` コマンドでのみサポートされており、Rancher UI では利用できません。
 
-### How to use it
+### どのように使うか
 
-With the `docker-compose.yml` and `rancher-compose.yml` files, you can reference the environment variables on your machine. If there are no environment variables on the machine, it will replace the variable with a blank string. `Rancher` will provide a warning on which environment variables are not set. If using environment variables for image tags, please note that `rancher` will not strip the `:` from the image to fetch the latest image. Since the image name, i.e. `<imagename>:` is an invalid image name, no container will be deployed. It's up to the user to ensure that all environment variables are present and valid on the machine.
+`docker-compose.yml` や `rancher-compose.yml` ファイルではあなたのマシンの環境変数を参照することができます。 対象の環境変数がマシン上で定義されていない場合は変数は空文字で置き換えられます。 `Rancher` からは環境変数が定義されていない旨の warning メッセージが出力されます。 環境変数をイメージタグに利用する場合は `rancher` は最新のイメージを取得する際に `:` を取り除かない点に注意してください。 例としてイメージ名 `<imagename>:` は無効なイメージ名となりコンテナはデプロイされません。 また、全ての環境変数がマシン上で定義されており、正しい値であることを確認してください。
 
-#### Example
+#### 例
 
-On our machine running `rancher`, we have an environment variable, `IMAGE_TAG=14.04`.
+`rancher` コマンドを実施するマシン上で環境変数 `IMAGE_TAG=14.04` が定義されているとします。
 
 ```bash
-# Image tag is set as environment variable
+# 環境変数としてイメージタグが設定されている
 $ env | grep IMAGE
 IMAGE_TAG=14.04
-# Run rancher
+# スタック を起動
 $ rancher up
 ```
 
-**Example `docker-compose.yml`**
+**例 `docker-compose.yml`**
 
 ```yaml
 version: '2'
@@ -37,33 +37,33 @@ services:
 
 <br />
 
-In Rancher, an `ubuntu` service will be deployed with an `ubuntu:14.04` image.
+Rancher 上では `ubuntu` サービスが `ubuntu:14.04` イメージからデプロイされます。
 
-### Environment Interpolation Formats
+### 環境補間フォーマット
 
-`Rancher` supports the same formats as `docker-compose`.
+`Rancher` では `docker-compose` と同様のフォーマットをサポートしています。
 
 ```yaml
 version: '2'
 services:
   web:
-    # unbracketed name
+    # 括弧で閉じていない名前
     image: "$IMAGE"
 
-    # bracketed name
+    # 括弧で閉じられた名前
     command: "${COMMAND}"
 
-    # array element
+    # 配列要素
     ports:
     - "${HOST_PORT}:8000"
 
-    # dictionary item value
+    # 連想配列名
     labels:
       mylabel: "${LABEL_VALUE}"
 
-    # unset value - this will expand to "host-"
+    # 未定義の値 - 以下の場合 "host-" として展開されます
     hostname: "host-${UNSET_VALUE}"
 
-    # escaped interpolation - this will expand to "${ESCAPED}"
+    # エスケープ補間 - 以下の場合 "${ESCAPED}" として展開されます
     command: "$${ESCAPED}"
 ```

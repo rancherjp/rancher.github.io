@@ -1,26 +1,26 @@
 * * *
 
-title: Rancher Command Line Interface (CLI) layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Rancher コマンドライン・インターフェース (CLI) layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Rancher Command Line Interface
+## ## Rancher コマンドライン・インターフェース
 
-The Rancher Command Line Interface (CLI) is a unified tool to manage your Rancher server. With this tool, you can control your [environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/), [hosts]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/), stacks, services and containers.
+Rancher コマンドライン・インターフェース (CLI) は Rancher サーバーを管理するための統合ツールです。 このツールを使い、[environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)、[ホスト]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)、スタック、サービス、コンテナを制御できます。
 
-### Installation
+### インストール
 
-The binary can be downloaded directly from the UI. The link can be found in the right hand side of the footer in the UI. We have binaries for Windows, Mac, and Linux. You can also check the [releases page for our CLI](https://github.com/rancher/cli/releases) for direct downloads of the binary.
+バイナリは UI から直接ダウンロードできます。 リンクは、 UI 内のフッタ右端にあります。 Windows、Mac、Linux 用のバイナリを提供しています。 [CLI のリリースページ](https://github.com/rancher/cli/releases)からも、直接バイナリをダウンロードできます。
 
-### Configuring the Rancher Command Line Interface
+### Rancher コマンドライン・インターフェースの設定
 
-There are several methods you can configure the settings that the Rancher CLI uses when interacting with Rancher, i.e. Rancher URL and [account API keys]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/api-keys/#account-api-keys). Account API keys can be created in **API**.
+Rancher CLI が Rancher とやりとりできるようにするには、Rancher URL と [アカウント API キー]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/api-keys/#account-api-keys)のように、いくつかの設定が必要になります。 アカウント API キーは **API** で作成できます。
 
-There is a specific load order for what will be used.
+使うには、特定の手順で進めます。
 
-  1. During `rancher config`, you'll set the Rancher URL and API keys. If there are multiple environments, then you will select a specific environment.
-  2. You can set environment variables for the same values, which would override the values set in `rancher config`.
-  3. If you decide to pass in values directly into the Rancher command, those values would be used for the Rancher command over any over values.
+1. `rancher config` で Rancher URL と API 鍵を設定します。複数の環境がある場合は、特定の環境を選択します。
+2. 環境変数でも値を指定している場合、`rancher config` で指定した値を上書きします。
+3. Rancher コマンドで直接値を指定する場合、Rancher コマンドは既定値を上書きします。
 
 #### Using Rancher Config
 

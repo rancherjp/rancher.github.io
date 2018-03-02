@@ -1,40 +1,40 @@
 * * *
 
-title: Rancher Catalog layout: rancher-default-v1.3 version: v1.3 lang: en redirect_from: - /rancher/catalog/ - /rancher/latest/en/catalog/
+title: Rancher カタログ layout: rancher-default-v1.3 version: v1.3 lang: ja redirect_from: - /rancher/catalog/ - /rancher/latest/en/catalog/
 
 * * *
 
-## ## Catalog
+## ## カタログ
 
-Rancher provides a catalog of application templates that make it easy to deploy these complex stacks. By accessing the **Catalog** tab, you can view all the templates that are available in the [enabled catalogs]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#catalog). The **Library** catalog contains templates from the [Rancher certified catalog](https://github.com/rancher/rancher-catalog) and the **Community** catalog contains templates from the [community-catalog](https://github.com/rancher/community-catalog). Rancher will only be maintaining support for the *certified* templates in the library.
+Rancher は複雑なスタックの展開を簡単にできるように、アプリケーションテンプレートのカタログを提供しています。 **Catalog** タブにアクセスすると、有効で利用可能な全てのテンプレートを見ることができます。 **ライブラリ** カタログには Rancher Labs が認定した [Rancher certified catalog](https://github.com/rancher/rancher-catalog) のテンプレートが含まれていて、**コミュニティ** カタログ には Rancher コミュニティが作成した [community-catalog](https://github.com/rancher/community-catalog) が含まれています。 Racnerh メンテナンスサポートするのは、ライブラリにある*certified* のテンプレートのみです。
 
-An [admin]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#admin) of Rancher has the ability to add or remove catalogs in Rancher. The catalogs within Rancher can be found at **Admin** -> **Settings**. Adding a catalog is as simple as adding a catalog name, a URL and a branch name. The URL needs to be one that `git clone` [can handle](https://git-scm.com/docs/git-clone#_git_urls_a_id_urls_a). The branch name must be a branch that is in your catalog URL. It will use `master` by default. Whenever you add a catalog entry, it will be immediately available in your catalog.
+Rancher の[管理者]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#admin)は、カタログの追加もしくは削除ができます。 カタログ設定は、 **管理者** -> **設定** と進むと見つかります。 カタログの追加は簡単で、カタログの名前、URL、ブランチを追加するだけです。 URLは `git clone` 操作ができる1つの URL である必要があります。 ブランチの名前は、カタログ URL にあるブランチ名でなければいけません。 デフォルトでは `master` を使用します。 カタログを追加すると、すぐに利用できるようになります。
 
-If you are running Rancher server behind a proxy, you will need to [start Rancher with certain environment variables]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#http-proxy) in order for the Rancher catalog to work in Rancher.
+プロキシサーバの背後で Rancher サーバを動かしている場合、カタログを Rancher で動かすためには、[特定の環境変数で Rancher を起動する]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#http-proxy)必要があります。
 
-### Infrastructure Services in the Catalog
+### カタログにおけるインフラストラクチャサービス
 
-The [infrastructure services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) that are available to be enabled in an [environment template]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template), are from the `infra-templates` folder of any catalog enabled in Rancher.
+[環境テンプレート]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)において利用できる[インフラストラクチャサービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)は、Rancherで有効になっているカタログの `infra-templates` フォルダーの中にあります。
 
-These services are also available from the **Catalog** tab, and you will be able to see all the infrastructure services even though they may not work with the selected orchestration type. It's recommended to select infrastructure services during environment template creation versus launching them directly from the catalog.
+これらのサービスは**カタログ**タブから利用でき、選択したオーケストレーションタイプでは動作しないようなインフラストラクチャサービスも含めて全て表示されます。 インフラストラクチャサービスはカタログから直接起動するのではなく、環境テンプレートの作成時に選択することを推奨します。
 
-### Launching Templates
+### テンプレートの起動
 
-Search for your desired template or use the filters for category or catalog. Once you have found your template, click on **Launch**. Fill in the required information for the template.
+目的のテンプレートを検索するか、カテゴリーやカタログのフィルターを使います。テンプレートを見つけたら、テンプレートに必要な情報を入力して**起動**を押してください。
 
-  1. By default, latest **version** of a template is selected, but if desired, you could select an older version.
-  2. Select a **stack** name and if desired, **description** of the stack.
-  3. Fill in the **Configuration Options**, which are questions specific to the selected template.
-  4. Click on **Create** to create the stack based on the template. You can review the `docker-compose.yml` and `rancher-compose.yml` files that are being used to generate the stacks by expanding **Preview** before creating the stack.
+1. デフォルトでは、**テンプレートバージョン**では最新のテンプレートが選択されます、希望であれば古いバージョンを選択することも可能です。
+2. **スタック** の名前を決めて、希望であれば**詳細情報**を入れてください。
+3. **設定オプション**を入力してください。これらは選択したテンプレート固有のものです。
+4. **作成**をクリックするとテンプレートを元にしたスタックが作成されます。 スタック生成前に`docker-compose.yml` と `rancher-compose.yml` をレビューすることもできます。これらのファイルはスタックを生成するときに使用されます。**Preview**で展開して下さい。
 
-After you click on **Create**, the stack is immediately created, but none of the services have started. Click on **Start Services** from the stack dropdown menu to start all the services of the stack.
+**作成**をクリックするとスタックが作成されますが、サービスはまだ起動していません。 **サービス開始**をスタックのドロップダウンメニューからクリックするとスタックのサービスがすべて起動します。
 
-### Upgrading Templates
+### テンプレートの更新
 
-The great thing about Rancher is that if a newer version of a template has been uploaded to the catalog, we'll inform you that a newer version is available to upgrade to. When you click on **Upgrade Available**, you can select which version you want to upgrade to. Always review the information about the version before upgrading, so that you are aware of all potential risks. After selecting the version, the **Configuration Options** will need to be reviewed before clicking on **Save**.
+Rancher の素晴らしいところは、カタログにテンプレートの新しいバージョンがアップロードされると、新しいバージョンに更新可能になったことを通知するところです。 **更新可能**をクリックすると、更新したいバージョンを選択できます。 潜在的なリスクに気づくために、更新前にそのバージョンに関する情報を確認してください。 バージョンを選択した後は、**保存**をクリックする前に**設定オプション**を確認してください。 
 
-After all the services have been upgraded, the stack and services will be in an **Upgraded** state. If you are satisfied with your upgrade, the last step is to confirm the upgrade by clicking on the **Finish Upgrade** in the stack dropdown menu. **Note: Once you have finished your upgrade, you will not be able to revert to the older version.**
+全てのサービスが更新されると、スタックとサービスは **更新済み**の状態になります。 更新が問題なく終わったら、最後のステップとして**更新完了**をスタックのドロップダウンメニューからクリックして、更新を完了してください。 **ノート: 更新を完了状態にすると、古いバージョンに戻すことができなくなります。**
 
-#### Rolling back
+#### ロールバック
 
-If something went wrong during your upgrade and you need to revert to the previous version, you would want to select **Rollback** in the stack dropdown menu.
+更新の途中で問題が起きた場合は以前のバージョンに戻す必要があります。スタックのドロップダウンメニューから**ロールバック**を選択してください。

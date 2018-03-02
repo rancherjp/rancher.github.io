@@ -1,65 +1,67 @@
 * * *
 
-title: Upgrading Rancher layout: rancher-default-v1.3 version: v1.3 lang: en redirect_from: - /rancher/latest/en/upgrading/
+title: Rancherのアップグレード layout: rancher-default-v1.3 version: v1.3 lang: ja redirect_from: - /rancher/latest/en/upgrading/
 
 * * *
 
-## ## Upgrading Rancher Server
+## ## Rancher サーバーのアップグレード
 
-> **Note:** If you are upgrading to v1.3.x, please read our release notes on [v1.3.0](https://github.com/rancher/rancher/releases/tag/v1.3.0) regarding what to expect for this upgrade.
+> **注:** バージョン1.3.x にアップグレードする場合、このアップグレードで期待されることに関しては [バージョン1.3.0](https://github.com/rancher/rancher/releases/tag/v1.3.0) のリリース ノートをご覧ください。
 
-Depending on how you installed Rancher server, your upgrade steps may vary.
+Rancher サーバーをインストールした方法に応じて、アップグレードの手順が異なる場合があります。
 
-* [Rancher Server - Single Container (non-HA)](#single-container)
-* [Rancher Server - Single Container (non-HA) - External database](#single-container-external-database)
-* [Rancher Server - Single Container (non-HA) - Bind mounted MySQL volume](#single-container-bind-mount)
-* [Rancher Server - Full Active/Active HA](#multi-nodes)
-* [Rancher Server - No Internet Access](#rancher-server-with-no-internet-access)
+* [Rancher サーバー - シングルコンテナー (非-HA)](#single-container)
+* [Rancher サーバー - シングルコンテナー (非-HA) - 外部データベース](#single-container-external-database)
+* [Rancher サーバー - シングルコンテナー (非-HA) - bind マウントされたMySQLボリューム](#single-container-bind-mount)
+* [Rancher サーバー - フルアクティブ / アクティブHA](#multi-nodes)
+* [Rancher サーバー - インターネットアクセスなし](#rancher-server-with-no-internet-access)
 
-> **Note:** If you set any environment variables or passed in a [ldap certificate]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#enabling-active-directory-or-openldap-for-tls) in your original Rancher server setup, you'll need to add those environment variables or certificate in any new command.
+> **注:**任意の環境変数を設定した場合、また元の Rancher サーバーセットアップで [ldap 証明書]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#enabling-active-directory-or-openldap-for-tls) を渡した場合は、これらの環境変数や証明書を全て新しくコマンドで追加する必要があります。
 
-### Rancher Server Tags
+### Rancher サーバータグ
 
-Rancher server has 2 different tags. For each major release tag, we will provide documentation for the specific version.
+Rancher サーバーには2種類のタグがあります。それぞれのメジャーリリースタグ毎に特定のバージョンに対するドキュメントが提供されます。
 
-* `rancher/server:latest` tag will be our latest development builds. These builds will have been validated through our CI automation framework. These releases are not meant for deployment in production.
-* `rancher/server:stable` tag will be our latest stable release builds. This tag is the version that we recommend for production. 
+* `rancher/server:latest` タグは、最新の開発ビルドに対してつけられます。 これらのビルドは、CI自動化フレームワークを通じて検証されています。 これらのリリースは本番環境での開発用ではありません。
+* `rancher/server:stable` タグは、最新の安定版リリースです。このタグは、本番環境に推奨するバージョンです。 
 
-Please do not use any release with a `rc{n}` suffix. These `rc` builds are meant for the Rancher team to test out builds.
+末尾に `rc{n}` の付いているリリースは全て使用しないでください。 これらの `rc` ビルドは、 Rancher チームが開発版ビルドをテストするためのものです。
 
-### Infrastructure Services
+### インフラストラクチャーサービス
 
-After a Rancher server upgrade, your [infrastructure services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) may have an upgrade available. We recommend checking your infrastructure stacks after upgrading Rancher server to see if any stack has an upgrade available. If there is an upgrade available, upgrade these stacks one at a time. Please finish the upgrade before moving on to upgrading the next infrastructure stack.
+Rancher サーバーのアップグレード後、 [インフラストラクチャ サービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) のアップグレードが可能な場合があります。 Rancher サーバーのアップグレード後、アップグレード可能なスタックがないかインフラストラクチャスタックを確認することを推奨します。 利用可能なアップグレードがある場合は、これらのスタックを一つずつアップグレードしてください。 前のアップグレードを完了させてから次のインフラストラクチャスタックのアップグレードに移行してください。
 
-### Rancher Agents
+### Rancher エージェント
 
-Each Rancher agent version is pinned to a Rancher server version. If you upgrade Rancher server and Rancher agents require an upgrade, we will automatically upgrade the agents to the latest version of Rancher agent.
-<a id="single-container"></a>### Upgrading a Single Container (non-HA)
+各 Rancher エージェントのバージョンは Rancher サーバーのバージョンによって固定されています。 アップグレードを必要とする Rancher サーバーや Rancher エージェントをアップグレードする際は、エージェントは自動的に最新バージョンの Rancher エージェントにアップグレードされます。
+<a id="single-container"></a>
 
-If you have launched Rancher server **without** using an external DB or bind mounted MySQL volume, the Rancher server database is inside your Rancher server container. We will use the running Rancher server container to create a data container. This data container will be used to start new Rancher server containers by using a `--volumes-from`. Alternatively, you can copy the database out of the container to a directory on the host and bind mount the database.
+### シングルコンテナーのアップグレード (非-HA)
 
-  1. Stop the container.
+外部DBや bind マウントされたMySQLボリュームを **利用せずに** Rancher サーバーを立ち上げた場合、その Rancher サーバーのデータベースは Rancher サーバーコンテナー内にあります。 データコンテナーを作成するために実行中の Rancher サーバーコンテナーを利用します。 このデータ コンテナーは `--volumes-from` を使用して新たな Rancher サーバーコンテナーを開始するために利用されます。 あるいは、コンテナーからホスト上のディレクトリへデータベースをコピーし、データベースを bind マウントすることができます。
+
+1. コンテナーを停止させます。
     
     ```bash
 $ docker stop <container_name_of_original_server>
 ```
 
-  2. Create a `rancher-data` container. Note: This step can be skipped if you have already upgraded in the past and already have a `rancher-data` container.
+2. `rancher-data` コンテナーを作成します。注: 過去にアップグレードしている `rancher-data` コンテナーが既にある場合は、この手順をスキップできます。
     
     ```bash
 $ docker create --volumes-from <container_name_of_original_server> \
 --name rancher-data rancher/server:<tag_of_previous_rancher_server>
 ```
 
-  3. Pull the most recent image of Rancher Server. Note: If you skip this step and try to run the `latest` image, it will not automatically pull an updated image.
+3. Rancher サーバーの最新イメージをプルします。注: この手順をスキップして `latest` イメージを実行しようとすると、アップデートされたイメージは自動的にはプルされません。
     
     ```bash
 $ docker pull rancher/server:latest
 ```
 
-  4. Launch a new Rancher Server container using the database from the `rancher-data` container. Any changes in Rancher will be saved in the `rancher-data` container. If you seen an exception in the server regarding a log lock, please refer to [how to fix the log lock]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/faqs/server/#databaselock).
+4. `rancher-data` コンテナーからデータベースを利用して新たな Rancher サーバー コンテナーを立ち上げますす。 Rancher 内の全ての変更は `rancher-data` コンテナーに保存されます。 サーバー内でログロックに関する例外が発生した場合は [ログロックを修正する方法]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/faqs/server/#databaselock) を参照してください。
     
-    > **Note:** Depending on how long you've had Rancher server, certain database migrations may take longer than expected. Please do not stop upgrades in the middle of upgrading as you will hit a database migration error the next time you upgrade.
+    > **注:** Rancher サーバーを保持していた時間に応じて、特定のデータベースの移行に予想以上の時間がかかる場合があります。 次回アップグレードの際にデータベース移行エラーが発生するので、アップグレードを途中で停止しないでください。
     
     ```bash
 $ docker run -d --volumes-from rancher-data --restart=unless-stopped \
@@ -69,29 +71,37 @@ $ docker run -d --volumes-from rancher-data --restart=unless-stopped \
   
 
 
-  5. Remove the old Rancher server container. Note: If you only stop the container, the container will be restarted if your machine is rebooted if you had used `--restart=always`. We recommend using `--restart=unless-stopped` and removing the container after your upgrade has been successful.<a id="single-container-external-database"></a>### Upgrading a Single Container (non-HA) - External Database
+5. 古い Rancher サーバーコンテナーを削除します。 注: `--restart=always` を利用していた場合、コンテナーを停止しただけではマシンが再起動した際にコンテナーが再開されてしまいます。 アップグレードが正常に終了した後、`--restart=unless-stopped` を利用しコンテナーを削除することを推奨します。
 
-If you launched Rancher server using an external database, you can stop the original Rancher server container and launch a new version of Rancher server using the same [external DB instructions]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#single-container-external-database). Before upgrading your Rancher server, we recommend backing up your external database. After the new server is up and running, you can remove the old Rancher server container.<a id="single-container-bind-mount"></a>### Upgrading a Single Container (non-HA) - Bind Mounted MySQL Volume
+<a id="single-container-external-database"></a>
 
-  1. Stop the running Rancher Server container.
+### シングルコンテナーのアップグレード (非-HA) - 外部データベース
+
+外部データベースを利用して Rancher サーバーを立ち上げた場合、同じ [外部DBインストラクション]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#single-container-external-database) を利用して元の Rancher サーバーコンテナを停止し新たなバージョンの Rancher サーバーを立ち上げることができます。 Rancher サーバーをアップグレードする前に、外部データベースのバックアップを取ることを推奨します。 新しいサーバーをアップし実行した後、古い Rancher サーバーコンテナーを削除することができます。
+
+<a id="single-container-bind-mount"></a>
+
+### シングルコンテナーのアップグレード (非-HA) - bind マウントされたMySQLボリューム
+
+1. 実行中の Rancher サーバーコンテナーを停止します。
     
     ```bash
 $ docker stop <container_name_of_original_server>
 ```
 
-  2. Copy the database files out of the server container. Note: If you already have the database stored on the host, you can skip this step. Also, if the DB has been copied out of the container, it will be inside /<path>/mysql/ because of the way Docker copies it out. Be sure to account for this when bind mounting into the container. If you started with bind mounts, you will not need the mysql/.
+2. データベースファイルをサーバーコンテナー外にコピーします。 注: ホストに格納されているデータベースが既にある場合は、この手順をスキップすることができます。 また、DBがコンテナ外にコピーされる場合、<path>Dockerのコピーの仕様により //mysql/ に格納されます。コンテナ内にボリュームをマウントする場合はこのことを充分に注意してください。バインドでマウントする場合は、mysql/は不要です。
     
     ```bash
 $ docker cp <container_name_of_original_server>:/var/lib/mysql <path on host>
 ```
 
-  3. Now set the UID/GID for the folder so that the mysql user within the container has the correct ownership of the mysql mount.
+3. コンテナー内でのmysqlユーザーがmysqlマウントの適切な所有権を得られるようにフォルダへUID/GIDを設定します。
     
     ```bash
 $ sudo chown -R 102:105 <path on host>
 ```
 
-  4. Start new server container.
+4. 新しいサーバーコンテナーを開始します。
     
     ```bash
 $ docker run -d -v <path_on_host>:/var/lib/mysql -p 8080:8080 \
@@ -101,17 +111,21 @@ $ docker run -d -v <path_on_host>:/var/lib/mysql -p 8080:8080 \
   
 
 
-> **Note:** It is important that you have trailing '/' at the end of the host path if you have copied a database out of a previous container. Otherwise, the directory ends up in the wrong place.
+> **注:**以前のコンテナーからデータベースをコピーした場合、ホストパスの末尾に '/' が付いていることが重要です。 そうしなければ最終的にディレクトリが誤った場所になってしまいます。
 
-  5. Remove the old Rancher server container. Note: If you only stop the container, the container will be restarted if your machine is rebooted if you had used `--restart=always`. We recommend using `--restart=unless-stopped` and removing the container after your upgrade has been successful.<a id="multi-nodes"></a>### Upgrading HA setup
+5. 古い Rancher サーバーコンテナーを削除します。 注: `--restart=always` を利用していた場合、コンテナーを停止しただけではマシンが再起動した際にコンテナーが再開されてしまいます。 アップグレードが正常に終了した後、`--restart=unless-stopped` を利用しコンテナーを削除することを推奨します。
 
-If you have launched Rancher server in [High Availability (HA)]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#multi-nodes), the new Rancher HA set up will continue using the external database that was used to install the original HA setup.
+<a id="multi-nodes"></a>
 
-> **Note:** When upgrading an HA setup, the Rancher server setup will be down during the upgrade.
+### HA構成のアップグレード
 
-  1. Before upgrading your Rancher server, we recommend backing up your external database.
+[高可用性 (HA)]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#multi-nodes) のRancher サーバーを立ち上げた場合、新しいHA構成は引き続き元のHA構成に利用した外部データベースを利用します。
 
-  2. On each node in the HA setup, stop and remove the running Rancher containers and then start a new Rancher server container using the same command that you had used when [installing Rancher server]({{site.baseurl}}/installing-rancher/installing-server/#multi-nodes), but with a new Rancher server image tag.
+> **注:** HA構成をアップグレードする際、アップグレード中は Rancher サーバー構成が停止します。
+
+1. Rancher サーバーをアップグレードする前に、外部データベースのバックアップを取ることを推奨します。
+
+2. HA構成のそれぞれのノードで、実行中の Rancher コンテナーを停止し削除し、 [Rancher サーバーのインストール]({{site.baseurl}}/installing-rancher/installing-server/#multi-nodes) 時と同じコマンドを用いて新しい Rancher サーバーコンテナーを開始します。ただし、新しい Rancher サーバーのイメージタグを使用します。
     
     ```bash
 # On all nodes, stop all Rancher server containers
@@ -123,8 +137,8 @@ $ docker run -d --restart=unless-stopped -p 8080:8080 -p 9345:9345 rancher/serve
   
 
 
-> **Note:** If you are upgrading from an HA setup that was running the [older version of HA]({{site.baseurl}}/rancher/v1.1/{{page.lang}}/installing-rancher/installing-server/multi-nodes/), you would need to remove all running Rancher HA containers. `$ sudo docker rm -f $(sudo docker ps -a | grep rancher | awk {'print $1'})`
+> **注:** [HA の古いバージョン]({{site.baseurl}}/rancher/v1.1/{{page.lang}}/installing-rancher/installing-server/multi-nodes/) を実行していたHA構成からアップグレードする場合は、実行中の全ての Rancher HAコンテナーを削除する必要があります。 `$ sudo docker rm -f $(sudo docker ps -a | grep rancher | awk {'print $1'})`
 
-### Rancher Server with No Internet Access
+### インターネットアクセスのない Rancher サーバー
 
-Users without internet will need to download the latest [infrastructure service]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) images in order for the upgrade to succeed. Without the images in the latest default templates, the infrastructure services will not be able to upgrade.
+インターネット環境の無いユーザーは、アップグレードを成功させるために最新の [インフラストラクチャ サービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) イメージをダウンロードする必要があります。 最新のデフォルトテンプレート内のイメージが無ければ、インフラストラクチャサービスはアップグレードできません。

@@ -1,19 +1,19 @@
 * * *
 
-title: DNS Service in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Rancher における DNS サービス layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## DNS Service
+## ## DNS サービス
 
-Rancher provides an infrastructure service for a distributed DNS service by using its own lightweight DNS server coupled with a highly available control plane. Each healthy container is automatically added to the DNS service when linked to another service or added to a Service Alias. When queried by the service name, the DNS service returns a randomized list of IP addresses of the healthy containers implementing that service.
+Rancher は可用性の高いコントロールプレーンに加え独自の軽量 DNS サーバーを用いることで分散 DNS サービス向けのインフラストラクチャサービスを提供します。 全ての正常なコンテナは他のサービスとリンクされた際、もしくはサービスエイリアスが追加された際に自動的に DNS サービスに登録されます。 サービス名でクエリが発行されると DNS サービスがサービスを構成する正常なコンテナの IP アドレスからなるランダムなリストを返します。
 
-* By default, all services within the same stack are added to the DNS service without requiring explicit service links, which can be set under **Service Links** in a service.
-* You can resolve containers within the same stacks by the service names.
-* If you need a custom DNS name for your service, that is different from your service name, you will be required to set a link to get the custom DNS name.
-* Links are still required if a Service Alias is used.
-* To make services resolvable that are in different stacks, you can use `<service_name>.<stack_name>` and are not required explicit links, which can be set under **Service Links** in a service.
+* デフォルトではサービス内の **サービスリンク** で明示的にサービスのリンクを定義する必要は無く、同一スタック内の全てのサービスが DNS サービスに登録されます。
+* そのため、同一スタック内であれば対象コンテナをサービス名で名前解決することができます。
+* 特定サービスに対しサービス名ではなく独自の DNS 名を定義したい場合はリンクを設定することで独自の DNS 名を利用することができます。
+* サービスエイリアスを利用している場合はリンクを設定する必要があります。
+* 異なるスタック間でサービスの名前解決をしたい場合は `<service_name>.<stack_name>` といった形式で指定することができ、サービス内の **サービスリンク** で明示的にサービスのリンクを定義する必要はありません。
 
-Because Rancher’s overlay networking provides each container with a distinct IP address, you do not need to deal with port mappings and do not need to handle situations like duplicated services listening on different ports. As a result, a simple DNS service is adequate for handling service discovery.
+これは各コンテナ向けに提供される Rancher のオーバーレイネットワークが提供する独特な IP アドレスの定義によるものでユーザーによるポートマッピングや異なるポートによるサービスの重複を考慮する必要はありません。 結果として、シンプルな DNS サービスがサービス検出の要件を満たします。
 
-Learn more about the internal DNS service for [Cattle environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/internal-dns-service/) and [Kubernetes environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/k8s-internal-dns-service/).
+[Cattle 環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/internal-dns-service/) や [Kubernetes 環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/k8s-internal-dns-service/) における内部 DNS サービスに関する詳細はそれぞれを参照してください。

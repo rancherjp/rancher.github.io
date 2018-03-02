@@ -10,20 +10,20 @@ Rancher は、`docker machine` を利用して [Microsoft Azure](https://azure.m
 
 ### Azure でホストを起動する
 
-  1. スライダーで、立ち上げたいホスト数を選択します。
-  2. Provide a **Name** and if desired, **Description** for the host.
-  3. Provide the **Account Access** information from your Azure account. This includes **Username**, **Password**, **Subscription ID** and **Subscription Certificate**.
+1. スライダーで、立ち上げたいホスト数を選択します。
+2. **名前**を入力します。また、必要に応じてホストの**説明**を入力します。
+3. Azure アカウントから **アカウントのアクセス** の情報を入力します。 これには、**ユーザー名**、**パスワード**、**サブスクリプション ID**、**サブスクリプションの証明書**が含まれます。
     
-    > **Note:** If you paste in your subscription certificate, it must be a base64 string.
+    > **注:**サブスクリプション証明書を貼り付ける場合は、base64 形式の文字列でなければなりません。
 
-  4. Select the **Image** that you want launched. Whatever `docker machine` supports for Azure is also supported by Rancher.
+4. 起動したい**イメージ**を選択します。`docker machine` が Azure に対してサポートしているものであれば、Rancher でもサポートされます。
 
-  5. Select the **Size** of the image.
-  6. Update the **SSH port**, **Docker port** and **Docker Swarm Master Port** if they will be different from the default.
-  7. Add your **Publish Settings File**.
-  8. Select which **Region** your Azure resources are part of.
-  9. (Optional) Add **[labels]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#labels)** to hosts to help organize your hosts and to [schedule services/load balancers]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/) or to [program external DNS records using an IP other than the host IP]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/#using-a-specific-ip-for-external-dns).
- 10. (Optional) In **Advanced Options**, customize your `docker-machine create` command with [Docker engine options](https://docs.docker.com/machine/reference/create/#specifying-configuration-options-for-the-created-docker-engine).
- 11. When complete, click **Create**.
+5. イメージの **サイズ** を選択します。
+6. デフォルトから変更したい場合は、**SSHポート**、**Dockerポート**、**Docker Swarm マスターポート** を指定します。
+7. **Publish Settings ファイル** を入力します。
+8. Azure のリソースを配置したい **リージョン** を選択します。
+9. (任意) ホストの整理のため **[ラベル]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#labels)** を設定したり、[サービスやロードバランサーをスケジュールしたり]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/)、[ホストIP以外のIPを使う際に外部DNSレコードを設定することができます。]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/#using-a-specific-ip-for-external-dns)
+10. (オプション) **拡張オプション** では、`docker-machine create` コマンドを [Docker エンジンのオプション](https://docs.docker.com/machine/reference/create/#specifying-configuration-options-for-the-created-docker-engine) によってカスタマイズすることができます。
+11. 完了したら、 **作成** をクリックします。
 
-Once you click on create, Rancher will create the Azure virtual machine and launch the *rancher-agent* container in the droplet. In a couple of minutes, the host will be active and available to start [adding services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/).
+作成をクリックすると、Rancher は Azure 仮想マシンを作成し、 droplet の中で *rancher-agent* のコンテナを起動します。 ホストは数分でアクティブになり、 [サービスの追加]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/) を利用できるようになります。

@@ -1,13 +1,13 @@
 * * *
 
-title: Infrastructure Services in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en redirect_from: - /rancher/latest/en/rancher-services/
+title: Rancherにおけるインフラストラクチャー サービス layout: rancher-default-v1.3 version: v1.3 lang: jp redirect_from: - /rancher/latest/en/rancher-services/
 
 * * *
 
-## ## Infrastructure Services
+## ## インフラストラクチャーサービス
 
-When starting Rancher, each [environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) is based on an [environment template]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template) and in the environment template, you select which infrastructure service you'd like to start when creating an environment. These infrastructure services include type of orchestration, [external DNS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/), [networking]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking/), [storage]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/storage-service/), and framework services (i.e. [internal dns]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/dns-service/), [metadata]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/metadata-service), and [health check]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/health-checks)).
+Rancherが開始するとき、それぞれの[環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) は [環境のテンプレート]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template) が元になっており、環境のテンプレートによって環境作成時に、インフラストラクチャーサービスが決定します。 それらのインフラストラクチャーサービスには、オーケストレーションの形式、 [外部DNS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/)、[ネットワーク]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking/)、 [ストレージ]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/storage-service/)、 フレームワークサービス ([内部DNS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/dns-service/)、 [メタデータ]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/metadata-service)、 [ヘルスチェック]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/health-checks))が含まれています。
 
-These infrastructure services are based on the templates in the `infra-templates` folder of our [Rancher catalog](https://github.com/rancher/rancher-catalog) and [community catalog](https://github.com/rancher/community-catalog). By default, both the Rancher catalog and community catalog are enabled, which provide a basic list of infrastructure services that can be used in an environment template.
+これらのインフラストラクチャーサービスは、[Rancher カタログ](https://github.com/rancher/rancher-catalog) と [コミュニティカタログ](https://github.com/rancher/community-catalog)にある `インフラテンプレートフォルダ` のテンプレート が元になっています。 デフォルトでは、Rancherカタログとコミュニティカタログは有効になっていて、それらは新しい環境のテンプレートを作るときに使用する、基本的なインフラストラクチャーサービス一覧を提供しています。
 
-When creating new environment templates, the default set of infrastructure services that are required to have a working environment are automatically enabled.
+新しい環境を作るとき、作業用環境のために必要となるインフラストラクチャーサービスのデフォルトセットは、自動的に有効になります。

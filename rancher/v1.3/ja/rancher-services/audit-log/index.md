@@ -1,14 +1,14 @@
 * * *
 
-title: Audit Logging in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Rancher における監査ログ layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Audit Logging
+## ## 監査ログ
 
-Only [admins]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#admin) will have access to the audit logs. The audit log can be found under **Admin** -> **Audit Log**.
+[管理者]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#admin) のみが監査ログにアクセスすることができます。 監査ログは **管理者** -> **監査ログ** から参照することができます。
 
-Rancher's audit logs are a compilation of different event types.
+Rancher の監査ログは異なるイベントタイプをまとめたものになります。
 
-* Anything prefixed with `api` is a call to our API. The event type will log the API action, who performed the action and how the API was called (i.e. through the UI, through an API key).
-* Any other events that are **not** prefixed with `api` are events that Rancher server is doing. For example, during reconciling of containers of a service, an instance may be created which would log an `instance.create` event.
+* `api` プレフィックスから始まるものは API コールになります。イベントタイプは API 関連のアクションであり、誰がアクションを引き起こしたか、どのように API がコールされたか(UI から呼び出された、API キーから呼び出されたなど)が記録されています。
+* それ以外の `api` プレフィックス **ではない** イベントは Rancher サーバーが実施したイベントになります。 例えばサービスのコンテナを調整する際にインスタンスが作成された場合は `instance.create` イベントとして記録されます。

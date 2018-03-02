@@ -1,44 +1,48 @@
 * * *
 
-title: Adding Amazon EC2 Hosts layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Amazon EC2 ホストの追加 layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Adding Amazon EC2 Hosts
+## Amazon EC2 ホストの追加
 
-Rancher supports provisioning [Amazon EC2](http://aws.amazon.com/ec2/) hosts using `docker machine`.
+Rancher は `docker machine` を利用した [Amazon EC2](http://aws.amazon.com/ec2/) ホストのプロビジョニングをサポートします。
 
-### Finding AWS Credentials
+### AWS クレデンシャルの用意
 
-Before launching a host on AWS, you'll need to find your AWS account credentials as well as your security group information. The **Account Access** information can be found using Amazon's [documentation](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html) to find the correct keys. When creating an **access key** and **secret key**, please be sure to save it somewhere as it will not be available unless you create a new key pair.
+AWS 上にホストを追加する前に、AWS アカウントのクレデンシャル情報とセキュリティグループの情報を用意する必要があります。 **Account Access** 情報は、Amazon の [ドキュメンテーション](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html) を利用して見つけることができます。 **アクセスキーID** と **シークレットキー**の情報は作成時のみ参照可能なため、作成した時点でそれらをどこかに保存しておいてください。
 
-### Launching Amazon EC2 Host(s)
+### Amazon EC2 ホストの起動
 
-Under the Infrastructure -> Hosts tab, click **Add Host**. Select the **Amazon EC2** icon. Select your desired **Region**. Provide your AWS **Access key** and **Secret Key**, click on **Next: Authenticate & select a network**. Rancher will use your credentials to determine what is available in AWS to launch instances.
+インフラストラクチャ -> ホストと進み、**ホストを追加** をクリックします。 **Amazon EC2** アイコンを選択します。 対象とする **リージョン** を選択します。 あなたの AWS **アクセスキーID** と **シークレットキー**を入力し、**次へ: 認証とネットワークの選択** をクリックします。 Rancher は AWS でインスタンスを起動する上で利用可能なものをあなたの認証情報を利用して取得します。
 
-You'll need to select the availability zone to create the instance. Depending on which zone that you select, the available VPC IDs and Subnet IDs will be displayed. Select a **VPC ID** or **Subnet ID**, and click on **Next: Select a Security Group**.
+インスタンスを作成するアベイラビリティゾーンを選択します。 どのアベイラビリティゾーンを利用するかの選択に基づき、利用可能な VPC ID と サブネット ID が表示されます。 **VPC ID** もしくは **サブネット ID**を選択し、**次へ: セキュリティグループの選択** をクリックします。
 
-Next, you'll select a security group to use for the hosts. There are two choices for security groups. The **Standard** option will create or use the existing `rancher-machine` security group. If Rancher creates the `rancher-machine` security group, it will open up all the necessary ports to allow Rancher to work successfully. `docker machine` will automatically open up port `2376`, which is the Docker daemon port.
+次に、ホストに設定するセキュリティグループを選択します。 セキュリティグループには二つの選択肢があります。 **通常** のオプションは既存の `rancher-machine` セキュリティグループを利用もしくは新規作成します。 Rancher が `rancher-machine` セキュリティグループを作成した場合は、Rancher が動作するために必要なポートが全て開放されることになります。 `docker machine` は Docker デーモン用に `2376` 番ポートを自動的に開放します。
 
-In the **Custom** option, you can choose an existing security group, but you will need to ensure that specific ports are open in order for Rancher to be working correctly.<a id="EC2Ports"></a>### Required Ports for Rancher to work:
+**カスタム** オプションでは既存のセキュリティグループを選択することができますが、Rancher が正しく動作するために必要なポート群が間違いなく開放されていることを確認する必要があります。
 
-- From the rancher server to TCP port `22` (SSH to install and configure Docker)
-- From and To all other hosts on UDP ports `500` and `4500` (for IPsec networking)
+<a id="EC2Ports"></a>
 
-> **Note:** If you re-use the `rancher-machine` security group, any missing ports in the security group will not be re-opened. You will need to check the security group in AWS if the host does not launch correctly.
+### Rancher が動作するために必要なポート:
 
-After choosing your security option, click on **Next: Set Instance Options**.
+- Rancher サーバー から接続するための TCP `22` 番ポート (Docker のインストールと設定のための SSH 用)
+- その他のホストと相互に通信するためのインバウンド/アウトバウンド UDP `500` 番と `4500` 番ポート (IPsec ネットワーキング用)
 
-Finally, you'll just need to finish filling out the final details of the host(s).
+> **注記:** `rancher-machine` セキュリティグループを再利用する場合に不足しているポートがあっても、再度開放設定が追加されることはありません。 もしホストが正しく起動しない場合、AWS 側でセキュリティグループの内容を確認してください。
 
-  1. Select the number of hosts you want to launch using the slider.
-  2. Provide a **Name** and if desired, **Description** for the host.
-  3. Select the **Instance Type** that you want launched.
-  4. Select the **Root Size** of the image. The default in `docker machine` is 16GB, which is what we have defaulted in Rancher.
-  5. (Optional) For the **AMI**, `docker machine` defaults with an Ubuntu 14.04 LTS image in the specific region. You also have the option to select your own AMI. If you input your own AMI, make sure it's available in that region!
-  6. (Optional) Provide the **IAM Profile** to be used as an instance profile.
-  7. (Optional) Add **[labels]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#labels)** to hosts to help organize your hosts and to [schedule services/load balancers]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/) or to [program external DNS records using an IP other than the host IP]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/#using-a-specific-ip-for-external-dns).
-  8. (Optional) In **Advanced Options**, customize your `docker-machine create` command with [Docker engine options](https://docs.docker.com/machine/reference/create/#specifying-configuration-options-for-the-created-docker-engine).
-  9. When complete, click **Create**.
+セキュリティオプションを選択したら、**次へ: インスタンスオプションの設定** をクリックします。
 
-Rancher will create the EC2 instance(s) and launch the *rancher-agent* container in the instance. In a couple of minutes, the host will be active and available for [services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/).
+最後に、ホスト情報の詳細を入力します。
+
+1. 起動したいホスト数をスライダーを利用して選択します。
+2. ホストの **名前** を入力し、必要であれば **詳細** も入力します。
+3. 起動したい **インスタンスタイプ** を選択します。
+4. イメージの **ルートサイズ** を選択します。`docker machine` のデフォルトは16GBで、Rancher も同じ値をデフォルトとしています。
+5. (オプション) `docker machine` はデフォルトでは指定されたリージョンの Ubuntu 14.04 LTS イメージを **AMI** として利用します。 独自の AMI を選択することもできます。 独自の AMI を入力する場合、その AMI が選択したリージョンで利用可能かどうかを確認してください。
+6. (オプション) インスタンスプロファイルとして利用する **IAM プロファイル** を入力します。
+7. (オプション) ホストの整理、[サービス/ロードバランサーのスケジューリング]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/)、[ホスト IP ではない IP の外部 DNS レコードへの設定]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/#using-a-specific-ip-for-external-dns) などのために、**[ラベル]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#labels)** を追加します。
+8. (オプション) **拡張オプション** では、`docker-machine create` コマンドを [Docker エンジンのオプション](https://docs.docker.com/machine/reference/create/#specifying-configuration-options-for-the-created-docker-engine) によってカスタマイズすることができます。
+9. 完了したら、**作成** をクリックします。
+
+Rancher は EC2 インスタンスを作成し、インスタンス内で *rancher-agent* コンテナを起動します。 ホストは数分でアクティブになり、[サービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/) で利用できるようになります。

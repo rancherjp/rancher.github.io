@@ -188,7 +188,7 @@ Rancher Compose CLI will require the CA certificate as part of the default store
 
 #### Rancher Server
 
-  1. Launch the Rancher server container with the modified Docker command. The certificate **must** be located and called `/var/lib/rancher/etc/ssl/ca.crt` inside the container.
+1. Launch the Rancher server container with the modified Docker command. The certificate **must** be located and called `/var/lib/rancher/etc/ssl/ca.crt` inside the container.
     
     ```bash
 $ sudo docker run -d --restart=unless-stopped -p 8080:8080 -v /some/dir/cert.crt:/var/lib/rancher/etc/ssl/ca.crt rancher/server
@@ -201,16 +201,16 @@ $ sudo docker run -d --restart=unless-stopped -p 8080:8080 -v /some/dir/cert.crt
 
 The command will configure the server's ca-certificate bundle so that the Rancher services for machine provisioning, catalog and compose executor can communicate with the Rancher server.
 
-  2. If you are using a container with NGINX or Apache to terminate SSL, launch the container and include the `--link=<rancher_server_container_name> in the command.
+2. If you are using a container with NGINX or Apache to terminate SSL, launch the container and include the `--link=<rancher_server_container_name> in the command.
 
-  3. Access Rancher over the `https` address, i.e. `https://rancher.server.domain`.
+3. Access Rancher over the `https` address, i.e. `https://rancher.server.domain`.
 
-  4. Update the [Host Registration]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#host-registration) for SSL.
+4. Update the [Host Registration]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#host-registration) for SSL.
 
 > **Note:** Unless the machine running your web browser trusts the CA certificate used to sign the Rancher server certificate, the browser will give an untrusted site warning whenever you visit the web page.
 
 #### Adding Hosts
 
-  1. On the host that you want to add into Rancher, save the CA certificate, which must be in pem format, into the directory `/var/lib/rancher/etc/ssl` with the file name `ca.crt`.
+1. On the host that you want to add into Rancher, save the CA certificate, which must be in pem format, into the directory `/var/lib/rancher/etc/ssl` with the file name `ca.crt`.
 
-  2. Add the [custom host]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/), which is just copying and pasting the command from the UI. The command will already include `-v /var/lib/rancher:/var/lib/rancher`, so the file will automatically be copied onto your host.
+2. Add the [custom host]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/), which is just copying and pasting the command from the UI. The command will already include `-v /var/lib/rancher:/var/lib/rancher`, so the file will automatically be copied onto your host.

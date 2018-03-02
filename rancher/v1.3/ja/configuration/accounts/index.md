@@ -1,37 +1,37 @@
 * * *
 
-title: Accounts in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Rancher におけるアカウント layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Accounts
+## ## アカウント
 
-### What are Accounts?
+### アカウントとは?
 
-Every user who has access to Rancher has an account in Rancher. For local authentication setups, you create accounts for users, where as for other authentication providers, an account is created for the user when they have logged into Rancher.
+Rancher にアクセスすることができる全てのユーザーは Rancher 内でアカウントとして管理されています。 ローカル認証が設定されている場合はユーザーに対して事前にアカウントを作成することができ、他の認証プロバイダーの場合はユーザーが Rancher にログインした際にアカウントが作成されます。
 
-#### Active Directory/GitHub/OpenLDAP Authentication
+#### Active Directory/GitHub/OpenLDAP 認証
 
-When [Active Directory]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#active-directory), [Azure AD]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#azure-ad), [GitHub]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#github), or [OpenLDAP]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#openldap) authentication is enabled, the **Accounts** tab displays the list of users who have logged in and authenticated against Rancher. In order to log in, they must be either given the privilege to have the [site access]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#site-access) or added to an [environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/).
+[Active Directory]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#active-directory), [Azure AD]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#azure-ad), [GitHub]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#github) または [OpenLDAP]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#openldap) 認証が有効化されている場合、Rancher によって認証され、ログインしたユーザーのリストが**アカウント** タブに表示されます。 ログインによってユーザーには [サイトアクセス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#site-access) 権限や [環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) への追加が実施されます。
 
-#### Local Authentication
+#### ローカル認証
 
-When [local authentication is enabled]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#local-authentication), accounts can be added to Rancher in the **Accounts** tab. Click the **Add Account** button to add accounts into the Rancher database. When creating accounts, the account type can be specified as an admin or user.
+[ローカル認証]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#local-authentication) が有効されている場合、**アカウント** タブより Rancher にアカウントを追加できます。 アカウントを Rancher 内のデータベースに追加するには **アカウントを追加** ボタンをクリックします。 アカウントを作成する際はアカウントタイプを管理者またはユーザーから選択することができます。
 
-### Account Types
+### アカウントタイプ
 
-The account type determines whether or not an account will have access to the admin tab. For each environment in Rancher, there are [membership roles]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#membership-roles) that provide different level of access for a specific environment.
+アカウントタイプはアカウントが管理者タブにアクセスできるかどうかを決定します。 Rancher における各環境では対象の環境に対して異なるアクセスレベルを提供する [メンバーシップロール]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#membership-roles) が存在します。
 
-#### Admin
+#### 管理者
 
-The first user that authenticates Rancher becomes an admin of Rancher. Only admins will have permissions to view the **Admin** tab.
+最初に Rancher によって認証されるユーザーが Rancher の管理者になり、管理者のみ **管理者** タブにアクセスする権限を持ちます。
 
-When managing environment, admins have the ability to view all the [environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) in Rancher even if the admin is not added as a member to the environment. In an admin's environment drop-down menu, the members will only see the environments that they are on the membership list.
+環境を管理する際、管理者はたとえ管理者が対象環境のメンバーに追加されていなくても Rancher 内の全ての [環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) を参照することができます。 管理者の環境のドロップダウンメニューではメンバーシップリストに記載されているメンバーのみが環境を参照することができます。
 
-Admins can add other users to be an admin of Rancher. They can change a user's role on the **Admin** > **Accounts** page after the user has logged into Rancher. In the **Admin** > **Accounts** tab, click **Edit** next to the account name and change the account type to *Admin*. Click **Save**.
+管理者は他のユーザーを Rancher の管理者に追加することができます。 追加されたユーザーは Rancher へのログイン後 **管理者** > **アカウント** ページからユーザーのロールを変更することができます。 **管理者** > **アカウント** タブで **編集** をクリック後、アカウントタイプを *管理者* に変更し **保存** をクリックします。
 
-#### Users
+#### ユーザー
 
-Besides the user that authenticates Rancher, any other user will automatically be added with user permissions. They will not be able to see the **Admin** tab.
+Rancher で認証されたユーザー以外の他のユーザーは自動的にユーザー権限を与えられ、これらのユーザーには **管理者** タブが表示されません。
 
-They will only be able to view the environments that they are members of.
+また、メンバーとして所属している環境のみ参照することができます。

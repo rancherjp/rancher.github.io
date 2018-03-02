@@ -1,133 +1,141 @@
 * * *
 
-title: FAQS about Rancher Server layout: rancher-default-v1.3 version: v1.3 lang: en redirect_from: - /rancher/latest/en/faqs/server/
+title: Rancher サーバーに関する FAQ layout: rancher-default-v1.3 version: v1.3 lang: ja redirect_from: - /rancher/latest/en/faqs/server/
 
 * * *
 
-## ## FAQs about Rancher Server
+## ## Rancher サーバーに関する FAQ
 
-### What version of Rancher am I running?
+### どのバージョンの Rancher が動いているか?
 
-The version of Rancher is located in the footer of our site. If you click on the version, you'll be able to get specific versions of our other components.
+Rancher のバージョンはサイトのフッター部分に記載されています。バージョン番号をクリックすると他のコンポーネントの詳細なバージョン情報を確認できます。
 
-### How do I run Rancher behind a proxy?
+### どのようにプロキシ配下で Rancher を動かすか?
 
-Read more about how to [install Rancher server behind a proxy]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#launching-rancher-server-behind-a-http-proxy).<a id="server-logs"></a>### Where can I find detailed logs of the Rancher Server container?
+[プロキシ配下に Rancher サーバーをインストール]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#launching-rancher-server-behind-a-http-proxy) を参照ください。
 
-Running `docker logs` on the Rancher server container will provide a set of the basic logs. To get more detailed logs, you can exec into the rancher server container and look at the log files.
+<a id="server-logs"></a>
+
+### Rancher サーバーコンテナの詳細なログはどこにあるか?
+
+Rancher サーバーが動作しているホストで `docker logs` を実行すると基本的なログを確認できます。 より詳細なログに関しては exec コマンドで Rancher サーバーコンテナ内部にあるログファイルを確認できます。
 
 ```bash
-# Exec into the server container
+# Exec コマンドでサーバーコンテナ内部に入る
 $ docker exec -it <container_id> bash
 
-# Navigate to the location of the cattle logs
+# cattle のログ配置場所へ移動
 $ cd /var/lib/cattle/logs/
 $ cat cattle-debug.log
 ```
 
-Inside this folder, there will be `cattle-debug.log` and `cattle-error.log`. If you have been using Rancher server for many days, you will find a log file for each day as we create a new file for each day.
+このフォルダ内には `cattle-debug.log` と `cattle-error.log` が配置されています。 長期間 Rancher サーバーを稼働させている場合、日にち毎に作成されたファイルを参照することができます。
 
-#### Copying Rancher Server logs to the Host
+#### Rancher サーバーのログファイルをホスト上にコピー
 
-Here's the command to copy the Rancher server logs from the container to the host.
+以下は Rancher サーバーのログをコンテナ上からホスト上にコピーするコマンドになります。
 
 ```bash
 $ docker cp <container_id>:/var/lib/cattle/logs /local/path
 ```
 
-### What happens if the IP of Rancher server has changed?
+### Rancher サーバーの IP を変更するとどうなるか?
 
-If the IP of Rancher server has been changed, you will need to re-attach the hosts with the updated information.
+Rancher サーバーの IP が変更された場合、更新された情報でホストを再設定する必要があります。
 
-In Rancher, go to **Admin** -> **Settings** and update the **Host Registration** with the updated URL for Rancher server. Please note that it must include the exposed port that you started Rancher server with. By default, we have recommended using port `8080` in our [installation instructions]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/).
+Rancher 上で **管理者** -> **設定** に移動し、**ホスト登録 URL** を Rancher サーバーの新しい URL 情報に置き換えます。 その際、Rancher サーバーを起動した際に公開したポート番号も含めるよう注意してください。 デフォルトでは [インストール手順]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/) に記載されているポート番号 `8080` を利用することが推奨されます。
 
-After the [Host Registration]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#host-registration) has been updated, go to **Infrastructure** -> **Add Hosts** -> **Custom**. The `docker run` command to add Rancher agents will have been updated with the new information. Using the updated command, run the command on all the hosts inside your Rancher server [environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/).
+[ホスト登録 URL]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#host-registration) を更新後、**インフラストラクチャ** -> **ホストを追加** -> **Custom** に移動していただき、 Rancher エージェントを追加するための `docker run` コマンドが新しい情報で更新されていることを確認してください。 その後、Rancher サーバーの [環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) 内で管理されている全てのホストで更新されたコマンドを実行します。
 
-### Why is Go-Machine-Service continually restarting in my logs? What should I do?
+### なぜ Go-Machine-Service がログを再起動するのか? どのように対処するべきか?
 
-Go-machine-service is a micro-service that connects to the Rancher API server via a websocket connection. If it fails to connect, it restarts and tries again.
+Go-machine-service はウェブソケット経由で Rancher API サーバーに接続するマイクロサービスです。接続に失敗した際には再接続処理を継続します。
 
-If you are running in [Single Node]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/) setup, it will connect to the Rancher API server using the URL you set for Host Registration. Verify that the Host Registration URL can be reached from inside the rancher-sever container.
+もし [単一ノード]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/) セットアップを実施している場合はホスト登録 URL を用いて Rancher API サーバーに接続します。 そのため、Rancher サーバーコンテナの内部からホスト登録 URL に対し接続性があることを確認してください。
 
 ```bash
 $ docker exec -it <rancher-server_container_id> bash
-# Inside the rancher-server container
+# Rancher サーバーコンテナの内部より以下を実施
 $ curl -i <Host Registration URL you set in UI>/v1
 ```
 
-You should get a json response. If authentication is turned on, the response code should be 401. If authentication is not turned on, the response code should be 200.
+成功している場合は JSON の返り値を取得するはずです。認証が有効化されている場合は 401 がレスポンスコードとして返されます。認証が有効化されていない場合は 200 がレスポンスコードとして返されます。
 
-Verify that the Rancher API server can be reached using those variables. Verify the connectivity by logging into the go-machine-service container and making a curl command using the parameters your provided to the container:
+このようにして Rancher API サーバーに対しての接続性を確認します。 また、go-machine-service コンテナにログインし、コンテナに渡されているパラメーターとともに curl コマンドを実行することで確認することもできます。
 
 ```bash
 $ docker exec -it <go-machine-service_container_id> bash
-# Inside the go-machine-service container
+# go-machine-service コンテナの内部より以下を実施
 $ curl -i -u '<value of CATTLE_ACCESS_KEY>:<value of CATTLE_SECRET_KEY>' <value of CATTLE_URL>
 ```
 
-You should get a json response back and a 200 response code.
+JSON の返り値とレスポンスコード 200 が取得されるはずです。
 
-If the curl command fails, then you have a connectivity issue between go-machine-service and the Rancher API server.
+curl コマンドが失敗した場合は go-machine-service と Rancher API サーバー間での接続性に問題が発生している可能性があります。
 
-If the curl command does not fail, the problem could be related to the fact that go-machine-service is attempting to establish a websocket connection, not a normal http connection. If you have a proxy or load balancer between go-machine-service and your Rancher API server, verify that it is configured to allow websocket connections.
+curl コマンドが失敗しなかった場合は一般的な HTTP による接続性ではなく、 go-machine-service がウェブソケットへの接続を確立する際に問題が発生している可能性があります。 go-machine-service と Rancher API サーバー間にプロキシやロードバランサーを配置している場合、ウェブソケットへの接続が許可されるよう設定されているかを見直してください。
 
-### Rancher server was working and has now slowed down tremendously. How can I recover?
+### Rancher サーバーは稼働しているが極端に処理が遅い場合、どのように解決できるか?
 
-Most likely there are some tasks that are stuck running for some reason. If you are able to look at the **Admin** -> **Processes** tab in the UI, you'd be able to see what is stuck in `Running`. If these tasks have been running (and failing) for a long time, Rancher ends up using too much memory to track the tasks. Essentially creates a running out of memory situation for Rancher server.
+多くの場合はなんらかの理由でいくつかのタスクがスタックしている可能性があります。 UI 上で **管理者** -> **プロセス** を確認できる場合、どのタスクが `起動中` のままスタックしているか確認することができます。 もし、これらのタスクが長時間に渡り起動中(もしくは失敗)している場合は Rancher がタスクの状態を監視するのに多くのメモリを消費しており、 Rancher サーバーが out of memory 状態を引き起こしている可能性があります。
 
-In order to get your server into a responsive state, you'll need to add more memory. Typically, 4GB is more than sufficient.
+サーバーが正常に動作するためにはより多くのメモリを割り当てる必要があり、通常は 4GB ほどあれば十分です。
 
-If you run the Rancher server command again, just add an additional option, `-e JAVA_OPTS="-Xmx4096m"` to the command.
+再度 Rancher サーバーを起動するコマンドを実行する際に追加オプションとして `-e JAVA_OPTS="-Xmx4096m"` をコマンドに追加してください。
 
 ```bash
 $ docker run -d -p 8080:8080 --restart=unless-stopped -e JAVA_OPTS="-Xmx4096m" rancher/server
 ```
 
-Depending on how the MySQL database is setup, you may need to do an [upgrade]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/upgrading/) to add the additional command.
+MySQL データベースをどのようにセットアップしているかにもよりますが追加コマンドのために [アップグレード]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/upgrading/) を実施する必要があるかもしれません。
 
-If you were unable to see the **Admin** -> **Processes** tab due to the lack of memory, after starting Rancher server again with more memory, you should be able to see the tab and start troubleshooting the processes that have been running the longest.
+もし、メモリ不足により **管理者** -> **プロセス** タブ自体を確認できない場合はより多くのメモリを割り当てた上で Rancher サーバーを再起動していただき、再度タブからどのプロセスが長時間に渡り稼働中の状態になっているかトラブルシューティングを開始してください。
 
-### Rancher server database is growing too quickly.
+### Rancher サーバーのデータベースが急速に大きくなる。
 
-Rancher server automatically cleans up a couple of database tables to prevent the database from increasing too quickly. If you are noticing that these tables are not being cleaned up quick enough for you, please feel free to update the default settings using our API.
+Rancher サーバーはデータベースが急激に増大することを防止するためにいくつかのデータベーステーブルを自動的にクリーンアップします。 もし、これらのテーブルのクリーンアップ処理が遅いと感じたら API のデフォルト設定を見直してください。
 
-By default, any records in the `container_event` and `service_event` tables are deleted if they were created 2 weeks ago. The setting in the API is listed in seconds (`1209600`). The setting in the API is `events.purge.after.seconds`.
+デフォルトでは `container_event` と `service_event` テーブルのレコードは作成後 2 週間を過ぎると削除されます。 API 上の設定では秒 (`1209600`) で表示され、 設定項目は `events.purge.after.seconds` になります。
 
-By default, any records in the `process_instance` table are deleted if they were created 1 day ago. The setting in the API is listed in seconds (`86400`). The setting in the API is `process_instance.purge.after.seconds`.
+デフォルトでは `process_instance` テーブルのレコードは作成後 1 日を過ぎると削除されます。 API 上の設定では秒 (`86400`) で表示され、 設定項目は `process_instance.purge.after.seconds` になります。
 
-To update these settings in your API, navigate to the `http://<rancher-server-ip>:8080/v1/settings` page. Search for the setting you want to update and click on the link in the `links -> self` to navigate to the setting. Click on `Edit` on the side page to change the `value`. Remember, the value is in seconds.<a id="databaselock"></a>### Why is Rancher Server frozen? OR Why could my upgrade have failed?
+これらの設定項目を API から更新するには `http://<rancher-server-ip>:8080/v1/settings` ページにアクセスし、 更新したい設定項目を検索し、`links -> self` のリンクをクリックしてください。 `value` を変更するにはサイドページの `Edit` をクリックしてください。 その時、値は秒で指定することに注意してください。
 
-If you are starting Rancher and it freezes forever, there might be a liquibase database lock. On startup, liquibase does a schema migration. There is a race condition where it might leave a lock entry, which will prevent subsequent boots.
+<a id="databaselock"></a>
 
-If you have just upgraded and in the Rancher server logs, there can be a log lock on the MySQL database that has not been released.
+### なぜ Rancher サーバーがフリーズしてしまうか? またはアップグレードが失敗するのは?
+
+Rancher を起動した時フリーズ状態のままになってしまった場合、liquibase データベースがロックしている可能性があります。 起動時には liquibase はスキーマの移行処理を行い、 競合状態に陥ると後続の処理を抑制するためにロックエントリーを追加します。
+
+もし、アップグレード処理時であった場合は Rancher サーバーのログに MySQL データベース上のログロックに関する情報が表示され開放されることはありません。
 
 ```bash
 ....liquibase.exception.LockException: Could not acquire change log lock. Currently locked by <container_ID>
 ```
 
-#### Releasing the database lock
+#### データベースのロックを開放する
 
-> **Note:** Please do not release the database lock unless you have the above **exception** regarding the log lock. If your upgrading is taking a long time due to data migration, you may hit other migration issues if you try to release the database lock.
+> **ノート:** 上記のログロックに関する **exception** を確認できない限りはデータベースのロックを開放しないでください。 アップグレード処理がデータ移行により長時間かかる場合は上記以外の移行に関する問題が発生している可能性があります。
 
-If you had created the data container for Rancher server per the [upgrading documentation]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/upgrading/), you'll need to `exec` into the `rancher-data` container to update the `DATABASECHANGELOGLOCK` table and remove the lock. If you hadn't created the data container, you can `exec` into the container that has your database.
+[アップグレードドキュメント]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/upgrading/) に従い Rancher サーバー用にデータコンテナを作成している場合、`DATABASECHANGELOGLOCK` テーブルを更新しロックを削除するために `rancher-data` コンテナに `exec` を実行する必要があります。 データコンテナを作成していない場合はデータベースが動作しているコンテナに対して `exec` を実行してください。
 
 ```bash
 $ sudo docker exec -it <container_id> mysql
 ```
 
-Once you are in MySQL database, you'll need to access the `cattle` database.
+MySQL データベースにログインしたら `cattle` データベースにアクセスする必要があります。
 
 ```bash
 mysql> use cattle;
 
-# Check that there is a lock in the table
+# ロックされているテーブルを確認する
 mysql> select * from DATABASECHANGELOGLOCK;
 
-# Update to remove the lock by the container
+# コンテナからロックを削除するように更新する
 mysql> update DATABASECHANGELOGLOCK set LOCKED="", LOCKGRANTED=null, LOCKEDBY=null where ID=1;
 
 
-# Check that the lock has been removed
+# ロックが削除されたことを確認
 mysql> select * from DATABASECHANGELOGLOCK;
 +----+--------+-------------+----------+
 | ID | LOCKED | LOCKGRANTED | LOCKEDBY |

@@ -1,100 +1,100 @@
 * * *
 
-title: Access Control in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en redirect_from: - /rancher/latest/en/configuration/access-control/
+title: Rancher におけるアクセスコントロール layout: rancher-default-v1.3 version: v1.3 lang: ja redirect_from: - /rancher/latest/en/configuration/access-control/
 
 * * *
 
-## ## Access Control
+## ## アクセスコントロール
 
-### What is Access Control?
+### アクセスコントロールとは?
 
-Access Control is how Rancher limits the users who have the access permissions to your Rancher instance. By default, Access Control is not configured. This means anyone who has the IP address of your Rancher instance will be able to use it and access the API. Your Rancher instance is open to the public! We highly recommend configuring Access Control soon after launching Rancher. Upon enabling Access Control, you can share your Rancher instance with whom you wish. They will be required to authenticate to the instance before being able to access it. The API becomes accessible only to those who have the valid API keys to the instance.
+アクセスコントロールではあなたの Rancher インスタンスに対しアクセス権限を持つユーザーをどのように制限するかを設定します。 デフォルトではアクセスコントロールは設定されておらず、 Rancher インスタンスの IP アドレスを知っている人であれば誰でも利用し、 API にもアクセスすることができます。 つまり、あなたの Rancher インスタンスは全世界に公開されていることになります! そのため、Rancher を起動後はすぐにアクセスコントロールの設定をするよう強く推奨しています。 アクセスコントロールを有効にすることで必要に応じて Rancher インスタンスを共有することができ、 その際インスタンスにアクセスするためには認証が必要となります。 また、API に関しても有効な API キーを持っている人のみがアクセス可能となります。
 
-The first account that authenticates with Rancher will become the **admin** of the account. For more information, see [permissions of an admin]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#admin).
+Rancher における最初の認証用アカウントは **管理者** アカウントとなり、 詳細は [管理者の権限]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#admin) を参照してください。
 
-### Enabling Access Control
+### アクセスコントロールの有効化
 
-In the **Admin** tab, click **Access Control**.
+**管理者** タブより **アクセスコントロール** をクリックします。
 
-After authenticating your Rancher instance, Access Control will be considered enabled. With Access Control enabled, you will be able to manage different [environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) and share them with different groups of people.
+Rancher インスタンスを認証後、アクセスコントロールは有効化されます。 アクセスコントロールが有効化されている場合、様々な [環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) を管理し異なるグループの人々と共有することができるようになります。
 
-When Access Control is enabled, the API is locked and requires either being authenticated as a user or by using an [API key]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/api-keys/) to access it.
+アクセスコントロールが有効化されている場合、API はロックされユーザー認証、もしくは[API キー]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/api-keys/) が必要となります。
 
 #### Active Directory
 
-Select the **Active Directory** icon. If you want to use Active Directory using TLS, ensure that you have [started Rancher server with the appropriate certificate]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#ldap). Fill in the sections and authenticate Rancher by clicking **Authenticate**. When Active Directory is enabled, you'll automatically be logged in as the username that was authenticated. You will also be logged in as an admin of Rancher.
+**Active Directory** アイコンを選択します。 もし Active Directory で TLS を利用したい場合、[適切な証明書を利用して Rancher サーバーを起動]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#ldap) していることを確認してください。 各項目を入力し **認証** をクリックすることで Rancher を認証します。 Active Directory が有効化されている場合、認証済みのユーザー名で自動的にログイン処理がされます。 または Rancher の管理者としてログインすることもできます。
 
 #### Azure AD
 
-Select the **Azure AD** icon. Fill in the sections and authenticate Rancher by clicking **Authenticate with Azure**. When Active Directory is enabled, you'll automatically be logged in as the username that was authenticated. You will also be logged in as an admin of Rancher.
+**Azure AD** アイコンを選択します。 各項目を入力し **Azure で認証** をクリックすることで Rancher を認証します。 Active Directory が有効化されている場合、認証済みのユーザー名で自動的にログイン処理がされます。 または Rancher の管理者としてログインすることもできます。
 
 #### GitHub
 
-Select the **GitHub** icon and follow the directions in the UI to register Rancher as a GitHub application. After clicking **Authenticate with GitHub**, Access Control is enabled and you are automatically logged into Rancher with your GitHub login credentials and as an admin of Rancher.
+**GitHub** アイコンを選択し、UI の指示に従い Rancher を GitHub のアプリケーションとして登録します。 **GitHub アカウントで認証** をクリックした後、アクセスコントロールは有効化され自動的に GitHub のログインアカウントまたは Rancher の管理者として Rancher にログインされます。
 
-#### Local Authentication
+#### ローカル認証
 
-Local authentication allows you to create your own set of accounts that is saved in the Rancher database.
+ローカル認証では Rancher 内のデータベースに格納される独自のアカウントを作成できます。
 
-Select the **Local** icon. Create an admin user by providing the **Login Username**, **Full Name**, and **Password**. Click **Enable Local Auth** to turn on local authentication. By clicking this button, the admin is created and saved in the database. You are automatically logged into the Rancher instance as the admin account that was just created.
+**Local** アイコンを選択します。 **ログインユーザー名** と **姓名**, **パスワード** を入力し管理者ユーザーを作成します。 **ローカル認証を有効化** をクリックしローカル認証を有効化します。 このボタンをクリックすることで、管理者が作成されデータベースに格納されます。 Rancher インスタンスへのログインは自動的に処理され作成された管理者アカウントでログインされます。
 
 #### OpenLDAP
 
-Select the **OpenLDAP** icon. If you want to use a OpenLDAP using TLS, ensure that you have [started Rancher server with the appropriate certificate]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#ldap). Fill in the sections and authenticate Rancher by clicking **Authenticate**. When OpenLDAP is enabled, you'll automatically be logged in as the username that was authenticated. You will also be logged in as an admin of Rancher.
+**OpenLDAP** アイコンを選択します。 OpenLDAP で TLS を利用したい場合は [Rancher サーバーで適切な証明書が利用されていることを確認してください]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#ldap)。 各項目を入力し **認証** をクリックすることで Rancher を認証します。 OpenLDAP が有効化されると認証されたユーザー名で自動的にログインされ、 Rancher の管理者アカウントとしてもログインされます。
 
-#### Shibboleth
+#### シボレス
 
-Select the **Shibboleth** icon. Fill in the configuration for the Shibboleth account, **Save** the information and **Test** that access control is working.
+**Shibboleth** アイコンを選択します。シボレスアカウントに関する設定項目を入力し情報を **保存** した後、 **テスト** を実施することでアクセスコントロールが動作します。
 
-With Shibboleth, there are some known issues that you should be aware of if you are configuring to validate against it.
+シボレスでは妥当性チェックの際に注意するべき既知の問題があります。
 
-* There is no search or lookup support. When adding in users, the exact IDs must be inputted for the correct users to get access.
-* When adding users to an [environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/), group IDs are not supported unless the admin, who turned on access control, is a member of the group.
+* 検索やルックアップのサポートはされません。ユーザーを追加する際、アクセスを許可するユーザー ID を正確に入力する必要があります。
+* [環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) にユーザーを追加する際、グループのメンバーであるアクセスコントロールを有効化した管理者以外はグループ ID はサポートされません。
 
-### Site Access
+### サイトアクセス
 
-Depending on your authentication type, Rancher provides different levels of site access.
+認証のタイプにより Rancher は異なるレベルのサイトアクセスを提供します。
 
-#### Active Directory/GitHub/Shibboleth
+#### Active Directory/GitHub/シボレス
 
-If you have authenticated with AD or GitHub, there will be 3 options available.
+AD もしくは GitHub で認証する場合、3つのオプションが利用可能です。
 
-* **Allow any valid Users** - Any user within GitHub or Active Directory would be able to access your Rancher instance. This is **not** recommended for GitHub as it would be any user in GitHub!
-* **Allow members of Environments, plus Authorized Users and Organizations** - Any user who is a member or owner of an environment will also have access to the Rancher instance as well as any user added to the *Authorized Users and Organizations* list.
-* **Restrict access only to Authorized Users and Organizations** - Only users who are added to the *Authorized Users and Organizations* would have access to the Rancher instance. Even if a user has been added to an environment, they would not have access unless they are **also** added to the *Authorized Users and Organizations* section.
+* **全てのユーザーを許可** - GitHub や Active Directory の全てのユーザーが Rancher に対しアクセス可能です。 これは GitHub の全てのユーザーが利用可能であるため **非推奨** です。
+* **環境のメンバーと認証済みユーザー、組織を許可** - 環境のメンバーもしくはオーナーであるユーザー、*認証済みユーザーと組織* リストに追加されている全てのユーザーがアクセス可能です。
+* **認証済みユーザーと組織のみアクセス許可** - *認証済みユーザーと組織* に追加されているユーザーのみ Rancher インスタンスにアクセス可能です。 たとえ環境に追加されているユーザーであっても *認証済みユーザーと組織* **にも** 追加されていないとアクセスすることができません。
 
-Anyone with the permissions for the Rancher instance will be given [user]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/accounts/#users) permissions. They will not be able to view the **Admin** tab. You would explicitly need to change their account to be an [admin account]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/accounts/#admin).
+Rancher インスタンスへのアクセス権限は [ユーザー]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/accounts/#users) 権限として与えられ、 これらは **管理者** タブを確認することができません。 そのため確認するためには [管理者アカウント]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/accounts/#admin) に変更する必要があります。
 
-In order for users to view different [environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/), they will need to be added to the environment by an [owner]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#owners) of the environment.
+また、ユーザーが他の [環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) を確認するためにはユーザーを対象の環境の [オーナー]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#owners) に追加する必要があります。
 
 #### Azure AD/OpenLDAP
 
-For Azure AD and OpenLDAP, any user that is a member of your setup will be able to access the Rancher site.
+Azure AD や OpenLDAP ではセットアップされた全てのユーザーが Rancher のサイトにアクセスすることが可能です。
 
-#### Local Authentication
+#### ローカル認証
 
-Once local authentication is enabled, the admin can create additional admins/users by accessing the **Admin** > **Accounts** tab. Click **Add Account** and fill in the details of the account you want to add. You can select their account type as an **Admin** or **User**. An admin has the ability to view the **Admin** tab while users of Rancher instance would not have the visibility to the tab.
+ローカル認証が有効化されている場合は **管理者** > **アカウント** タブにアクセスすることで管理者が追加の管理者/ユーザーを作成することができます。 **アカウントを追加** をクリックし、追加したいアカウントの詳細情報を入力します。 また、アカウントタイプを **管理者** もしくは **ユーザー** から選択することができ、 管理者は **管理者** タブにアクセスすることができますがユーザーにはタブは表示されません。
 
-Once an account has been created, the admin/user can be added to any [environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/).
+アカウントが作成されると、管理者/ユーザーは全ての環境に追加することが可能です。
 
-### Account Types
+### アカウントタイプ
 
-The account type determines whether or not an account will have access to the admin tab. For each environment in Rancher, there are [membership roles]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#membership-roles) that provide different level of access for a specific environment.
+アカウントタイプはアカウントが管理者タブにアクセスできるかどうかを決定します。 Rancher における各環境では対象の環境に対して異なるアクセスレベルを提供する [メンバーシップロール]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#membership-roles) が存在します。
 
-#### Admin
+#### 管理者
 
-The first user that authenticates Rancher becomes an admin of Rancher. Only admins will have permissions to view the **Admin** tab.
+最初に Rancher によって認証されるユーザーが Rancher の管理者になり、管理者のみ **管理者** タブにアクセスする権限を持ちます。
 
-When managing environment, admins have the ability to view all the [environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) in Rancher even if the admin is not added as a member to the environment. In an admin's environment drop-down menu, the members will only see the environments that they are on the membership list.
+環境を管理する際、管理者はたとえ管理者が対象環境のメンバーに追加されていなくても Rancher 内の全ての [環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) を参照することができます。 管理者の環境のドロップダウンメニューではメンバーシップリストに記載されているメンバーのみが環境を参照することができます。
 
-Admins can add other users to be an admin of Rancher. They can change a user's role on the **Admin** > **Accounts** page after the user has logged into Rancher. In the **Admin** > **Accounts** tab, click **Edit** next to the account name and change the account type to *Admin*. Click **Save**.
+管理者は他のユーザーを Rancher の管理者に追加することができます。 追加されたユーザーは Rancher へのログイン後 **管理者** > **アカウント** ページからユーザーのロールを変更することができます。 **管理者** > **アカウント** タブで **編集** をクリック後、アカウントタイプを *管理者* に変更し **保存** をクリックします。
 
-#### Users
+#### ユーザー
 
-Besides the user that authenticates Rancher, any other user will automatically be added with user permissions. They will not be able to see the **Admin** tab.
+Rancher で認証されたユーザー以外の他のユーザーは自動的にユーザー権限を与えられ、これらのユーザーには **管理者** タブが表示されません。
 
-They will only be able to view the environments that they are members of.
+また、メンバーとして所属している環境のみ参照することができます。
 
-### Disabling Access Control
+### アクセスコントロールの無効化
 
-If you decide that you no longer want Access Control, click the **Disable access control** button. This will make your Rancher instance open to the public and anyone can access your API. This is **not** recommended.
+アクセスコントロールを無効化したい場合は **アクセスコントロールを無効化** ボタンをクリックします。 これにより Rancher インスタンスが全世界に公開され全ての人が API にアクセスすることとなるため 無効化されることは **推奨されません**。

@@ -52,9 +52,9 @@ If the `<volume_name>` already exists in the storage driver, the same volume wil
 
 A volume can be created in 2 sections:
 
-  1. Upon creating a service, if the volume in the **Volumes** tab does not exist in the storage driver, then an environment scoped volume is created. If the volume already exists in the volume driver, a new volume will not be created.
+1. Upon creating a service, if the volume in the **Volumes** tab does not exist in the storage driver, then an environment scoped volume is created. If the volume already exists in the volume driver, a new volume will not be created.
 
-  2. In **Infrastructure** -> **Storage**, click on **Add Volume**. Provide the name of the volume and driver options if desired. This volume will be `inactive` until a service starts to use it.
+2. In **Infrastructure** -> **Storage**, click on **Add Volume**. Provide the name of the volume and driver options if desired. This volume will be `inactive` until a service starts to use it.
 
 ### Using Storage Drivers with Rancher Compose
 

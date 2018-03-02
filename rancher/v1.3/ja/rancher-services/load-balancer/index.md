@@ -1,15 +1,15 @@
 * * *
 
-title: Load Balancers in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Rancher におけるロードバランサー layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Load Balancer
+## ## ロードバランサー
 
-Rancher provides the ability to use different load balancer drivers within Rancher. A load balancer can be used to distribute network and application traffic to individual containers by adding rules to target services. Any target service will have all its underlying containers automatically registered as load balancer targets by Rancher. .
+Rancher は様々なロードバランサードライバーを利用するための機能を提供します。 ロードバランサーは対象サービスに対するルールを追加することで個々のコンテナ向けのネットワークやアプリケーションに対するトラフィックを分散するのに利用されます。 対象サービスは Rancher によりロードバランサーにターゲットとして自動的に登録されコンテナとして動作します。 .
 
-By default, Rancher has provided a managed load balancer using HAProxy that can be manually scaled to multiple hosts. We are planning to add in additional load balancer providers, and the options for all load balancers will be the same regardless of load balancer provider.
+デフォルトでは Rancher は HAproxy を管理ロードバランサーとして利用しており、複数ホスト上に手動でスケールアウトすることができます。 将来的にはさらなるロードバランサープロバイダーを追加し、どのようなロードバランサープロバイダーであっても同一の設定オプションを利用できるよう予定しています。
 
-For Cattle envionments, learn more about the options for our load balancer for the [UI]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/#load-balancer-options-in-the-UI) and [Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/#load-balancer-options-in-rancher-compose) and show examples using the [UI]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/#adding-a-load-balancer-in-the-ui) and [Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/#adding-a-load-balancer-with-rancher-compose).
+Cattle 環境におけるロードバランサーの設定オプションに関する詳細は [UI]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/#load-balancer-options-in-the-UI) または [Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/#load-balancer-options-in-rancher-compose) を、利用例に関しては [UI]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/#adding-a-load-balancer-in-the-ui) または [Rancher COmpose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/#adding-a-load-balancer-with-rancher-compose) を参照してください。
 
-For Kubernetes environments, learn more about how we use [Rancher's load balancers for ingress support in Kubernetes environments]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/ingress/).
+Kubernetes 環境における詳細情報は [Kubernetes 環境における Rancher 内部ロードバランサーサポート]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/ingress/) を参照してください。

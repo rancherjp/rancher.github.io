@@ -93,9 +93,9 @@ $ docker run -d -it --label io.rancher.container.network=true ubuntu:14.04.2
 
 個別のコンテナを作成する方法と、ホスト間ネットワークでそれらがどのように接続されるかを説明しました。 しかし、実際のアプリケーションのほとんどは複数のサービスで構成されており、各サービスは複数のコンテナで構成されています。 たとえば、[LetsChat](http://sdelements.github.io/lets-chat/)アプリケーションは、次のようなサービスで構成されます:
 
-  1. ロードバランサー：ロードバランサーはインターネットからのリクエストを" LetsChat" アプリケーションに中継します。
-  2. *ウェブ*サービス："LetsChat" コンテナ2つで構成します。
-  3. *データーベース*サービス："Mongo" コンテナ1つで構成します。
+1. ロードバランサー：ロードバランサーはインターネットからのリクエストを" LetsChat" アプリケーションに中継します。
+2. *ウェブ*サービス："LetsChat" コンテナ2つで構成します。
+3. *データーベース*サービス："Mongo" コンテナ1つで構成します。
 
 ロードバランサーは*ウェブ*サービス(すなわち、LetsChat) に接続し、*ウェブ*サービスは*データーベース*サービス(すなわち、Mongo)にリンクします。
 
@@ -111,15 +111,15 @@ $ docker run -d -it --label io.rancher.container.network=true ubuntu:14.04.2
 
 LetsChatアプリケーションが完成しました！ **スタック**画面で、ロードバランサが公開しているポートをリンクとして見つけることができます。 そのリンクをクリックすると、新しいブラウザが開き、LetsChatアプリケーションが表示されます。
 
-### Create a Multi-Container Application using Rancher CLI
+### Rancher CLI を使用して複数コンテナアプリケーションを作成する
 
-In this section, we will show you how to create and deploy the same [LetsChat](http://sdelements.github.io/lets-chat/) application we created in the previous section using our command-line tool called [Rancher CLI]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cli/).
+このセクションでは、[Rancher CLI]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cli/) というコマンドラインツールを使用して前のセクションで作成したと同じ [LetsChat](http://sdelements.github.io/lets-chat/) アプリケーションを作成してデプロイする方法を説明します。
 
-When bringing services up in Rancher, the Rancher CLI tool works similarly to the popular Docker Compose tool. It takes in the same `docker-compose.yml` file and deploys the application on Rancher. You can specify additional attributes in a `rancher-compose.yml` file which extends and overwrites the `docker-compose.yml` file.
+Rancher サービスが起動したあと、Rancher CLI ツールは一般的な Docker Composeツールと同じように動きます。 同じ `docker-compose.yml` ファイルを読み込んで Rancher にアプリケーションをデプロイします。 `rancher-compose.yml` ファイルを利用すると `docker-compose.yml` ファイルを拡張して上書きする追加の属性を指定することができます。
 
-In the previous section, we created a LetsChat application with a load balancer. If you had created it in Rancher, you can download the files directly from our UI by selecting **Export Config** from the stack's dropdown menu. The `docker-compose.yml` and `rancher-compose.yml` files would look like this:
+前のセクションでは、ロードバランサーを備えた LetsChat アプリケーションを作成しました。 Rancher UIで作成ずみの場合、スタックのドロップダウンメニューから **Export Config** を選択して、UIから直接、ymlファイルをダウンロードできます。 `docker-compose.yml` と `rancher-compose.yml` ファイルは次のようになります：
 
-#### Example docker-compose.yml
+#### サンプル docker-compose.yml
 
 ```yaml
 version: '2'
@@ -149,7 +149,7 @@ services:
     stdin_open: true
 ```
 
-#### Example rancher-compose.yml
+#### サンプル rancher-compose.yml
 
 ```yaml
 version: '2'
@@ -178,9 +178,9 @@ services:
     scale: 1
 ```
 
-<br /> Download the Rancher CLI binary from the Rancher UI by clicking on **Download CLI**, which is located on the right side of the footer. We provide the ability to download binaries for Windows, Mac, and Linux.
+<br /> フッター右側にある **Download CLI** をクリックして、RancherのUIからRancher CLIバイナリをダウンロードします。 Windows、Mac、Linux用のバイナリを提供しています。 Windows、Mac、Linux用のバイナリを提供しています。
 
-In order for services to be launched in Rancher using Rancher CLI, you will need to set some environment variables. You will need to create an [account API Key]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/api-keys/) in the Rancher UI. Click on **API** and click on **Add Account API Key**. Save the username (access key) and password (secret key). Set up the environment variables needed for Rancher CLI: `RANCHER_URL`, `RANCHER_ACCESS_KEY`, and `RANCHER_SECRET_KEY`.
+Rancher CLIを使用してRancherでサービスを開始するには、いくつか環境変数を設定する必要があります。 Rancher UIで[アカウントAPI キー]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/api-keys/)を作成します。 **API** をクリックし、**Add Account API Key** をクリックします。 ユーザー名 (アクセスキー) とパスワード (秘密キー) を保存します。 Rancher CLIに必要な次の環境変数を設定します: `RANCHER_URL`、`RANCHER_ACCESS_KEY` と `RANCHER_SECRET_KEY`
 
 ```bash
 # Set the url that Rancher is on
@@ -191,10 +191,10 @@ $ export RANCHER_ACCESS_KEY=<username_of_key>
 $ export RANCHER_SECRET_KEY=<password_of_key>
 ```
 
-<br /> Now, navigate to the directory where you saved `docker-compose.yml` and `rancher-compose.yml` and run the command.
+<br /> `docker-compose.yml` と `rancher-compose.yml` を保存したディレクトリに移動し、コマンドを実行します。
 
 ```bash
 $ rancher up -d -s NewLetsChatApp
 ```
 
-<br /> In Rancher, a new stack will be created called **NewLetsChatApp** with all of the services launched in Rancher.
+<br /> Rancherで **NewLetsChatApp** という新しいスタックが作成され、サービスがすべて起動します

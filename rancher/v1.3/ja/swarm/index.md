@@ -1,27 +1,27 @@
 * * *
 
-title: Swarm in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en
+title: RancherにおけるSwarm layout: rancher-default-v1.3 version: v1.3 lang: jp
 
 * * *
 
 ## ## Swarm
 
-To deploy Swarm in Rancher, you'll first need to create a new [environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) that has an [environment template]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template) with the container orchestration set as **Swarm**.
+RancherでSwarm環境をデプロイするためには、まず最初にコンテナーオーケストレーションとして **Swarm**が設定された[環境のテンプレート]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)から、新しい[環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)を作成する必要があります。
 
-### Creating a Swarm Environment
+### Swarm環境の作成
 
-In the dropdown of environments, click on the **Manage Environments**. To create a new environment, click on **Add Environment**, provide a **Name**, **Description** (Optional), and select an environment template that has Swarm as the orchestration. If [access control]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/) is turned on, you can [add members]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#editing-members) and select their [membership role]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#membership-roles). Anyone added to the membership list would have access to your environment.
+環境のドロップダウンから、**環境を管理**をクリックします。 新しい環境を作成するために、**環境を追加**をクリックします。**名前**と**詳細情報** (任意) を設定し、オーケストレーションとしてSwarmがある環境のテンプレートを選択します。 [アクセスコントロール]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/)が有効になっていれば[メンバーを追加]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#editing-members)でき、追加したメンバーの[ロール]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#membership-roles)を選択することができます。 リストに追加されたメンバーであれば誰でも、その環境にアクセスできるようになります。
 
-After a Swarm environment has been created, you can navigate to the environment by either selecting the name of the environment in the environment's dropdown in the upper left hand corner or by selecting **Switch to this Environment** in the specific environment's drop down.
+Swarm環境を作成した後は、画面左上の環境のドロップダウンから名前を選択するか、環境の詳細ドロップダウンから**この環境に切り替え**を選択することで、環境に進むことができます。
 
-> **Note:** As Rancher adds support for multiple container orchestration frameworks, Rancher currently does not support the ability to switch between environments that already have services running in it.
+> **ノート:** Rancherは複数のオーケストレーションフレームワークをサポートしていますが、すでにサービスが稼働している環境を、別の環境に切り替える機能はサポートしていません。
 
-### Starting Swarm
+### Swarmの開始
 
-After a Swarm environment has been created, the [infrastructure services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) will not be started until you add at least one host to your environment. The **Swarm** service will require ate least 3 hosts to be added. The process of [adding hosts]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/) is the same steps for all container orchestration types. Once the first host has been added, Rancher will automatically start the deployment of the infrastructure services including the Swarm components (i.e. swarm and swarm-agent). You can see the progress of the deployment by accessing the **Swarm** tab.
+Swarm環境作成後、最低でも１つのホストをその環境に追加すれば[インフラストラクチャーサービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)がスタートします。 **Swarmサービス** には、最低でも3つのホストを追加する必要があります。 [ホストを追加]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)する手順は、どのオーケストレーションタイプでも同じです。 最初のホストを追加すれば、Rancherは自動的にSwarmコンポーネント(swarmやswarmエージェント) を含んだインフラストラクチャーサービスのデプロイを開始します。 **Swarm** タブにアクセスすれば、デプロイの状況を確認できます。
 
-> **Note:** Only admins of Rancher or owners of the environment will be able to view the [infrastructure services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/).
+> **ノート:** [インフラストラクチャーサービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)を見ることができるのは、Rancherの管理者か、その環境のオーナーのみです。
 
-#### CLI via Shell
+#### ShellによるCLI
 
-Rancher provides a convenient shell access to instance that can be used to execute `docker` or `docker-compose` commands.
+Rancherは、`docker` や `docker-compose` コマンドを使った、インスタンスに対する簡易なshellアクセスを提供しています。

@@ -1,12 +1,12 @@
 * * *
 
-title: Mesos in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en
+title: RancherにおけるMesos layout: rancher-default-v1.3 version: v1.3 lang: jp
 
 * * *
 
 ## ## Mesos
 
-To deploy Mesos in Rancher, you'll first need to create a new [environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) that has an [environment template]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template) with the container orchestration set as **Mesos**.
+RancherでMesos環境をデプロイするためには、まず最初に コンテナーオーケストレーションとして **Mesos** が設定された[環境テンプレート]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)から、新しい[環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)を作成する必要があります。
 
 ### Creating a Mesos Environment
 

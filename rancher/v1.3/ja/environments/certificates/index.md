@@ -1,23 +1,23 @@
 * * *
 
-title: Certificates in Rancher layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Rancher における証明書 layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Certificates
+## ## 証明書
 
-### Adding Certificates
+### 証明書を追加
 
-In order to add certificates to your [environment]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/), go to the **Infrastructure** -> **Certificates** page. The page will list out all certificates added to your Rancher environment. To add a new certificate, click on **Add Certificate**.
+あなたの [環境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/) に証明書を追加するには **インフラストラクチャ** -> **証明書** ページを参照してください。 ページでは Rancher 環境に追加された全ての証明書が一覧表示されます。 新しい証明書を追加するには **証明書を追加** クリックしてください。
 
-  1. Provide a **Name** and if desired, **Description** for the certificate.
+1. 追加する証明書用に **名前** と必要に応じて **詳細情報** を入力します。
 
-  2. Provide the **Private Key** of the certificate. You can either click on **Read from File** to import from your computer or paste the private key into the text box.
+2. 証明書の **プライベートキー** を入力します。**ファイルから読み込む** をクリックすることであなたのコンピュータからインポートすることもテキストボックスにプライベートキーをペーストすることもできます。
 
-  3. Provide the **Certificate**. You can either click on **Read from File** to import from your computer or paste the certificate into the text box.
+3. **証明書** を入力します。**ファイルから読み込む** をクリックすることであなたのコンピュータからインポートすることもテキストボックスに証明書をペーストすることもできます。
 
-  4. (Optional) If you have additional chained certificates, you can add them as well using the *Read from File** to import from your computer or paste the certificate into the text box.
+4. (オプション) もし追加の証明書チェーンがある場合 *ファイルから読み込み** をクリックあなたのコンピュータからインポートすることもテキストボックスに証明書をペーストすることもできます。
 
-### Using Certificates
+### 証明書を使う
 
-Certificates loaded in the environment can be used for [SSL termination of a load balancer]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/#ssl-termination) or [TLS termination for a Kubernetes Ingress]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/ingress/#example-using-tls).
+環境に読み込まれた証明書は [ロードバランサー用 SSL 終端処理]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/#ssl-termination) または [Kubernetes イングレス 用 TLS 終端処理]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/ingress/#example-using-tls) に利用できます。

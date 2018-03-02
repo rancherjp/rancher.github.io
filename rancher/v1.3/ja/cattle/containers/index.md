@@ -1,43 +1,43 @@
 * * *
 
-title: Containers layout: rancher-default-v1.3 version: v1.3 lang: en
+title: Containers layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Containers
+## ## コンテナ
 
-### Adding Containers
+### コンテナを追加
 
-Typically, we recommend that people add containers using [services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/applications/stacks/adding-services) as it provides a little more flexibility for the user, but sometimes we understand that you might want to spin up one container.
+通常、コンテナを追加するためには[サービス]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/applications/stacks/adding-services)を使うことを推奨しています。これはユーザーに利便性を提供するためです。しかし、時にはコンテナを1つだけ立ち上げたいという要望があることも理解しています。
 
-In the **Infrastructure** -> **Container** page, click on **Add Container**. Any options that `docker run` supports when creating containers is also supported in Rancher.
+**インフラストラクチャ** -> **コンテナ** ページで、**コンテナを追加**をクリックしてください。 コンテナを作成するときに、`docker run` コマンドがサポートするすべてのオプションは、Rancherでもサポートしています。
 
-  1. Provide a **Name** and if desired, **Description** for the container.
-  2. Provide the **Image** to use. You can use any image on [DockerHub](https://hub.docker.com/) as well as any [registries]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/registries) that have been added to Rancher. The syntax for image name would match any `docker run` commands.
+1. **名前**を指定して、必要であればコンテナの **詳細情報**を設定してください。
+2. 使用する**イメージ**を指定してください。 [DockerHub](https://hub.docker.com/)やRancherに追加した[レジストリ]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/registries)の任意のイメージを使用できます。 イメージ名の構文は`docker run`コマンドと一緒です。
     
-    Syntax of image names. By default, we pull from the docker registry. If no tag is specified, we will pull the latest tag.
+    イメージ名の構文について、デフォルトではdocker registryからpullします。タグの指定がない場合、latestタグがついたイメージをpullします。
     
     `[registry-name]/[namespace]/[imagename]:[version]`
     
     <a id="port-mapping"></a>
 
-  3. If desired, set up port mapping, which proviedes the ability to access the exposed ports on the container through the host IP. In the **Port Map** section, you define the public ports that will be used to communicate with the container. You also define the private port that is used to connect to the exposed port of the container.
+3. 必要であればポートマップを設定してください。そうすることでホストのIPアドレスを通してコンテナが公開したポートにアクセスできるようになります。 **ポートマップ**セクションでは、コンテナとの通信に使用するパブリックホストポートを定義します。 また、コンテナのパブリックホストポートに接続するプライベートコンテナポートも定義します。
     
-    **Random Port Mapping**
+    **ランダムポートマッピング**
     
-    If you would like to take advantage of Rancher's random port mapping, the public port will be blank and you will need to define the private port. The private port is typically one of exposed ports on the container.
+    Rancherのランダムポートマッピングを使用したいのであれば、パブリックホストポートを空白にして、プライベートコンテナポートを定義する必要があります。 プライベートコンテナポートは通常、コンテナの公開ポートの中の一つです。
     
-    > **Note:** When ports are exposed in Rancher, it will not show up in `docker ps` as Rancher manages the iptable rules to make the ports fully dynamic.
+    > **ノート:** ポートがRancherで公開されているとき、`docker ps` ではポートが表示されません。Rancherがポートを動的に扱うためにiptableで管理しているからです。
 
-  4. In the various tabs, all options available in Docker are available for Rancher. By default, we have set the `-i -t`.
+4. 様々なタブで、Dockerで使用できるオプションはRancherでも使用できます。デフォルトのオプションは、`-i -t` です。
     
-    If you chose to add the container from the **Infrastructure** -> **Containers** page, Rancher will automatically pick a host for you. Otherwise, if you have picked a host to add a container to, the host will be populated in the **Security/Host** tab.
+    もしコンテナを **インフラストラクチャ** -> **コンテナ** ページから追加した場合、Rancherはホストを自動的に割り当てます。 それ以外の場合は、コンテナを追加するホストを選択すると、ホストとは**セキュリティ/ホスト**タブに表示されます。
     
-    There is also the ability to add labels to a container as well as apply scheduling rules. More details about labels and scheduling can be read [here]({{{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/scheduling/).
+    スケジューリングルールを適用することもできますし、コンテナにラベルを付ける機能もあります。 ラベルとスケジューリングに関する詳細は [ここ]({{{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/scheduling/)を参照してください。
 
-  5. When you have completed filling out your container options, click **Create**.
+5. コンテナのオプションを記入し終わったら、 **作成**をクリックして下さい。
 
-## ## Editing Containers
+## ## コンテナの作成
 
 From the dropdown of a container, you can select different actions to perform on a container. When viewing containers on a host or service, the dropdown icon can be found by hovering over the container name. In the **Infrastructure** -> **Containers**, the dropdown icon is only visible for containers that were created specifically on the hosts. Any containers created through a service will not display its dropdown icon.
 
@@ -49,16 +49,16 @@ When you select **Edit** from the dropdown menu, you will be only able to change
 
 You can **Clone**, which will pre-fill the **Add Container** screen with all the settings from an existing container. If you forget one thing, you can clone the container, change it, and then delete the old container.
 
-### Changing the Container States
+### コンテナの状態を変更する
 
 When a container is in a **Running** state, you can **Stop** the container. This will stop the container on the host, but will not remove it. After the container is in the *Stopped* state, you can select **Start** to have the container start running again. Another option is to **Restart** the container, which will stop and start the container in one step.
 
 You can **Delete** a container and have it removed from the host.
 
-### Executing the Shell
+### シェルを実行
 
 When you select **Execute Shell**, it brings you into the container shell prompt.
 
-### Viewing Logs
+### ログを見る
 
 It's always useful to see what is going on with the logs of a container. Clicking **View Logs** provides the equivalent of `docker logs <CONTAINER_ID>` on the host.

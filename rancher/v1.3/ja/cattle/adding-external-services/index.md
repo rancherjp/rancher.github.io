@@ -1,32 +1,32 @@
 * * *
 
-title: Adding External Service layout: rancher-default-v1.3 version: v1.3 lang: en
+title: 外部サービスの追加 layout: rancher-default-v1.3 version: v1.3 lang: ja
 
 * * *
 
-## ## Adding External Services
+## ## 外部サービスの追加
 
-You may have services hosted outside of Rancher that you want integrated with Rancher. You can add these services into Rancher by adding an external service.
+Rancher の外部で稼働しているサービスを Rancher と統合することが出来ます。外部サービスの追加機能を使えば Rancher にサービスを追加できます。
 
-### Adding External Services in the UI
+### UI を使った外部サービスの追加
 
-Inside your stack, you add an external service by clicking on the dropdown icon next to the **Add Service** button. Select **External Service**. Alternatively, if you are viewing the stacks at the stack level, the same **Add Service** dropdown is visible for each specific stack.
+スタック画面の中の、**サービスを追加**ボタンを押すと出てくるドロップダウンから外部サービスを追加します。 **外部サービスを追加**を選択してください。 あるいは、スタック一覧画面を見てる場合でも、同様の**サービスの追加**ドロップダウンがスタックごとに表示されます。 
 
-You will need to provide a **Name** and if desired, **Description** of the service.
+サービスの**名前** は必須で、必要であれば**詳細情報**を入力してください。
 
-Add the target(s) that you want. You can select either an external IP(s) or a hostname (i.e. CNAME). Finally, click **Create**.
+必要なターゲットを追加します。外部のIPアドレスかホスト名（CNAME等）を選べます。最後に**作成**をクリックしてください。
 
-The external service IP(s) and hostname will be shown in the service. Just like our services, you will need to start the external services.
+外部サービスのIPアドレスとホスト名がサービス画面に表示されるようになります。他のサービスと同様に外部サービスを起動する必要があります。
 
-#### Adding/Removing targets
+#### ターゲットの追加/削除
 
-At any time, you can edit the targets in an external service. Click on the **Edit** within the external service's dropdown menu. You will have the ability to add more targets or remove existing targets.
+外部サービスへのターゲット追加はいつでも可能です。 外部サービスのドロップダウンメニューから**作成**をクリックします。 ターゲットを追加したり、既存のターゲットを削除したりできるでしょう。
 
-### Adding External Services with Rancher Compose
+### Rancher Compose での外部サービス追加
 
-With external services, you can set either external IP(s) **OR** a domain name. The `rancher/external-service` is not an actual image, but is required for the `docker-compose.yml`. There are no containers created for external services.
+外部サービスに関しては、 外部のIPアドレス**もしくは**ホスト名を設定できます。 `rancher/external-service` は実際のイメージではありませんが `docker-compose.yml` に記載する必要があります。 外部サービスのために作られたコンテナーではありません。
 
-#### Example `docker-compose.yml`
+#### `docker-compose.yml` の例
 
 ```yaml
 version: '2'
@@ -37,7 +37,7 @@ services:
     image: redis
 ```
 
-#### Example `rancher-compose.yml` using external IPs
+#### 外部のIPアドレスを使った `rancher-compose.yml` の例 
 
 ```yaml
 version: '2'
@@ -47,7 +47,7 @@ services:
     - 1.1.1.1
     - 2.2.2.2
 
-  # Override any service to become an external service
+  # 任意のサービスをオーバライドして外部サービスにする
   redis:
     image: redis
     external_ips:
@@ -55,7 +55,7 @@ services:
     - 2.2.2.2
 ```
 
-#### Example `rancher-compose.yml` using hostname
+#### ホスト名を使った `rancher-compose.yml` の例 
 
 ```yaml
 version: '2'
