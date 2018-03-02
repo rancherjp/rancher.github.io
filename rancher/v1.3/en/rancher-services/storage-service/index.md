@@ -3,6 +3,8 @@ title: Persistent Storage Service in Rancher
 layout: rancher-default-v1.3
 version: v1.3
 lang: en
+redirect_from:
+  - /rancher/v1.3/zh/rancher-services/storage-service/
 ---
 
 ## Storage Service
@@ -33,12 +35,6 @@ With our storage service, we have volumes that can be scoped at different levels
 With a stack scoped volume, services referencing the same volume in a stack would share the same volume. A service outside the stack could not use the same volume.
 
 In Rancher, stack scoped volumes are named with the stack name as a prefix to indicate which stack the volume is scoped to and suffixed with a random number to guarantee no duplication. When referencing the volume, you still use the original volume name. For example, if you create a volume called `foo` in `stackA`, the volume name in the UI and on your hosts will be `stackA_foo_<randomNumber>`, but to use the same volume in your service, you would use the name `foo`.  
-
-#### Container Scoped
-
-With a container scoped volume, a new volume is created for each instance of a container. No containers would share the same volume.
-
-In Rancher, container scoped volumes are prefixed with `containerscoped` and have a suffix of the `<dockerContainerID>` and a random number to guarantee no duplication. For example, if you create a volume called `foo1` with a container scope, the volume name in the UI and on your hosts will be `containerscoped_foo1_1_<dockerContainerID>_<randomNumber>`.
 
 #### Environment Scoped
 
@@ -84,28 +80,9 @@ When launching a new stack from the same Compose file, a new volume will be crea
 
 In the above example, volume `bar` has stack scope.
 
-#### Container Scoped
-
-In some cases it makes sense to have a volume created for each instance of a container. This is indicated via the `per_container` option for a volume.
-
-```yaml
-version: '2'
-services:
-  foo:
-    image: busybox
-    volumes:
-    - bar:/var/lib/storage
-volumes:
-  bar:
-    driver: rancher-nfs
-    per_container: true
-```
-
-When scaling up the `foo` service, a volume will be created for each new container. When scaling down the `foo` service, the volumes corresponding to the removed containers will be removed.
-
 #### Environment Scoped
 
-To use volumes across stacks, you would need to use an environment scoped volume. In this case, volumes must already created in Rancher prior to starting services and stacks using the volume. To use an environment scoped volume, you'd add the `external` option to the volume.
+To use volumes across stacks, you would need to use an environment scoped volume. In this case, volumes must already be created in Rancher prior to starting services and stacks using the volume. To use an environment scoped volume, you'd add the `external` option to the volume.
 
 ```yaml
 version: '2'

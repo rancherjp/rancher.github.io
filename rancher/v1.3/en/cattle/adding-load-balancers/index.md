@@ -3,6 +3,8 @@ title: Load Balancers
 layout: rancher-default-v1.3
 version: v1.3
 lang: en
+redirect_from:
+  - /rancher/v1.3/zh/cattle/adding-load-balancers/
 ---
 
 ## Load Balancers
@@ -411,9 +413,9 @@ services:
   # These services (web1 and web2) will be picked up by the load balancer as a target
   web1:
     image: nginx
-      labels:
+    labels:
       foo: bar
-  web1:
+  web2:
     image: nginx
     labels:
       foo: bar

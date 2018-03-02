@@ -4,11 +4,13 @@ layout: rancher-api-v1-default-v1.3
 version: v1.3
 lang: en
 apiVersion: v1
+redirect_from:
+  - /rancher/v1.3/zh/api/v1/api-resources/volume/
 ---
 
 ## Volume
 
-A volume can be associated to containers or storage pools. <br><br> * A container can have many volumes and containers are mapped to volumes the [mount]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/mount/) link on a container. <br> * A storage pool owns many volues. The volume is only available to containers deployed on hostst that are part of the storage pool. When a volume is being created, you do not directly associate it to a storage pool. You will only need to specify a driver and during allocation, Rancher will resolve it to a storage pool.
+A volume can be associated to containers or storage pools. <br><br> * A container can have many volumes and containers are mapped to volumes the [mount]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/mount/) link on a container. <br> * A storage pool owns many volumes. The volume is only available to containers deployed on hosts that are part of the storage pool. When a volume is being created, you do not directly associate it to a storage pool. You will only need to specify a driver and during allocation, Rancher will resolve it to a storage pool.
 
 ### Resource Fields
 
@@ -82,7 +84,8 @@ restorefrombackup
 
 Field | Type | Required | Default | Notes
 ---|---|---|---|---
-backupId | [backup]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/backup/) | Yes |  | <br>
+backupId | [backup]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/backup/) | Yes |  | 
+
 
 <br>
 {% highlight json %}
@@ -109,7 +112,8 @@ reverttosnapshot
 
 Field | Type | Required | Default | Notes
 ---|---|---|---|---
-snapshotId | [snapshot]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/snapshot/) | Yes |  | <br>
+snapshotId | [snapshot]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/snapshot/) | Yes |  | 
+
 
 <br>
 {% highlight json %}
@@ -136,7 +140,8 @@ snapshot
 
 Field | Type | Required | Default | Notes
 ---|---|---|---|---
-name |  | No |  | <br>
+name |  | No |  | 
+
 
 <br>
 {% highlight json %}

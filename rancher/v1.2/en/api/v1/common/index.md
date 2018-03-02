@@ -4,6 +4,8 @@ layout: rancher-api-v1-default-v1.2
 version: v1.2
 lang: en
 apiVersion: v1
+redirect_from:
+  - /rancher/v1.2/zh/api/v1/common/
 ---
 
 ## Common Resource Fields
@@ -17,7 +19,7 @@ Field | Type |  Notes
 accountId | [account]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/api-resources/account/) | The unique identifier for the associated account
 created[TS] | date | The date/time when the resource was initially created.
 id | string | The unique identifier for the resource.
-kind | string | A more specific sub-type for the resoruce.
+kind | string | A more specific sub-type for the resource.
 removeTime | date |  The date/time when the resource was removed, or null if not removed.
 removed | bool |  True if a resource has been removed.  Removed resources won't be returned in collection lists but can be individually retrieved by ID.
 transitioning | enum |  The transitioning state of the resource:  `yes`, `no`, or `error`

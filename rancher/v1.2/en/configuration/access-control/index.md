@@ -3,7 +3,8 @@ title: Access Control in Rancher
 layout: rancher-default-v1.2
 version: v1.2
 lang: en
-
+redirect_from:
+  - /rancher/v1.2/zh/configuration/access-control/
 ---
 
 ## Access Control
@@ -14,6 +15,8 @@ lang: en
 Access Control is how Rancher limits the users who have the access permissions to your Rancher instance. By default, Access Control is not configured. This means anyone who has the IP address of your Rancher instance will be able to use it and access the API. Your Rancher instance is open to the public! We highly recommend configuring Access Control soon after launching Rancher. Upon enabling Access Control, you can share your Rancher instance with whom you wish. They will be required to authenticate to the instance before being able to access it. The API becomes accessible only to those who have the valid API keys to the instance.
 
 The first account that authenticates with Rancher will become the **admin** of the account. For more information, see [permissions of an admin]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#admin).
+
+> **Note:** Switching between Access Control Providers is not supported.
 
 ### Enabling Access Control
 

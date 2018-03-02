@@ -3,6 +3,8 @@ title: Kubernetes Ingress Support in Rancher
 layout: rancher-default-v1.3
 version: v1.3
 lang: en
+redirect_from:
+  - /rancher/v1.3/zh/kubernetes/ingress/
 ---
 
 ## Ingress Support
@@ -17,7 +19,6 @@ The ingress controller manages the creation/removal/update of Rancher load balan
 ### Current Limitations
 
 * Ingress resources can only be added through `kubectl`
-* If you are [upgrading]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/upgrading/) to `v1.1.0`from a previous version, any existing Kubernetes environments will not be able to take advantage of the ingress support unless you de-activate/activate the environment. Currently, there is no upgrade support for kubernetes environments, so this deactivation/reactivation will permit ingress support to be activated.
 
 ### Rancher Ingress Controller
 

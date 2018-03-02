@@ -3,12 +3,14 @@ title: Service Alias
 layout: rancher-default-v1.3
 version: v1.3
 lang: en
+redirect_from:
+  - /rancher/v1.3/zh/cattle/adding-service-alias/
 ---
 
 ## Service Alias
 ---
 
-By adding a service alias, it provides the ability to point to service aliases instead of directly at services. O
+By adding a service alias, it provides the ability to point to service aliases instead of directly at services.
 
 ### Adding Service Aliases in the UI
 

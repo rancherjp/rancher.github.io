@@ -3,6 +3,8 @@ title: Installing Rancher Server with SSL
 layout: rancher-default-v1.2
 version: v1.2
 lang: en
+redirect_from:
+  - /rancher/v1.2/zh/installing-rancher/installing-server/basic-ssl-config/
 ---
 
 ## Installing Rancher Server With SSL
@@ -47,7 +49,7 @@ If you are converting an existing Rancher instance, the upgrade to the new Ranch
 
 ### Example Nginx Configuration
 
-Here is the minimum NGINX configuration that will need to be configured. You should customize your configuration to meet your needs.
+Here is the minimum NGINX configuration that will need to be configured. You should customize your configuration to meet your needs. Ensure that you use nginx version >= 1.9.5.
 
 #### Notes on the Settings
 
@@ -60,8 +62,13 @@ upstream rancher {
     server rancher-server:8080;
 }
 
+map $http_upgrade $connection_upgrade {
+    default Upgrade;
+    ''      close;
+}
+
 server {
-    listen 443 ssl;
+    listen 443 ssl spdy;
     server_name <server>;
     ssl_certificate <cert_file>;
     ssl_certificate_key <key_file>;
@@ -74,7 +81,7 @@ server {
         proxy_pass http://rancher;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "Upgrade";
+        proxy_set_header Connection $connection_upgrade;
         # This allows the ability for the execute shell window to remain open for up to 15 minutes. Without this parameter, the default is 1 minute and will automatically close.
         proxy_read_timeout 900s;
     }
@@ -97,7 +104,7 @@ Here is an Apache configuration.
 
 * `<server_name>` is the name of your rancher server container. When starting your Apache container, the command must include `--link=<server_name>` for this exact configuration to work.
 * In the proxy settings, you'll need to substitute `rancher` for your configuration.
-
+* Make sure the module `proxy_wstunnel` is enabled (websocket support).
 
 ```
 <VirtualHost *:80>
@@ -156,7 +163,7 @@ defaults
   timeout server 36000s
 
 frontend http-in
-  mode tcp
+  mode http
   bind *:443 ssl crt /etc/haproxy/certificate.pem
   default_backend rancher_servers
 
@@ -170,12 +177,58 @@ backend rancher_servers
   server websrv3 <rancher_server_3_IP>:8080 weight 1 maxconn 1024
 ```
 
+### Example F5 BIG-IP configuration
+
+The following iRule configuration can be applied to make Rancher Server accessible behind a F5 BIG-IP appliance.
+
+```
+when HTTP_REQUEST {
+  HTTP::header insert "X-Forwarded-Proto" "https";
+  HTTP::header insert "X-Forwarded-Port" "443";
+  HTTP::header insert "X-Forwarded-For" [IP::client_addr];
+}
+```
+
+<a id="elb"></a>
+
+### Running Rancher Server Behind an Elastic Load Balancer (ELB) in AWS with SSL
+
+We recommend using an ELB in AWS in front of your rancher servers. In order for ELB to work correctly with Rancher's websockets, you will need to enable proxy protocol mode and ensure HTTP support is disabled. By default, ELB is enabled in HTTP/HTTPS mode, which does not support websockets. Special attention must be paid to listener configuration.
+
+#### Listener Configuration - SSL
+
+For SSL termination at the ELB, the listener configuration should look like this:
+
+| Configuration Type | Load Balancer Protocol | Load Balancer Port | Instance Protocol | Instance Port |
+|---|---|---|---|---|
+| SSL-Terminated | SSL (Secure TCP) | 443 | TCP | 8080 (or the port used with `--advertise-http-port` when launching Rancher server) |
+
+* Add the appropriate security group and the SSL certificate
+
+#### Enabling Proxy Protocol
+
+In order for websockets to function properly, the ELB proxy protocol policy must be applied.
+
+* Enable [proxy protocol](http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/enable-proxy-protocol.html) mode
+
+```
+$ aws elb create-load-balancer-policy --load-balancer-name <LB_NAME> --policy-name <POLICY_NAME> --policy-type-name ProxyProtocolPolicyType --policy-attributes AttributeName=ProxyProtocol,AttributeValue=true
+$ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name <LB_NAME> --instance-port 443 --policy-names <POLICY_NAME>
+$ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name <LB_NAME> --instance-port 8080 --policy-names <POLICY_NAME>
+```
+
+* Health check can be configured to use HTTP:8080 using `/ping` as your path.
+
+<a id="alb"></a>
+
+### Running Rancher Server Behind an Application Load Balancer (ALB) in AWS with SSL
+
+We no longer recommend Application Load Balancer (ALB) in AWS over using the Elastic/Classic Load Balancer (ELB). If you still choose to use an ALB, you will need to direct the traffic to the HTTP port on the nodes, which is `8080` by default.
+
+> **Note:** If you use an ALB with Kubernetes, `kubectl exec` will not work and for that functionality, you will need to use an ELB.
+
 ### Updating Host Registration
 
 After Rancher is launched with these settings, the UI will be up and running at `https://<your domain>/`.
 
 Before [adding hosts]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/), you'll need to properly configure [Host Registration]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#host-registration) for SSL.
-
-### Running Rancher Server Behind an ALB in AWS with SSL
-
-We recommend using an Application Load Balancer (ALB) in AWS over using an ELB. With an ALB, you will only need to direct the traffic to port `8080`. If you choose to use an ELB, you will need to enable [proxy protocol](http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/enable-proxy-protocol.html) mode.

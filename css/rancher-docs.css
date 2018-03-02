@@ -2,10 +2,18 @@
 ---
 
 header {
-  background-image: url('{{ site.baseurl }}/img/header-bg.png');
+  background-image: url('{{ site.baseurl }}/img/homepage-jumbotron-bg.png');
   background-color: #0075A8;
-  background-size: contain;
-  min-height: 100px;
+  background-size: cover;
+  min-height: 250px;
+  padding-top: 1em;
+
+}
+
+.page-header h1 {
+  color: white;
+  text-align: center;
+  font-size: 3em;
 }
 
 .logo {
@@ -36,7 +44,7 @@ h1, h2 {
 
 p {
   margin-top: 0;
-  line-height: 1.15em;
+  line-height: 1.5em;
 }
 
 a {
@@ -54,7 +62,7 @@ img {
 
 .content-container {
   background-color: white;
-  padding: 10px 40px;
+  padding: 20px 40px;
   margin-top: -50px;
   position: relative;
 }
@@ -64,6 +72,48 @@ font-family: 'Lato', sans-serif;
 }
 
 .sidebar {
+}
+
+.banner.bg-info{
+  border: solid 1px #78C9CF;
+  background: rgba(120, 201, 207, 0.1);
+  color: #78C9CF;
+}
+
+ol {
+  counter-reset: li;
+  margin: 20px 0;
+  padding-left: 0;
+}
+
+ol > li {
+    position: relative;
+    margin: 0 0 25px 2em;
+    padding: 4px 8px 4px 20px;
+    list-style: none;
+    background: #ECF0F1;
+}
+ol > li::before {
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;
+    top: 0;
+    left: -2em;
+    bottom: 0;
+    width: 2em;
+    margin-right: 8px;
+    padding: 4px;
+    font-weight: bold;
+    text-align: center;
+    background: #BDC3C7;
+    color: white;
+}
+
+.wrap {
+  max-width: 1280px;
+  min-width: 75%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #menu {
@@ -103,7 +153,34 @@ font-family: 'Lato', sans-serif;
 #menu li i.pull-right.fa.fa-angle-down {
   line-height: 22px;
 }
-
+/*MARKETING MENU*/
+.page-header NAV {
+    font-size: .9em;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    display: table;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.nav-main {
+  background-color: #34495E;
+  border-radius: 3px 0 0 3px;
+  display: table-cell;
+  padding: 0;
+  width: 100%;
+  vertical-align: middle;
+}
+.nav-main a {
+  text-decoration: none;
+  color: white;
+}
+.nav-main a:hover {
+  background: none;
+  color: rgba(255,255,255,.75);
+}
+.nav-logo {
+  width: 230px;
+}
 /*NESTED SUBMENU*/
 ul.nav.navbar-nav li ul.list-group-submenu {
     border-left: solid #0075a8 thick;
@@ -214,6 +291,7 @@ ul.collapse.in a.active {
 .cse .gsc-control-cse, .gsc-control-cse {
   background-color: transparent!important;
   border: 0!important;
+  padding-right: 0;
 }
 
 form.gsc-search-box {
@@ -251,7 +329,6 @@ pre code {
 }
 .language-bash pre code{
     padding: 9.5px;
-    margin: 0 0 10px;
     font-size: 13px;
     line-height: 1.42857143;
     word-break: break-all;
@@ -473,13 +550,12 @@ blockquote strong:first-child{
 }
 
 footer {
-  background: #99a3a8;
-  color: #efefef;
+  background: #dee1e3;
+  color: #99a3a8;
   padding: 10px;
   position: absolute;
   right: 0;
   left: 0;
-  bottom: -75px;
 }
 
 .copyright {
@@ -492,4 +568,20 @@ footer {
 
 #google-search * {
   transition: none !important;
+}
+
+/*marketing footer*/
+.list-inline {
+  padding-left: 0;
+  list-style: none;
+}
+
+.list-inline > li {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.list-inline > li > a > img {
+  height: 22px;
 }

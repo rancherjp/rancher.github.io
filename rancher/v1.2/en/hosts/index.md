@@ -5,6 +5,7 @@ version: v1.2
 lang: en
 redirect_from:
   - /rancher/rancher-ui/infrastructure/hosts/
+  - /rancher/v1.2/zh/hosts/
 ---
 
 ## Getting Started with Hosts
@@ -14,6 +15,7 @@ Hosts are the most basic unit of resource within Rancher and is represented as a
 
 * Any modern Linux distribution that supports Docker 1.10.3+. [RancherOS](http://docs.rancher.com/os/), Ubuntu, RHEL/CentOS 7 are more heavily tested.
   * For RHEL/CentOS, the default storage driver, i.e. devicemapper using loopback, is not recommended by [Docker](https://docs.docker.com/engine/reference/commandline/dockerd/#/storage-driver-options). Please refer to the Docker documentation on how to change it.
+  * For RHEL/CentOS, please use kernel version `3.10.0-514.2.2.el7.x86_64` or higher. Includes when using release 7.3 or higher.
 * 1GB RAM
 * Recommended CPU w/ AES-NI
 * Ability to communicate with a Rancher server via http or https through the pre-configured port. Default is 8080.
@@ -135,7 +137,7 @@ Select **Deactivate**. When the host has completed the deactivation, the host wi
 
 If the host was created on a cloud provider using Rancher, the host will be deleted from the cloud provider. If the host was added by using the [custom command]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/), the host will remain on the cloud provider.
 
-> **Notes:** For custom hosts, all containers including the Rancher agent will continue to remain on the host.  
+> **Notes:** For custom hosts, all containers including the Rancher agent will continue to remain on the host. Also, the IP set on the `docker0` interface by the Rancher network driver will remain.
 
 ### Deleting Hosts outside of Rancher
 

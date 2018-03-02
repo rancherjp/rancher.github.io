@@ -4,7 +4,7 @@ layout: rancher-default-v1.3
 version: v1.3
 lang: en
 redirect_from:
-  - /rancher/latest/en/faqs/server/
+  - /rancher/v1.3/zh/faqs/server/
 ---
 
 ## FAQs about Rancher Server

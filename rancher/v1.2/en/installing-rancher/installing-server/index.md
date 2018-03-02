@@ -3,6 +3,8 @@ title: Installing Rancher Server
 layout: rancher-default-v1.2
 version: v1.2
 lang: en
+redirect_from:
+  - /rancher/v1.2/zh/installing-rancher/installing-server/
 ---
 
 ## Installing Rancher Server
@@ -13,6 +15,7 @@ Rancher is deployed as a set of Docker containers. Running Rancher is as simple 
 * [Rancher Server - Single Container (non-HA) - External database](#single-container-external-database)
 * [Rancher Server - Single Container (non-HA)- Bind mounted MySQL volume](#single-container-bind-mount)
 * [Rancher Server - Full Active/Active HA](#multi-nodes)
+* [Rancher Server - Using ELB in AWS](#elb)
 * [Rancher Server - AD/OpenLDAP using TLS](#ldap)
 * [Rancher Server - HTTP Proxy](#http-proxy)
 
@@ -146,9 +149,81 @@ Running Rancher server in High Availability (HA) is as easy as running [Rancher 
 
 2. Configure an external load balancer that will balance traffic on ports `80` and `443` across a pool of nodes that will be running Rancher server and target the nodes on port `8080`. Your load balancer must support websockets and forwarded-for headers, in order for Rancher to function properly. See [SSL settings page]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/installing-server/basic-ssl-config/) for example configuration settings.
 
+#### Options for advertise-address
+
+| Option | Example | Description |
+|---|---|---|
+| IP address | `--advertise-address 192.168.100.100` | Uses the give IP address |
+| Interface | `--advertise-address eth0` | Retrieves the IP of the given interface |
+| awslocal | `--advertise-address awslocal` | Retrieves the IP from `http://169.254.169.254/latest/meta-data/local-ipv4` |
+
 #### Notes on the Rancher Server Nodes in HA
 
 If the IP of your Rancher server node changes, your node will no longer be part of the Rancher HA cluster. You must stop the old Rancher server container using the incorrect IP for `--advertise-address` and start a new Rancher server with the correct IP for `--advertise-address`.
+
+<a id="elb"></a>
+
+### Running Rancher Server Behind an Elastic/Classic Load Balancer (ELB) in AWS
+
+We recommend using an ELB in AWS in front of your Rancher servers. In order for ELB to work correctly with Rancher's websockets, you will need to enable proxy protocol mode and ensure HTTP support is disabled. By default, ELB is enabled in HTTP/HTTPS mode, which does not support websockets. Special attention must be paid to listener configuration.
+
+If you have issues with ELB setup, we recommend trying the [terraform version](#configuring-using-terraform) as this reduces the opportunity to miss a setting.
+
+> **Note:** If you are using a self signed certificate, please read more about how to [configure your ELB in AWS under our SSL section]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/basic-ssl-config/#elb).
+
+#### Listener Configuration - Plaintext
+
+For simple, unencrypted load balancing purposes, the following listener configuration is required:
+
+| Configuration Type | Load Balancer Protocol | Load Balancer Port | Instance Protocol | Instance Port |
+|---|---|---|---|---|
+| Plaintext | TCP | 80 | TCP | 8080  (or the port used with `--advertise-http-port` when launching Rancher server) |
+
+#### Enabling Proxy Protocol
+
+In order for websockets to function properly, the ELB proxy protocol policy must be applied.
+
+* Enable [proxy protocol](http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/enable-proxy-protocol.html) mode
+
+```
+$ aws elb create-load-balancer-policy --load-balancer-name <LB_NAME> --policy-name <POLICY_NAME> --policy-type-name ProxyProtocolPolicyType --policy-attributes AttributeName=ProxyProtocol,AttributeValue=true
+$ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name <LB_NAME> --instance-port 443 --policy-names <POLICY_NAME>
+$ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name <LB_NAME> --instance-port 8080 --policy-names <POLICY_NAME>
+```
+
+* Health check can be configured to use HTTP:8080 using `/ping` as your path.
+
+#### Configuring using Terraform
+
+The following can be used as an example for configuring with Terraform:
+
+```
+resource "aws_elb" "lb" {
+  name               = "<LB_NAME>"
+  availability_zones = ["us-west-2a","us-west-2b","us-west-2c"]
+  security_groups = ["<SG_ID>"]
+
+  listener {
+    instance_port     = 8080
+    instance_protocol = "tcp"
+    lb_port           = 443
+    lb_protocol       = "ssl"
+    ssl_certificate_id = "<IAM_PATH_TO_CERT>"
+  }
+
+}
+
+resource "aws_proxy_protocol_policy" "websockets" {
+  load_balancer  = "${aws_elb.lb.name}"
+  instance_ports = ["8080"]
+}
+```
+
+<a id="alb"></a>
+
+### Running Rancher Server Behind an Application Load Balancer (ALB) in AWS
+
+We no longer recommend Application Load Balancer (ALB) in AWS over using the Elastic/Classic Load Balancer (ELB). If you still choose to use an ALB, you will need to direct the traffic to the HTTP port on the nodes, which is `8080` by default.
 
 <a id="ldap"></a>
 

@@ -3,6 +3,8 @@ title: Rancher Command Line Interface (CLI)
 layout: rancher-default-v1.2
 version: v1.2
 lang: en
+redirect_from:
+  - /rancher/v1.2/zh/cli/
 ---
 
 ## Rancher Command Line Interface
@@ -22,7 +24,7 @@ There is a specific load order for what will be used.
 
 1. During `rancher config`, you'll set the Rancher URL and API keys. If there are multiple environments, then you will select a specific environment.
 2. You can set environment variables for the same values, which would override the values set in `rancher config`.
-3. If you decide to pass in values directly into the Rancher command, those values would be used for the Rancher command over any over values.
+3. If you decide to pass in values directly into the Rancher command, those values would be used for the Rancher command over any other values.
 
 #### Using Rancher Config
 
@@ -81,7 +83,7 @@ When working with Rancher CLI, you can set the environment variable, `RANCHER_CL
 $ export RANCHER_CLIENT_DEBUG=true
 ```
 <br>
-If you don't want the verbose response on every CLI command, you can pass in `--debug` to the specific command to get the verbose messages.
+If you don't want the verbose response on every CLI command, set the environment variable `RANCHER_CLIENT_DEBUG` to `false` and pass in `--debug` to the specific command to get the verbose messages.
 
 ```bash
 $ rancher --debug env create newEnv

@@ -5,7 +5,9 @@ version: v1.2
 lang: en
 redirect_from:
   - /rancher/v1.2/en/rancher-ui/applications/stacks/adding-balancers/
+  - /rancher/v1.2/zh/rancher-ui/applications/stacks/adding-balancers/
   - /rancher/rancher-ui/applications/stacks/adding-balancers/
+  - /rancher/v1.2/zh/cattle/adding-load-balancers/
 ---
 
 ## Load Balancers
@@ -414,9 +416,9 @@ services:
   # These services (web1 and web2) will be picked up by the load balancer as a target
   web1:
     image: nginx
-      labels:
+    labels:
       foo: bar
-  web1:
+  web2:
     image: nginx
     labels:
       foo: bar

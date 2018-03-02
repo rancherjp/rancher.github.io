@@ -3,17 +3,55 @@ title: External DNS Service
 layout: rancher-default-v1.3
 version: v1.3
 lang: en
+redirect_from:
+  - /rancher/v1.3/zh/cattle/external-dns-service/
 ---
 
 ## External DNS Service
 ---
 
-As part of the [Rancher catalog]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/), Rancher provides a multiple DNS services that listen to rancher-metadata events, and generate DNS records based on the metadata changes. The examples will use Route53 as an example for how the external DNS service works, but Rancher also has community contributed services with other DNS providers.
+As part of the [Rancher catalog]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/), Rancher provides multiple DNS services that listen to rancher-metadata events, and generate DNS records based on the metadata changes. The examples will use Route53 as an example for how the external DNS service works, but Rancher also has community contributed services with other DNS providers.
 
 ### Best Practices
 
 * For every environment in your Rancher setup, there should be a `route53` service of scale 1.
 * Multiple Rancher instances should not share the same `hosted zone`.
+
+### Required AWS IAM permissions
+
+The following IAM policy describes the minimum set of permissions needed for Route53 DNS to work.
+Make sure that the AWS security credentials (Access Key ID / Secret Access Key) that you are specifying have been granted at least these permissions.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "route53:GetHostedZone",
+                "route53:GetHostedZoneCount",
+                "route53:ListHostedZonesByName",
+                "route53:ListResourceRecordSets"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "route53:ChangeResourceRecordSets"
+            ],
+            "Resource": [
+                "arn:aws:route53:::hostedzone/<HOSTED_ZONE_ID>"
+            ]
+        }
+    ]
+}
+```
+
+> **Note:** When using this JSON document to create a custom IAM policy in AWS, replace `<HOSTED_ZONE_ID>` with the ID of the Route53 hosted zone or use a wildcard ('*').
 
 ### Launching Route53 Service
 

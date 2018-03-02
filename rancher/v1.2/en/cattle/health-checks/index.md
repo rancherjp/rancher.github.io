@@ -3,6 +3,8 @@ title: Health Checks in Rancher
 layout: rancher-default-v1.2
 version: v1.2
 lang: en
+redirect_from:
+  - /rancher/v1.2/zh/cattle/health-checks/
 ---
 
 ## Health Checks
@@ -28,6 +30,8 @@ Use the following options to configure Health Checks:
 
 **Initializing Timeout:** The number of milliseconds before we exit initializing.
 
+**Re-Initializing Timeout:** The number of milliseconds before we exit reinitializing.
+
 **Check interval**: The number of milliseconds between checks.
 
 **Check Timeout**: The number of milliseconds before a check without response times out.
@@ -40,7 +44,7 @@ Use the following options to configure Health Checks:
 
 ### Adding Health Checks in the UI
 
-For [services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/) or [load balancers]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/), health checks can be added by navigatiing to the **Health Check** tab. You can check TCP connections or HTTP responses for services and change the default values for the health check configuration.
+For [services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/) or [load balancers]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/), health checks can be added by navigating to the **Health Check** tab. You can check TCP connections or HTTP responses for services and change the default values for the health check configuration.
 
 ### Adding Health Checks to Services in Rancher Compose
 
@@ -63,6 +67,7 @@ services:
       # Interval is measured in milliseconds
       interval: 2000
       initializing_timeout: 60000
+      reinitializing_timeout: 60000
       unhealthy_threshold: 3
       # Strategy for what to do when unhealthy
       # In this service, no action will occur when a container is found unhealthy

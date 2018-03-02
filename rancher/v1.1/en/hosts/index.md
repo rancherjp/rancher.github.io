@@ -4,7 +4,9 @@ layout: rancher-default-v1.1
 version: v1.1
 lang: en
 redirect_from:
-  - rancher/v1.1/en/rancher-ui/infrastructure/hosts/
+  - /rancher/v1.1/en/rancher-ui/infrastructure/hosts/
+  - /rancher/v1.1/zh/rancher-ui/infrastructure/hosts/
+  - /rancher/v1.1/zh/hosts/
 ---
 
 ## Getting Started with Hosts
@@ -134,7 +136,7 @@ Select **Deactivate**. When the host has completed the deactivation, the host wi
 
 If the host was created on a cloud provider using Rancher, the host will be deleted from the cloud provider. If the host was added by using the [custom command]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/), the host will remain on the cloud provider.
 
-> **Notes:** For custom hosts, all containers including the Rancher agent will continue to remain on the host.  
+> **Notes:** For custom hosts, all containers including the Rancher agent will continue to remain on the host. Also, the IP set on the `docker0` interface by the Rancher network driver will remain.
 
 ### Deleting Hosts outside of Rancher
 

@@ -3,6 +3,8 @@ title: Commands and Options in Rancher Compose
 layout: rancher-default-v1.3
 version: v1.3
 lang: en
+redirect_from:
+  - /rancher/v1.3/zh/cattle/rancher-compose/commands/
 ---
 
 ## Command and Options
@@ -153,7 +155,7 @@ $ rancher-compose up
 $ rancher-compose up -d
 ```
 
-Read more about [upgrading using Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/rancher-compose/upgrading/).
+Read more about [upgrading using Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/upgrading/#upgrading-services-with-rancher-compose).
 
 #### Start Command
 
@@ -232,7 +234,7 @@ $ rancher-compose pull --cached
 
 #### Upgrade Command
 
-You can upgrade your services in Rancher using Rancher Compose. Please read more about when and how to [upgrade your services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/rancher-compose/upgrading/).
+You can upgrade your services in Rancher using Rancher Compose. Please read more about when and how to [upgrade your services]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/upgrading/#upgrading-services-with-rancher-compose).
 
 
 ### Deleting Services/Container
